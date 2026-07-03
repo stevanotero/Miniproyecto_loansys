@@ -4,6 +4,8 @@
  */
 package proyect_loansys;
 
+
+
 /**
  *
  * @author juans
@@ -14,7 +16,7 @@ public class Proyect_loansys_index {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
     }
     
 }
