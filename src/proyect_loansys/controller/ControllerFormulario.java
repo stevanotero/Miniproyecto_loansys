@@ -17,14 +17,14 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import modelTecnico.Mantenimiento;
-import modelTecnico.MantenimientoDao;
-import viewTecnico.Formulario;
+import proyect_loansys.model.HistorialMantenimientoDao;
+import proyect_loansys.model.HistorialMantenimiento;
+import proyect_loansys.view.Formulario;
 
 public class ControllerFormulario implements ActionListener {
 
     private Formulario vista;
-    private MantenimientoDao dao = new MantenimientoDao();
+    private HistorialMantenimientoDao dao = new HistorialMantenimientoDao();
     private int idUsuarioEncontrado = -1; //guarda el id del tecnico que se encuentra por documento
 
     public ControllerFormulario(Formulario vista) {
@@ -127,7 +127,7 @@ public class ControllerFormulario implements ActionListener {
         //el codigo de 5 digitos aleatorio
         String codigoMantenimiento = dao.generarCodigoMantenimiento();
 
-        Mantenimiento h = new Mantenimiento();
+        HistorialMantenimiento h = new HistorialMantenimiento();
         h.setCodigoMantenimiento(codigoMantenimiento);
         h.setNombreElemento(nombreElemento);
         h.setCodigoElemento(codigoElemento);

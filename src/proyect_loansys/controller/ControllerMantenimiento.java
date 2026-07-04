@@ -18,18 +18,32 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
-import modelTecnico.MantenimientoDao;
-import viewTecnico.Formulario;
-import viewTecnico.Mantenimiento;
+import proyect_loansys.model.HistorialMantenimientoDao;
+import proyect_loansys.view.Formulario;
+import proyect_loansys.view.Historial_Tecnico;
+import proyect_loansys.view.Mantenimiento;
+import proyect_loansys.view.Reportes_Tecnico;
 
 public class ControllerMantenimiento implements ActionListener {
 
     private Mantenimiento vista;
-    private MantenimientoDao dao = new MantenimientoDao();
+    private HistorialMantenimientoDao dao = new HistorialMantenimientoDao();
 
     public ControllerMantenimiento(Mantenimiento vista) {
         this.vista = vista;
         this.vista.getBtnRegistrarMantenimiento().addActionListener(this);
+        
+        vista.historial.addActionListener(e -> {
+            Historial_Tecnico vistaHistorial = new Historial_Tecnico();
+            new Historial_Tecnico_Controller(vistaHistorial);
+            vista.dispose();
+        });
+
+        vista.Reportes.addActionListener(e -> {
+            Reportes_Tecnico vistaReportes = new Reportes_Tecnico();
+            new Reportes_Tecnico_Controller(vistaReportes);
+            vista.dispose();
+        });
 
         //filtra la tabla mientras uno escribe pues
         this.vista.getTxtBuscar().addKeyListener(new KeyAdapter() {
