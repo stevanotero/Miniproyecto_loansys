@@ -17,6 +17,10 @@ import javax.swing.JOptionPane;
  */
 public class Usuario_Dao {
 
+    public List<Usuario_Elemento> buscar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public class Elemento_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             Usuario_Insert_soli<Usuario_Solicitud> {
 
