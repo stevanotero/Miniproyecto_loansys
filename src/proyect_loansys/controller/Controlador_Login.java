@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
+import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
 import proyect_loansys.view.Vista_Registro;
 
 public class Controlador_Login implements ActionListener {
@@ -101,10 +102,13 @@ public class Controlador_Login implements ActionListener {
             JOptionPane.showMessageDialog(vista, "Bienvenido al Sistema de Préstamos del SENA", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
             borrador();
             vista.dispose(); 
-//            
-//            // Se evalua el rol y lo lleva a una vista en especifico
-//            switch (idRol) {
-//                case 1: // aprendiz
+            
+            // Se evalua el rol y lo lleva a una vista en especifico
+            switch (idRol) {
+                case 1: // aprendiz
+                    
+                    
+                    
 //                case 2: // instructor
 //                    Inicio_usuario vistaUsuario = new Inicio_usuario();
 //                    vistaUsuario.setVisible(true);
@@ -114,23 +118,24 @@ public class Controlador_Login implements ActionListener {
 //                    Inicio_Tecnico vistaTecnico = new Inicio_Tecnico();
 //                    vistaTecnico.setVisible(true);
 //                    break;
-//
-//                case 4: // asesor
-//                    Vista_Inicio vistaAsesor = new Vista_Inicio(); 
-//                    Controlador_inicio controlAsesor = new Controlador_inicio(vistaAsesor);
-//                    vistaAsesor.setVisible(true);
-//                    break;
-//
-//                case 5: // administrador
-//                    Inicio_administrador vistaAdmin = new Inicio_administrador();
-//                    vistaAdmin.setVisible(true);
-//                    break;
-//
-//                default:
-//                    JOptionPane.showMessageDialog(vista, "El rol asignado no cuenta con una interfaz configurada.", "Error de Rol", JOptionPane.ERROR_MESSAGE);
-//                    break;
-//            }
-//            
+
+                case 4: // asesor
+                    Vista_Inicio vistaAsesor = new Vista_Inicio(); 
+                    Controlador_inicio controlAsesor = new Controlador_inicio(vistaAsesor);
+                    vistaAsesor.setVisible(true);
+                    break;
+
+                case 5: // administrador
+                 Administrador_Inicio_Loansys_Administrador usaActi = new Administrador_Inicio_Loansys_Administrador();
+                Administrador_ControladorInicioAdministrador controlad = new Administrador_ControladorInicioAdministrador( usaActi );
+                    usaActi.setVisible(true);
+                    break;
+
+                default:
+                    JOptionPane.showMessageDialog(vista, "El rol asignado no cuenta con una interfaz configurada.", "Error de Rol", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+            
             return true;
         } else {
             intentosFallidos++;
