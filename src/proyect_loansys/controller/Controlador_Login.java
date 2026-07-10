@@ -12,6 +12,7 @@ package proyect_loansys.controller;
 import proyect_loansys.view.Vista_Login;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
@@ -127,7 +128,8 @@ public class Controlador_Login implements ActionListener {
 
                 case 5: // administrador
                  Administrador_Inicio_Loansys_Administrador usaActi = new Administrador_Inicio_Loansys_Administrador();
-                Administrador_ControladorInicioAdministrador controlad = new Administrador_ControladorInicioAdministrador( usaActi );
+                Administrador_ControladorBotones  controller = new Administrador_ControladorBotones(usaActi);
+                
                     usaActi.setVisible(true);
                     break;
 
