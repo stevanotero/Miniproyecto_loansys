@@ -37,7 +37,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
-    private String Nombre_Usuario = "Stevan Otero";
+    private String Nombre_Usuario ;
 
     public Administrador_Plantilla_Administrador(String nombre_interfaz) {
         super(nombre_interfaz);
@@ -57,7 +57,8 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         titulo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
 
         //Aqui llamando a la imagen que tengo guardada en documentos, y creo una variable para guardarla
-        ImageIcon imagen_portada = new ImageIcon("logo_sena.png");
+//        ImageIcon imagen_portada = new ImageIcon("/proyect_loansys/img/logo_sena.png");
+ImageIcon imagen_portada = new ImageIcon(getClass().getResource("/proyect_loansys/img/logo_sena.png"));
         //Aqui estoy ajustando el tama;o de la imagen para que cuadre
         Image imagen_ajustada = imagen_portada.getImage().getScaledInstance(50, 52, Image.SCALE_SMOOTH);
         Icon portada = new ImageIcon(imagen_ajustada);
