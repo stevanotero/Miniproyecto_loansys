@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyect_loansys.controller;
 
-import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -16,16 +12,18 @@ import proyect_loansys.view.Usuario_Inventario;
 import proyect_loansys.view.Usuario_Notificacion;
 import proyect_loansys.view.Usuario_SolicitarPrestamo;
 
+public class Usuario_ControladorNavedagor implements ActionListener {
 
-public class Usuario_ControladorNavedagor implements ActionListener{
     private boolean vali = false;
-    //private boolean visible = false;
     Usuario_Dao prus = new Usuario_Dao();
     Usuario_Inicio inicio = new Usuario_Inicio("Aprendiz", "Aprendiz", "Miguel");
     Usuario_Inventario inven = new Usuario_Inventario("Aprendiz", "Aprendiz", "Miguel");
     Usuario_HistorialPrestamo pres = new Usuario_HistorialPrestamo("Aprendiz", "Aprendiz", "Miguel");
     Usuario_Notificacion noti = new Usuario_Notificacion("Aprendiz", "Aprendiz", "Miguel");
     Usuario_SolicitarPrestamo soli = new Usuario_SolicitarPrestamo("Aprendiz", "Aprendiz", "Miguel");
+    
+    //comtroladores
+    Usuario_ControladorDatos controladorDatos;
 
     public Usuario_ControladorNavedagor(Usuario_Inicio inicio) {
         this.inicio = inicio;
@@ -38,6 +36,7 @@ public class Usuario_ControladorNavedagor implements ActionListener{
         this.inven.prestamo.addActionListener(this);
         this.inven.notificacion.addActionListener(this);
         this.inven.prueba.addActionListener(this);
+         this.inven.prueba1.addActionListener(this);
 
         /////////////////////////////////////////////////////
         this.pres.iniciod.addActionListener(this);
@@ -51,7 +50,9 @@ public class Usuario_ControladorNavedagor implements ActionListener{
         ////////////////////////////////////////////////////
         this.soli.volver.addActionListener(this);
         this.soli.solicitar.addActionListener(this);
-
+        
+        //aver
+        controladorDatos = new Usuario_ControladorDatos(inven,soli);
     }
 
     @Override
@@ -67,8 +68,6 @@ public class Usuario_ControladorNavedagor implements ActionListener{
             inicio.dispose();
         }
         if (e.getSource() == inicio.notificacion) {
-
-            inven.iniciod.setBackground(Color.cyan);
             CargarNotificacion(noti);
             inicio.dispose();
         }
@@ -88,8 +87,18 @@ public class Usuario_ControladorNavedagor implements ActionListener{
         }
         if (e.getSource() == inven.prueba) {
             CargarSolicitud(soli);
+            controladorDatos.cargarPrimerElemento(soli.tabla);
+            //controladorDatos.getListar(soli.tabla);
             inven.dispose();
         }
+        if (e.getSource() == inven.prueba1) {
+            CargarSolicitud(soli);
+            controladorDatos.cargarSegundoElemento(soli.tabla);
+            //controladorDatos.getListar(soli.tabla);
+            
+            inven.dispose();
+        }
+        
 
         ////////////////////////////////////////////
         if (e.getSource() == pres.iniciod) {
@@ -129,30 +138,6 @@ public class Usuario_ControladorNavedagor implements ActionListener{
             JOptionPane.showMessageDialog(null, "Solicitud con exito");
         }
     
-
-    //////////////////////////////////////
-//        if (e.getSource() == soli.solicitar){
-//    int fila = soli.tabla.getSelectedRow();
-//    if (fila == -1) {
-//        JOptionPane.showMessageDialog(null, "Selecciona un elemento de la tabla");
-//    } else {
-//        Solicitud s = new Solicitud();
-//        s.setId_usuario(1);          // aquí deberías usar el usuario logueado real
-//        s.setNombre("Miguel");
-//        s.setApellido("Apellido");
-//        s.setDocumento(12345678);
-//        s.setId_elemento((int) soli.tabla.getValueAt(fila, 0)); // codigo_elemento de la fila
-//        s.setFecha_envio(LocalTime.now());
-//
-//        int resultado = prus.setAgregar(s); // prus = Elemento_Dao ya existente
-//        if (resultado > 0) {
-//            JOptionPane.showMessageDialog(null, "Solicitud con éxito");
-//        } else {
-//            JOptionPane.showMessageDialog(null, "No se pudo registrar la solicitud");
-//        }
-//    }
-//}
-        
     }
     
     public void CargarInicio(Usuario_Inicio inicio) {
@@ -185,4 +170,5 @@ public class Usuario_ControladorNavedagor implements ActionListener{
         soli.setExtendedState(JFrame.MAXIMIZED_BOTH);
         soli.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
 }

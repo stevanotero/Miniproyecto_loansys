@@ -4,10 +4,7 @@
  */
 package proyect_loansys.model;
 
-/**
- *
- * @author Miguel
- */
+
 public class Usuario_Elemento {
     private int id_elemento;
     private int codigo_elemento;
@@ -16,6 +13,9 @@ public class Usuario_Elemento {
     private String descripcion;
     private String imagen;
     private int id_estado_elemento;
+    private String estado_nombre;
+    private String categoria_nombre;
+    
     
     public Usuario_Elemento(){
         
@@ -88,11 +88,29 @@ public class Usuario_Elemento {
     public int getId_estado_elemento() {
         return id_estado_elemento;
     }
+    
+    public String getEstado_nombre() {
+        return estado_nombre;
+    }
+    
+    public String getCategoria_nombre() {
+        return categoria_nombre;
+    }
+
+    public void setCategoria_nombre(String categoria_nombre) {
+        this.categoria_nombre = categoria_nombre;
+    }
+
+    public void setEstado_nombre(String estado_nombre) {
+        this.estado_nombre = estado_nombre;
+    }
 
     @Override
     public String toString() {
         return "Elemento{" + "id_elemento=" + id_elemento + ", codigo_elemento=" + codigo_elemento + ", nombre_elemento=" + nombre_elemento + ", id_categoria=" + id_categoria + ", descripcion=" + descripcion + ", imagen=" + imagen + ", id_estado_elemento=" + id_estado_elemento + '}';
     }
-    
 
 }
+
+
+    
