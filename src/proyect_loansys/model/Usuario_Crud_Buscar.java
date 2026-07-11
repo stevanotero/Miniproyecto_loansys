@@ -8,5 +8,6 @@ import java.util.List;
 
 
 public interface Usuario_Crud_Buscar<T> {
-    public List<T> buscar();
+    
+    public List<T> listar();
 }

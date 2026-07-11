@@ -18,6 +18,7 @@ import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
+import proyect_loansys.view.Usuario_Inicio;
 import proyect_loansys.view.Vista_Registro;
 
 public class Controlador_Login implements ActionListener {
@@ -111,10 +112,11 @@ public class Controlador_Login implements ActionListener {
                     
                     
 //                case 2: // instructor
-//                    Inicio_usuario vistaUsuario = new Inicio_usuario();
-//                    vistaUsuario.setVisible(true);
+//                    Usuario_Inicio vistaUsuario = new Usuario_Inicio();
+//                    
+//                    Usuario_Inicio.setVisible(true);
 //                    break;
-//
+
 //                case 3: // tecnico
 //                    Inicio_Tecnico vistaTecnico = new Inicio_Tecnico();
 //                    vistaTecnico.setVisible(true);

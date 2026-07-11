@@ -26,14 +26,17 @@ public class Usuario_Inventario extends Usuario_Plantilla{
             panel012,panel013,panel014,panel015,panel016,panel017,panel018,
             panel019,panel020,panel021,panel022,panel023,panel024,panel025,
             panel026,panel027,panel028,panel029,panel030,panel031,panel032,
-            panel033,panel034,panel035,panel036,panel037;
+            panel033,panel034,panel035,panel036,panel037,panel038,panel039,
+            panel040,panel041,panel042,panel043;
     
     private JLabel inventario,fEstado,codigo,
             text1,text2,text3,text4;
     private JTextField lcodigo;
     private String lista[] = {"","Disponible","Mantenimiento","Ocupado"};
     private JComboBox listaEstado;
-    public JButton buscador,perifericos,computadores,herramientas,maquinas,prueba;
+    public JButton buscador,perifericos,computadores,herramientas,maquinas,prueba,
+            prueba1,prueba2,prueba3,prueba4,prueba5,prueba6,prueba7,prueba8,prueba9,prueba10,
+            prueba11,prueba12,prueba13;
     private GridLayout grid,grid2,grid3,grid4,grid5,grid6,grid7;
     private JScrollPane miscroll;
     
@@ -282,6 +285,113 @@ public class Usuario_Inventario extends Usuario_Plantilla{
         panel8.add(miscroll);
         
         /////////////////////////////////////////////////////
+        
+        
+        
+        panel030 = new JPanel();
+
+        panel030.setPreferredSize(new Dimension(200, 145));
+        prueba = new JButton("1");
+        panel030.setLayout(new BorderLayout());
+        panel030.add(prueba);
+        panel030.setBackground(Color.CYAN);
+        
+        panel031 = new JPanel();
+        panel031.setPreferredSize(new Dimension(200, 145));
+        prueba1 = new JButton("2");
+        panel031.setLayout(new BorderLayout());
+        panel031.add(prueba1);
+        
+        panel032 = new JPanel();
+        panel032.setPreferredSize(new Dimension(200, 145));
+        prueba2 = new JButton("3");
+        panel032.setLayout(new BorderLayout());
+        panel032.add(prueba2);
+        
+        panel033 = new JPanel();
+        panel033.setPreferredSize(new Dimension(200, 145));
+        prueba3 = new JButton("4");
+        panel033.setLayout(new BorderLayout());
+        panel033.add(prueba3);
+        
+        
+        panel034 = new JPanel();
+        panel034.setPreferredSize(new Dimension(200, 145));
+        prueba4 = new JButton("5");
+        panel034.setLayout(new BorderLayout());
+        panel034.add(prueba4);
+        
+        panel035 = new JPanel();
+        panel035.setPreferredSize(new Dimension(200, 145));
+        prueba5 = new JButton("6");
+        panel035.setLayout(new BorderLayout());
+        panel035.add(prueba5);
+        
+        panel036 = new JPanel();
+        panel036.setPreferredSize(new Dimension(200, 145));
+        prueba6 = new JButton("7");
+        panel036.setLayout(new BorderLayout());
+        panel036.add(prueba6);
+        
+        panel037 = new JPanel();
+        panel037.setPreferredSize(new Dimension(200, 145));
+        prueba7 = new JButton("8");
+        panel037.setLayout(new BorderLayout());
+        panel037.add(prueba7);
+        
+        panel038 = new JPanel();
+        panel038.setPreferredSize(new Dimension(200, 145));
+        prueba8 = new JButton("9");
+        panel038.setLayout(new BorderLayout());
+        panel038.add(prueba8);
+        
+        panel039 = new JPanel();
+        panel039.setPreferredSize(new Dimension(200, 145));
+        prueba9 = new JButton("10");
+        panel039.setLayout(new BorderLayout());
+        panel039.add(prueba9);
+        
+        
+        panel040 = new JPanel();
+        panel040.setPreferredSize(new Dimension(200, 145));
+        prueba10 = new JButton("11");
+        panel040.setLayout(new BorderLayout());
+        panel040.add(prueba10);
+        
+        panel041 = new JPanel();
+        panel041.setPreferredSize(new Dimension(200, 145));
+        prueba11 = new JButton("12");
+        panel041.setLayout(new BorderLayout());
+        panel041.add(prueba11);
+        
+        panel042 = new JPanel();
+        panel042.setPreferredSize(new Dimension(200, 145));
+        prueba12 = new JButton("13");
+        panel042.setLayout(new BorderLayout());
+        panel042.add(prueba12);
+        
+        panel043 = new JPanel();
+        panel043.setPreferredSize(new Dimension(200, 145));
+        prueba13 = new JButton("14");
+        panel043.setLayout(new BorderLayout());
+        panel043.add(prueba13);
+        
+        
+        
+        panel029.add(panel043);
+        panel029.add(panel042);
+        panel029.add(panel041);
+        panel029.add(panel040);
+        panel029.add(panel039);
+        panel029.add(panel038);
+        panel029.add(panel037);
+        panel029.add(panel036);
+        panel029.add(panel035);
+        panel029.add(panel034);
+        panel029.add(panel033);
+        panel029.add(panel032);
+        panel029.add(panel031);
+        panel029.add(panel030);
         
         
         panel6.add(panel9);
