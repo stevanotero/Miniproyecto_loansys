@@ -18,6 +18,7 @@ import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
+import proyect_loansys.view.Inicio_Tecnico;
 import proyect_loansys.view.Usuario_Inicio;
 import proyect_loansys.view.Vista_Registro;
 
@@ -108,19 +109,25 @@ public class Controlador_Login implements ActionListener {
             // Se evalua el rol y lo lleva a una vista en especifico
             switch (idRol) {
                 case 1: // aprendiz
-                    
-                    
-                    
-//                case 2: // instructor
-//                    Usuario_Inicio vistaUsuario = new Usuario_Inicio();
-//                    
-//                    Usuario_Inicio.setVisible(true);
-//                    break;
+                      Usuario_Inicio aprendiz = new Usuario_Inicio("o","deje", "la bobada");
+                    Usuario_ControladorNavedagor aprendizC = new Usuario_ControladorNavedagor(aprendiz);
+                    aprendiz.setVisible(true);
+                    break;
 
-//                case 3: // tecnico
-//                    Inicio_Tecnico vistaTecnico = new Inicio_Tecnico();
-//                    vistaTecnico.setVisible(true);
-//                    break;
+
+                    
+                    
+                case 2: // instructor
+                    Usuario_Inicio instructor = new Usuario_Inicio("tovar","deje", "la bobada");
+                    Usuario_ControladorNavedagor instructorC = new Usuario_ControladorNavedagor(instructor);
+                    instructor.setVisible(true);
+                    break;
+
+                case 3: // tecnico
+                    Inicio_Tecnico vistaTecnico = new Inicio_Tecnico();
+                    Inicio_Tecnico_Controller tecnico = new Inicio_Tecnico_Controller(vistaTecnico);
+                    vistaTecnico.setVisible(true);
+                    break;
 
                 case 4: // asesor
                     Vista_Inicio vistaAsesor = new Vista_Inicio(); 
