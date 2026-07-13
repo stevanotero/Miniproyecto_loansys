@@ -36,7 +36,19 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inven.prestamo.addActionListener(this);
         this.inven.notificacion.addActionListener(this);
         this.inven.prueba.addActionListener(this);
-         this.inven.prueba1.addActionListener(this);
+        this.inven.prueba1.addActionListener(this);
+        this.inven.prueba2.addActionListener(this);
+        this.inven.prueba3.addActionListener(this);
+        this.inven.prueba4.addActionListener(this);
+        this.inven.prueba5.addActionListener(this);
+        this.inven.prueba6.addActionListener(this);
+        this.inven.prueba7.addActionListener(this);
+        this.inven.prueba8.addActionListener(this);
+        this.inven.prueba9.addActionListener(this);
+        this.inven.prueba10.addActionListener(this);
+        this.inven.prueba11.addActionListener(this);
+        this.inven.prueba12.addActionListener(this);
+        this.inven.prueba13.addActionListener(this);
 
         /////////////////////////////////////////////////////
         this.pres.iniciod.addActionListener(this);
@@ -85,17 +97,90 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             inven.dispose();
         }
-        if (e.getSource() == inven.prueba) {
+        //Para que muestre los datos y la tabla
+         if (e.getSource() == inven.prueba) {
             CargarSolicitud(soli);
-            controladorDatos.cargarPrimerElemento(soli.tabla);
-            //controladorDatos.getListar(soli.tabla);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba1) {
             CargarSolicitud(soli);
-            controladorDatos.cargarSegundoElemento(soli.tabla);
-            //controladorDatos.getListar(soli.tabla);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar1(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba2) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar2(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba3) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar3(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba4) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar4(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba5) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar5(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba6) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar6(soli.tabla);
             
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba7) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar7(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba8) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar8(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba9) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar9(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba10) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar10(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba11) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar11(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba12) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar12(soli.tabla);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.prueba13) {
+            CargarSolicitud(soli);
+            controladorDatos.limpiarTabla();
+            controladorDatos.pruebaMostrar13(soli.tabla);
             inven.dispose();
         }
         
