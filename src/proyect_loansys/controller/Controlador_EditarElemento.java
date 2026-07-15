@@ -69,8 +69,7 @@ public class Controlador_EditarElemento implements ActionListener {
                         "Límite de Caracteres", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            // 🚀 Si el flujo llega hasta aquí, significa que los datos son 100% válidos
+            //Si el flujo llega hasta aquí, significa que los datos son 100% válidos
             elemento.setNombreElemento(nombre);
             elemento.setDescripcion(descripcion);
 

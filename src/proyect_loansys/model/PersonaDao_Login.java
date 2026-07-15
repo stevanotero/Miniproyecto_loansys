@@ -4,7 +4,7 @@
  */
 package proyect_loansys.model;
 
-import proyect_loansys.model.Conexion_Login;
+import proyect_loansys.model.Conexion_Registro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 public class PersonaDao_Login {
 
     private Connection con;
-    private Conexion_Login conectar = new Conexion_Login();
+    private Conexion_Registro conectar = new Conexion_Registro();
     private PreparedStatement ps;
     private ResultSet rs;
 

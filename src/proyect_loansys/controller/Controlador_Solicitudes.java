@@ -36,6 +36,7 @@ public class Controlador_Solicitudes implements ActionListener {
         this.vista.botonInventario.addActionListener(this); 
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonSolicitudes.addActionListener(this);
+        this.vista.botonPrestamos.addActionListener(this);
 
         listarSolicitudesTabla();
 
@@ -71,10 +72,7 @@ public class Controlador_Solicitudes implements ActionListener {
     private void abrirFormularioGestionar() {
         int filaSeleccionada = vista.tablaDeSolicitudes.getSelectedRow();
         if (filaSeleccionada != -1) {
-
-            // 🌟 CORREGIDO: Declaramos la variable de la solicitud seleccionada con sus IDs completos
             Solicitudes solicitudSeleccionada = listaSolicitudes.get(filaSeleccionada);
-
             String idSolicitud = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 0).toString();
             String codigoElemento = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 1).toString();
             String nombreElemento = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 2).toString();
@@ -131,7 +129,7 @@ public class Controlador_Solicitudes implements ActionListener {
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
             Controlador_Prestamos controlp = new Controlador_Prestamos(vistap);
-            vistap.setEnabled(true);
+            vistap.setVisible(true);
         }
     }
 }

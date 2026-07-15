@@ -12,15 +12,11 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Prestamos;
 import proyect_loansys.model.PrestamosActivosDao;
-import proyect_loansys.model.PrestamosDao;
 import proyect_loansys.view.Vista_Inventario;
 import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.view.Vista_Prestamo;
 import proyect_loansys.view.Vista_Solicitudes;
-
-// Nota: Importa aquí tus vistas modales cuando las crees
-// import proyect_loansys.view.VentanaGestionarPrestamo;
 
 /**
  * @author Alexis
@@ -41,8 +37,6 @@ public class Controlador_Prestamos implements ActionListener {
         this.vista.botonInventario.addActionListener(this); 
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonSolicitudes.addActionListener(this);
-        // Si tienes el botón de préstamos en el menú, lo escuchas también:
-        // this.vista.botonPrestamos.addActionListener(this);
 
         listarPrestamosTabla();
 

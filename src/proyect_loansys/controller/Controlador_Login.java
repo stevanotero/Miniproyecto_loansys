@@ -4,11 +4,6 @@
  */
 package proyect_loansys.controller;
 
-/**
- *
- * @author Alexis
- */
-
 import proyect_loansys.view.Vista_Login;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +12,10 @@ import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.view.Vista_Registro;
+/**
+ *
+ * @author Alexis
+ */
 
 public class Controlador_Login implements ActionListener {
 

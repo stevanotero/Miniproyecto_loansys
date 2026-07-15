@@ -38,6 +38,7 @@ public class Controlador_inventario implements ActionListener {
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonInventario.addActionListener(this);
         this.vista.botonCerrarSesion.addActionListener(this);
+        this.vista.botonPrestamos.addActionListener(this);
         this.vista.btnBuscar.addActionListener(this);
         this.vista.btnLimpiar.addActionListener(this);
         listarComponentesTabla();
@@ -49,8 +50,7 @@ public class Controlador_inventario implements ActionListener {
                 }
             }
         });
-
-        // Escuchadores para los filtros en tiempo real
+        // Escuchadores para los filtros
         this.vista.cbxCategoria.addActionListener(e -> filtrarComponentesTabla());
         this.vista.cbxEstado.addActionListener(e -> filtrarComponentesTabla());
     }
@@ -170,7 +170,7 @@ public class Controlador_inventario implements ActionListener {
         if (e.getSource() == vista.btnLimpiar) {
             limpiarBusquedaYFiltros();
         }
-        
+
         //Modulo de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
@@ -178,7 +178,7 @@ public class Controlador_inventario implements ActionListener {
             Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
             vistaSolicitud.setVisible(true);
         }
-        
+
         // Modulo de inicio
         if (e.getSource() == vista.botonInicio) {
             vista.dispose();
@@ -186,16 +186,13 @@ public class Controlador_inventario implements ActionListener {
             Controlador_inicio controlin = new Controlador_inicio(vistaIni);
             vistaIni.setVisible(true);
         }
-        
+
         // Modulo de prestamos
-       if(e.getSource() == vista.botonPrestamos){
-        vista.dispose();
-        Vista_Prestamo vistap = new Vista_Prestamo();
-        Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
-        vistap.setVisible(true);
+        if (e.getSource() == vista.botonPrestamos) {
+            vista.dispose();
+            Vista_Prestamo vistap = new Vista_Prestamo();
+            Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
+            vistap.setVisible(true);
         }
-        
-
     }
-
 }

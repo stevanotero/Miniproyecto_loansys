@@ -20,11 +20,11 @@ public class ControladorModal_solicitudes implements ActionListener {
     private Solicitudes solicitud;
     private Controlador_Solicitudes controladorPadre; 
 
-    // 🌟 CORREGIDO: Ahora el constructor recibe los 3 parámetros obligatoriamente
+    //El constructor recibe los 3 parámetros obligatoriamente
     public ControladorModal_solicitudes(VentanaGestionarSolicitud vistaModal, Solicitudes solicitud, Controlador_Solicitudes controladorPadre) {
         this.vistaModal = vistaModal;
-        this.solicitud = solicitud;          // 🌟 Ahora sí guarda el objeto real que viene de la tabla
-        this.controladorPadre = controladorPadre; // 🌟 Ahora sí guarda la referencia del padre
+        this.solicitud = solicitud;          //Ahora sí guarda el objeto real que viene de la tabla
+        this.controladorPadre = controladorPadre; //Ahora sí guarda la referencia del padre
 
         // Activamos los listeners de los tres botones de tu vista
         this.vistaModal.botonAprobar.addActionListener(this);
@@ -42,7 +42,8 @@ public class ControladorModal_solicitudes implements ActionListener {
             Controlador_AsignarFechas controllerAsignar = new Controlador_AsignarFechas(modalFechas, this.solicitud, this.controladorPadre);
             modalFechas.setVisible(true);
         }
-
+        
+        //clic al boton de rechazar
         if (e.getSource() == vistaModal.botonRechazar) {
             vistaModal.dispose();
             VentanaMotivoRechazo modalRechazo = new VentanaMotivoRechazo(null);
