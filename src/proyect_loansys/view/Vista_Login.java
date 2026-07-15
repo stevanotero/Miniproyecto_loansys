@@ -139,10 +139,6 @@ public class Vista_Login extends JFrame {
 
         fondo.add(card);
         add(fondo);
-
-        // Configuración final de la ventana
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     // Metodos de diseño para poner los textos y los botones redondos
@@ -247,9 +243,5 @@ public class Vista_Login extends JFrame {
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         return boton;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Vista_Login().setVisible(true));
     }
 }

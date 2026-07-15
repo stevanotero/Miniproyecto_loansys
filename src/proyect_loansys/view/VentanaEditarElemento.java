@@ -26,7 +26,7 @@ import java.awt.RenderingHints;
 
 public class VentanaEditarElemento extends JDialog {
 
-    // Componentes públicos para que el controlador pueda leerlos y escribir en ellos
+   
     public JTextField textoCodigo;
     public JTextField textoNombre;
     public JTextField textoCategoria;
@@ -41,7 +41,7 @@ public class VentanaEditarElemento extends JDialog {
         this.setLocationRelativeTo(padre);
         this.setResizable(false);
 
-        // Contenedor principal con margen elegante
+        // Contenedor principal con margen
         JPanel panelRaiz = new JPanel();
         panelRaiz.setLayout(new BoxLayout(panelRaiz, BoxLayout.Y_AXIS));
         panelRaiz.setBackground(Color.WHITE);
@@ -61,9 +61,9 @@ public class VentanaEditarElemento extends JDialog {
         // texto del nombre
         textoNombre = crearCampoFormulario(panelRaiz, "Nombre del Elemento:");
 
-        // texto de la categoria
-        textoNombre = crearCampoFormulario(panelRaiz, "Categoría:");
-        textoNombre.setEnabled(false);
+        //texto de  la categoría    
+        textoCategoria = crearCampoFormulario(panelRaiz, "Categoría:"); 
+        textoCategoria.setEnabled(false);
 
         // lista del estado
         JLabel lblEstado = new JLabel("Estado:");
@@ -135,8 +135,8 @@ public class VentanaEditarElemento extends JDialog {
         boton.setBackground(fondo);
         boton.setForeground(texto);
         boton.setFocusPainted(false);
-        boton.setContentAreaFilled(false); 
-        boton.setBorderPainted(false);     
+        boton.setContentAreaFilled(false);
+        boton.setBorderPainted(false);
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 

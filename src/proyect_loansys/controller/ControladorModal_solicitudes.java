@@ -4,10 +4,55 @@
  */
 package proyect_loansys.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import proyect_loansys.model.Solicitudes;
+import proyect_loansys.view.VentanaGestionarSolicitud; 
+import proyect_loansys.view.VentanaAsignarFechas;    
+import proyect_loansys.view.VentanaMotivoRechazo;
+
 /**
- *
  * @author Alexis
  */
-public class ControladorModal_solicitudes {
-    
+public class ControladorModal_solicitudes implements ActionListener {
+
+    private VentanaGestionarSolicitud vistaModal;
+    private Solicitudes solicitud;
+    private Controlador_Solicitudes controladorPadre; 
+
+    // 🌟 CORREGIDO: Ahora el constructor recibe los 3 parámetros obligatoriamente
+    public ControladorModal_solicitudes(VentanaGestionarSolicitud vistaModal, Solicitudes solicitud, Controlador_Solicitudes controladorPadre) {
+        this.vistaModal = vistaModal;
+        this.solicitud = solicitud;          // 🌟 Ahora sí guarda el objeto real que viene de la tabla
+        this.controladorPadre = controladorPadre; // 🌟 Ahora sí guarda la referencia del padre
+
+        // Activamos los listeners de los tres botones de tu vista
+        this.vistaModal.botonAprobar.addActionListener(this);
+        this.vistaModal.botonRechazar.addActionListener(this);
+        this.vistaModal.botonCancelar.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Se le hace clic al botón aprobar
+        if (e.getSource() == vistaModal.botonAprobar) {
+            vistaModal.dispose();
+            
+            VentanaAsignarFechas modalFechas = new VentanaAsignarFechas(null);
+            Controlador_AsignarFechas controllerAsignar = new Controlador_AsignarFechas(modalFechas, this.solicitud, this.controladorPadre);
+            modalFechas.setVisible(true);
+        }
+
+        if (e.getSource() == vistaModal.botonRechazar) {
+            vistaModal.dispose();
+            VentanaMotivoRechazo modalRechazo = new VentanaMotivoRechazo(null);
+            Controlador_RechazarSolicitud controladorRechazo = new Controlador_RechazarSolicitud(modalRechazo, this.solicitud, this.controladorPadre);
+            modalRechazo.setVisible(true);
+        }
+
+        // clic al botón cancelar
+        if (e.getSource() == vistaModal.botonCancelar) {
+            vistaModal.dispose();
+        }
+    }
 }

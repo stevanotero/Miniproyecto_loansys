@@ -101,36 +101,39 @@ public class Controlador_Login implements ActionListener {
             JOptionPane.showMessageDialog(vista, "Bienvenido al Sistema de Préstamos del SENA", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
             borrador();
             vista.dispose(); 
-//            
-//            // Se evalua el rol y lo lleva a una vista en especifico
-//            switch (idRol) {
-//                case 1: // aprendiz
-//                case 2: // instructor
-//                    Inicio_usuario vistaUsuario = new Inicio_usuario();
-//                    vistaUsuario.setVisible(true);
-//                    break;
-//
-//                case 3: // tecnico
-//                    Inicio_Tecnico vistaTecnico = new Inicio_Tecnico();
-//                    vistaTecnico.setVisible(true);
-//                    break;
-//
-//                case 4: // asesor
-//                    Vista_Inicio vistaAsesor = new Vista_Inicio(); 
-//                    Controlador_inicio controlAsesor = new Controlador_inicio(vistaAsesor);
-//                    vistaAsesor.setVisible(true);
-//                    break;
-//
-//                case 5: // administrador
-//                    Inicio_administrador vistaAdmin = new Inicio_administrador();
-//                    vistaAdmin.setVisible(true);
-//                    break;
-//
-//                default:
-//                    JOptionPane.showMessageDialog(vista, "El rol asignado no cuenta con una interfaz configurada.", "Error de Rol", JOptionPane.ERROR_MESSAGE);
-//                    break;
-//            }
-//            
+            
+            
+            
+            
+            // Se evalua el rol y lo lleva a una vista en especifico
+            switch (idRol) {
+                case 1: // aprendiz
+                case 2: // instructor
+                    Vista_Registro vistaUsuario = new Vista_Registro();
+                    vistaUsuario.setVisible(true);
+                    break;
+
+                case 3: // tecnico
+                    Vista_Registro vistaTecnico = new Vista_Registro();
+                    vistaTecnico.setVisible(true);
+                    break;
+
+                case 4: // asesor
+                    Vista_Inicio vistaAsesor = new Vista_Inicio(); 
+                    Controlador_inicio controlAsesor = new Controlador_inicio(vistaAsesor);
+                    vistaAsesor.setVisible(true);
+                    break;
+
+                case 5: // administrador
+                    Vista_Registro vistaAdmin = new Vista_Registro();
+                    vistaAdmin.setVisible(true);
+                    break;
+
+                default:
+                    JOptionPane.showMessageDialog(vista, "El rol asignado no cuenta con una interfaz configurada.", "Error de Rol", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+            
             return true;
         } else {
             intentosFallidos++;
