@@ -254,26 +254,13 @@ public class Usuario_Inventario extends Usuario_Plantilla{
         ////////////////////////////////////////////////////
         
         //panel8    
-        panel030 = new JPanel();
         
-        panel030.setPreferredSize(new Dimension(200, 145));
-        prueba = new JButton("a ver");
-        panel030.setLayout(new BorderLayout());
-        panel030.add(prueba);
-        panel030.setBackground(Color.CYAN);
-        
-        
-        //////////////////////////////////////////////////////////
         //Scroll de del panel8
         miscroll = new JScrollPane();
         miscroll.setBounds(10, 10, 1080,180);
         
         panel029 = new JPanel();
-        panel029.setPreferredSize(new Dimension(1080, 900));
-        
-        //Ejemplos de integracion de paneles con tamano
-        panel029.add(panel030);
-        
+        panel029.setPreferredSize(new Dimension(1080, 600));
         
         
         panel029.setBackground(Color.white);

@@ -62,6 +62,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         ////////////////////////////////////////////////////
         this.soli.volver.addActionListener(this);
         this.soli.solicitar.addActionListener(this);
+        this.soli.iniciod.addActionListener(this);
+        this.soli.inventario.addActionListener(this);
+        this.soli.notificacion.addActionListener(this);
+        this.soli.prestamo.addActionListener(this);
         
         //aver
         controladorDatos = new Usuario_ControladorDatos(inven,soli);
@@ -214,6 +218,24 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
 
         //////////////////////////////////////
+        
+        if (e.getSource() == soli.iniciod) {
+            CargarInicio(inicio);
+            soli.dispose();
+        }
+        if (e.getSource() == soli.prestamo) {
+            CargarHistorial(pres);
+            soli.dispose();
+        }
+        if (e.getSource() == soli.inventario){
+            CargarInventario(inven);
+            soli.dispose();
+        }
+        if (e.getSource() == soli.notificacion) {
+            CargarNotificacion(noti);
+            soli.dispose();
+        }
+        
         if (e.getSource() == soli.volver) {
             CargarInventario(inven);
             soli.dispose();
