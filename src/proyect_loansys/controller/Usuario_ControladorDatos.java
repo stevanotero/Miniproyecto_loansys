@@ -67,46 +67,247 @@ public class Usuario_ControladorDatos implements ActionListener{
             i = i - 1;
         }
     }
+    
+    
+    // El controlador para hacer la Busqueda de cada tabla
+    public void pruebaMostrar(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(1);
 
-    public void cargarPrimerElemento(JTable tabla) {
-        modelo = (DefaultTableModel) tabla.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
 
-        Usuario_Elemento elemento = elementoDao.obtenerPrimerElemento();
-
-        if (elemento != null) {
-            Object[] object = new Object[4];
-            object[0] = elemento.getCodigo_elemento();
-            object[1] = elemento.getNombre_elemento();
-            object[2] = elemento.getCategoria_nombre();
-            object[3] = elemento.getDescripcion();
-            modelo.addRow(object);
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
         } else {
-            JOptionPane.showMessageDialog(null, "No hay elementos disponibles en este momento");
+            System.out.println("No se encontró el elemento con ese ID");
         }
-
-        soliprestamo1.tabla.setModel(modelo);
     }
 
-    public void cargarSegundoElemento(JTable tabla) {
-//        modelo = (DefaultTableModel) tabla.getModel();
-//        modelo.setRowCount(1);
-//
-//        Elemento elemento = elementoDao.obtenerPrimerElemento();
-//
-//        if (elemento == ) {
-//            Object[] object = new Object[4];
-//            object[0] = elemento.getCodigo_elemento();
-//            object[1] = elemento.getNombre_elemento();
-//            object[2] = elemento.getCategoria_nombre();
-//            object[3] = elemento.getDescripcion();
-//            modelo.addRow(object);
-//        } else {
-//            JOptionPane.showMessageDialog(null, "No hay elementos disponibles en este momento");
-//        }
-//
-//        soliprestamo1.tabla.setModel(modelo);
+    public void pruebaMostrar1(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(2);
 
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar2(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(3);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar3(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(4);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar4(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(5);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar5(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(6);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar6(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(7);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar7(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(8);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar8(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(9);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar9(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(10);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar10(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(11);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar11(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(12);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar12(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(13);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+             modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),
+            });
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+
+    public void pruebaMostrar13(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(14);
+
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+             modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),
+            });
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
     }
 
 }

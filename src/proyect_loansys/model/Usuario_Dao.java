@@ -65,48 +65,6 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         return lista;
     }
 
-    public Usuario_Elemento obtenerPrimerElemento() {
-        String sql = """
-                SELECT e.id_elemento,
-                       e.codigo_elemento,
-                       e.nombre_elemento,
-                       c.id_categoria,
-                       c.nombre_categoria,
-                       e.descripcion,
-                       e.imagenes,
-                       e.id_estado_elemento,
-                       ee.nombre_estado_elemento
-                FROM elemento e
-                INNER JOIN categoria_elemento c ON e.id_categoria = c.id_categoria
-                INNER JOIN estado_elemento ee ON e.id_estado_elemento = ee.id_estado_elemento
-                WHERE e.id_estado_elemento = 1
-                LIMIT 1
-                """;
-        try {
-            con = conectar.getConection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                Usuario_Elemento e = new Usuario_Elemento();
-                e.setId_elemento(rs.getInt("id_elemento"));
-                e.setCodigo_elemento(rs.getInt("codigo_elemento"));
-                e.setNombre_elemento(rs.getString("nombre_elemento"));
-                e.setId_categoria(rs.getInt("id_categoria"));
-                e.setCategoria_nombre(rs.getString("nombre_categoria"));
-                e.setDescripcion(rs.getString("descripcion"));
-                e.setImagen(rs.getString("imagenes"));
-                e.setId_estado_elemento(rs.getInt("id_estado_elemento"));
-                e.setEstado_nombre(rs.getString("nombre_estado_elemento"));
-                return e;
-            }
-        } catch (Exception a) {
-            JOptionPane.showMessageDialog(null, "Error al obtener el primer elemento: " + a.toString(),
-                    "Error de consulta", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
-    }
-
     
     @Override
     public int setAgregar(Usuario_Solicitud sr) {
@@ -141,6 +99,49 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             }
         }
 
+        
+        // se agrego la consulta de los elemetos por id
+    }
+     public Usuario_Elemento mostrarFila(int id_elemento) {
+        Usuario_Elemento e = null;
+        String sql = """
+                 SELECT e.id_elemento,
+                        e.codigo_elemento,
+                        e.nombre_elemento,
+                        c.id_categoria,
+                        c.nombre_categoria,
+                        e.descripcion,
+                        e.imagenes,
+                        e.id_estado_elemento,
+                        ee.nombre_estado_elemento
+                 FROM elemento e
+                 INNER JOIN categoria_elemento c ON e.id_categoria = c.id_categoria
+                 INNER JOIN estado_elemento ee ON e.id_estado_elemento = ee.id_estado_elemento
+                 WHERE e.id_elemento = ?
+                 ORDER BY e.id_elemento ASC
+                 """;
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id_elemento);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                e = new Usuario_Elemento();
+                e.setId_elemento(rs.getInt("id_elemento"));
+                e.setCodigo_elemento(rs.getInt("codigo_elemento"));
+                e.setNombre_elemento(rs.getString("nombre_elemento"));
+                e.setId_categoria(rs.getInt("id_categoria"));
+                e.setCategoria_nombre(rs.getString("nombre_categoria"));
+                e.setDescripcion(rs.getString("descripcion"));
+                e.setImagen(rs.getString("imagenes"));
+                e.setId_estado_elemento(rs.getInt("id_estado_elemento"));
+                e.setEstado_nombre(rs.getString("nombre_estado_elemento"));
+            }
+        } catch (Exception a) {
+            a.printStackTrace();
+        }
+        return e; // ← retorna el objeto
     }
 
 }
