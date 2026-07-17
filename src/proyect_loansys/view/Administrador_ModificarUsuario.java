@@ -58,7 +58,7 @@ public class Administrador_ModificarUsuario extends Administrador_Plantilla_Admi
         //---------------------------------------------------------
         
 // creaccion de la tabla y boton para cambiar estado
-        botonC = new JButton("  Cambiar Informacion");
+        botonC = new JButton(" Cambiar Informacion");
         botonC.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10, true));// Borde redondeado para el botón
         botonC.setBackground(Color.white);
 
@@ -83,7 +83,7 @@ public class Administrador_ModificarUsuario extends Administrador_Plantilla_Admi
 
         grid4 = new GridLayout(2, 1, 1, 1);
 
-        titulo2 = new JLabel("       Cambio de informacion");
+        titulo2 = new JLabel("             Cambio de informacion");
         titulo2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
 
         panel9.setBorder(new EmptyBorder(90, 5, 0, 950));

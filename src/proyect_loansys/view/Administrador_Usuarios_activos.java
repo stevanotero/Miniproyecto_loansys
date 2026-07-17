@@ -79,7 +79,7 @@ public class Administrador_Usuarios_activos extends Administrador_Plantilla_Admi
 
         grid4 = new GridLayout(2, 1, 1, 1);
 
-        titulo2 = new JLabel("Estado");
+        titulo2 = new JLabel("  Estado");
         titulo2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
 
         panel9.setBorder(new EmptyBorder(90, 5, 0, 950));
