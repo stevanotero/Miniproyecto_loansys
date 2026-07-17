@@ -32,15 +32,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * NOTA IMPORTANTE:
- * Este archivo conserva EXACTAMENTE la misma API publica que la version
- * original (mismos campos publicos, mismo constructor y mismos metodos
- * getConteiner(), getPanel(), getButtonActivacion(), getButtonModificar()).
- * Solo se cambio la forma en la que se arman y estilizan los paneles
- * internos (panel1 = barra superior, panel2 = barra lateral) para que
- * se vean igual que en Vista_Principal. Ninguna vista que ya extienda
- * esta clase o que use getPanel()/getButtonActivacion()/getButtonModificar()
- * deberia dejar de funcionar.
  *
  * @author juans
  */
@@ -62,9 +53,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         contenedor = getContentPane();
         contenedor.setLayout(new BorderLayout());
 
-        // panel5 es el panel de contenido central: se deja EXACTAMENTE
-        // igual que antes (vacio), porque las vistas hijas le agregan
-        // sus componentes usando getPanel(). Esto no se toca.
+     
         panel5 = new JPanel();
 
         crearBarraSuperior();
@@ -75,10 +64,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         contenedor.add(panel5, BorderLayout.CENTER);
     }
 
-    // ---------------------------------------------------------------
-    // Barra superior (antes panel1) con el mismo estilo que la barra
-    // superior de Vista_Principal (texto de bienvenida + subtitulo).
-    // ---------------------------------------------------------------
+
     private void crearBarraSuperior() {
         panel1 = new JPanel();
         panel1.setBackground(new Color(218, 220, 224));
