@@ -268,23 +268,33 @@ public class Administrador_ControladorBotones implements ActionListener {
 
         if (e.getSource() == inicio.cerrar_sesion) {
             inicio.setVisible(false);
-            login.setVisible(true);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+            vistaLogin.setVisible(true);
         }
         if (e.getSource() == usActivo.cerrar_sesion) {
             usActivo.setVisible(false);
-            login.setVisible(true);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+            vistaLogin.setVisible(true);
         }
         if (e.getSource() == modificarUsuario.cerrar_sesion) {
             modificarUsuario.setVisible(false);
-            login.setVisible(true);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+            vistaLogin.setVisible(true);
         }
         if (e.getSource() == cambio_de_rol.cerrar_sesion) {
             cambio_de_rol.setVisible(false);
-            login.setVisible(true);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+            vistaLogin.setVisible(true);
         }
         if (e.getSource() == registro_de_usuario.cerrar_sesion) {
             registro_de_usuario.setVisible(false);
-            login.setVisible(true);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+            vistaLogin.setVisible(true);
         }
     }
 

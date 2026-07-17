@@ -40,7 +40,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     private Container contenedor;
     private JPanel panel1, panel2, panel5;
     private JLabel titulo, logo, nombre;
-    private JLabel subtituloBarraLateral1, subtituloBarraLateral2, subtituloBarraSuperior;
+    private JLabel subtituloBarraLateral1, subtituloBarraLateral2;
     public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario, cerrar_sesion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
@@ -79,13 +79,11 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         nombre = new JLabel(textoBienvenida);
         nombre.setFont(nombre.getFont().deriveFont(Font.BOLD, 22f));
 
-        subtituloBarraSuperior = new JLabel("Panel principal");
-        subtituloBarraSuperior.setFont(subtituloBarraSuperior.getFont().deriveFont(Font.PLAIN, 12f));
-        subtituloBarraSuperior.setForeground(new Color(120, 120, 120));
+
 
         panel1.add(nombre);
         panel1.add(Box.createVerticalStrut(5));
-        panel1.add(subtituloBarraSuperior);
+
     }
 
 
