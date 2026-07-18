@@ -23,7 +23,7 @@ public class Administrador_AuditoriaDao {
 
     public int registrarAccion(Administrador_Auditoria auditoria) {
 
-        String sql = "INSERT INTO auditoria(id_usuario, accion) VALUES(?, ?)";
+        String sql = "INSERT INTO auditoria_usuario(id_usuario, accion) VALUES(?, ?)";
 
         try {
 
@@ -47,13 +47,12 @@ public class Administrador_AuditoriaDao {
 
     List<Administrador_Auditoria> lista = new ArrayList<>();
 
-    String sql = "SELECT p.documento, "
-            + "CONCAT(p.nombre,' ',p.apellido) AS nombre, "
+            String sql = "SELECT u.documento, "
+            + "CONCAT(u.nombre,' ',u.apellido) AS nombre, "
             + "a.accion, "
             + "a.fecha_hora "
-            + "FROM auditoria a "
-            + "INNER JOIN usuarios u ON a.id_usuario = u.id_usuario "
-            + "INNER JOIN persona p ON u.id_persona = p.id_persona "
+            + "FROM auditoria_usuario a "
+            + "INNER JOIN usuarios_sena u ON a.id_usuario = u.id_usuario "
             + "ORDER BY a.fecha_hora DESC";
 
     try {

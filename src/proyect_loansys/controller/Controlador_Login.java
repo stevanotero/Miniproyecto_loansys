@@ -14,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import proyect_loansys.model.Administrador_Auditoria;
+import proyect_loansys.model.Administrador_AuditoriaDao;
+import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
@@ -55,7 +58,7 @@ public class Controlador_Login implements ActionListener {
                 if (procesarLogin(documentoTexto, passwordConvertido)) {
                     intentosFallidos = 0;
                 } else {
-                    // Los intentos solo suman si el documento era rea
+                    // Los intentos solo suman si el documento era real
                     if (intentosFallidos >= 5) {
                         tiempoBloqueoHasta = System.currentTimeMillis() + TIEMPO_ESPERA;
                         JOptionPane.showMessageDialog(vista,
@@ -102,6 +105,12 @@ public class Controlador_Login implements ActionListener {
         int idRol = pdao.validarLogin(documento, contraseña);
 
         if (idRol != -1) { 
+            int idUsuario = pdao.getIdUsuarioLogueado();
+            Administrador_Sesion.setIdUsuario(idUsuario);
+              Administrador_Auditoria auditoria = new Administrador_Auditoria();
+              auditoria.setIdUsuario(idUsuario);
+              auditoria.setAccion("Inicio de sesion");
+              new Administrador_AuditoriaDao().registrarAccion(auditoria);
             JOptionPane.showMessageDialog(vista, "Bienvenido al Sistema de Préstamos del SENA", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
             borrador();
             vista.dispose(); 
@@ -138,7 +147,7 @@ public class Controlador_Login implements ActionListener {
                 case 5: // administrador
                  Administrador_Inicio_Loansys_Administrador usaActi = new Administrador_Inicio_Loansys_Administrador();
                 Administrador_ControladorBotones  controller = new Administrador_ControladorBotones(usaActi);
-                
+                Administrador_ControladorInicioAdministrador controladorAuditoria = new Administrador_ControladorInicioAdministrador(usaActi);
                     usaActi.setVisible(true);
                     break;
 
