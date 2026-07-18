@@ -12,14 +12,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Usuario_Dao;
 import proyect_loansys.model.Usuario_Elemento;
+import proyect_loansys.model.Usuario_Model;
 import proyect_loansys.view.Usuario_Inventario;
 import proyect_loansys.view.Usuario_SolicitarPrestamo;
 
+public class Usuario_ControladorDatos implements ActionListener {
 
-public class Usuario_ControladorDatos implements ActionListener{
-    
-    
-    
     private Usuario_SolicitarPrestamo soliprestamo1;
     private Usuario_Inventario inveta;
     public Usuario_Dao elementoDao = new Usuario_Dao();
@@ -54,21 +52,20 @@ public class Usuario_ControladorDatos implements ActionListener{
             object[2] = lista.get(indice).getCategoria_nombre();
             object[3] = lista.get(indice).getDescripcion();
             modelo.addRow(object);
-            
+
         }
         soliprestamo1.tabla.setModel(modelo);
         //limpiarTabla();
 
     }
-    
+
     public void limpiarTabla() {
         for (int i = 0; i < soliprestamo1.tabla.getRowCount(); i++) {
             modelo.removeRow(i);
             i = i - 1;
         }
     }
-    
-    
+
     // El controlador para hacer la Busqueda de cada tabla
     public void pruebaMostrar(JTable tabla) {
         Usuario_Elemento e = elementoDao.mostrarFila(1);
@@ -281,17 +278,32 @@ public class Usuario_ControladorDatos implements ActionListener{
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             modelo.setRowCount(0); // limpia la tabla antes de cargar
 
-             modelo.addRow(new Object[]{
+            modelo.addRow(new Object[]{
                 e.getCodigo_elemento(),
                 e.getNombre_elemento(),
                 e.getCategoria_nombre(),
-                e.getDescripcion(),
-            });
+                e.getDescripcion(),});
         } else {
             System.out.println("No se encontró el elemento con ese ID");
         }
     }
+    public void pruebaMostrar13(JTable tabla) {
+        Usuario_Elemento e = elementoDao.mostrarFila(13);
 
+        if (e != null) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            modelo.setRowCount(0); // limpia la tabla antes de cargar
+
+            modelo.addRow(new Object[]{
+                e.getCodigo_elemento(),
+                e.getNombre_elemento(),
+                e.getCategoria_nombre(),
+                e.getDescripcion(),});
+        } else {
+            System.out.println("No se encontró el elemento con ese ID");
+        }
+    }
+/*
     public void pruebaMostrar13(JTable tabla) {
         Usuario_Elemento e = elementoDao.mostrarFila(14);
 
@@ -299,15 +311,32 @@ public class Usuario_ControladorDatos implements ActionListener{
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             modelo.setRowCount(0); // limpia la tabla antes de cargar
 
-             modelo.addRow(new Object[]{
+            modelo.addRow(new Object[]{
                 e.getCodigo_elemento(),
                 e.getNombre_elemento(),
                 e.getCategoria_nombre(),
-                e.getDescripcion(),
-            });
+                e.getDescripcion(),});
         } else {
             System.out.println("No se encontró el elemento con ese ID");
         }
     }
+    
 
+    Usuario_Dao dao = new Usuario_Dao();
+    Usuario_Model resultado = dao.login(correoIngresado, contraseñaIngresada);
+
+
+if (resultado != null) {
+    // Aquí "saco" los datos del objeto y los guardo en variables sueltas
+    int id = resultado.getId_usuario();
+    String nombre = resultado.getNombre();
+    String rol = resultado.getNombre_rol();
+
+    System.out.println("Nombre: " + nombre);
+    System.out.println("Rol: " + rol);
+
+} else {
+    System.out.println("Login incorrecto");
+}
+*/
 }

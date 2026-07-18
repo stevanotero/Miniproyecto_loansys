@@ -65,7 +65,6 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         return lista;
     }
 
-    
     @Override
     public int setAgregar(Usuario_Solicitud sr) {
         int r;
@@ -99,10 +98,10 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             }
         }
 
-        
         // se agrego la consulta de los elemetos por id
     }
-     public Usuario_Elemento mostrarFila(int id_elemento) {
+
+    public Usuario_Elemento mostrarFila(int id_elemento) {
         Usuario_Elemento e = null;
         String sql = """
                  SELECT e.id_elemento,
@@ -144,6 +143,31 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         return e; // ← retorna el objeto
     }
 
+    public Usuario_Model login(int documento, String contraseña) {
+        String sql = "SELECT u.id_usuario, u.nombre, u.apellido, r.nombre_rol "
+                + "FROM login_de_usuarios l "
+                + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
+                + "INNER JOIN roles r ON u.id_rol = r.id_rol "
+                + "WHERE l.correo = ? AND l.contraseña = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, documento);
+            ps.setString(2, contraseña);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Usuario_Model u = new Usuario_Model();
+                    u.setId_usuario(rs.getInt("id_usuario"));
+                    u.setNombre(rs.getString("nombre"));
+                    u.setNombre_rol(rs.getString("nombre_rol"));
+                    return u;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // login fallido
+    }
+
 }
-
-

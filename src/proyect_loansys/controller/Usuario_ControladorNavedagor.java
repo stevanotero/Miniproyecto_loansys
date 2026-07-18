@@ -1,6 +1,5 @@
 package proyect_loansys.controller;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -23,7 +22,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     Usuario_Notificacion noti = new Usuario_Notificacion("Aprendiz", "Aprendiz", "Miguel");
     Usuario_SolicitarPrestamo soli = new Usuario_SolicitarPrestamo("Aprendiz", "Aprendiz", "Miguel");
     Vista_Login sesion = new Vista_Login();
-    
+
     //comtroladores
     Usuario_ControladorDatos controladorDatos;
 
@@ -73,9 +72,9 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.soli.notificacion.addActionListener(this);
         this.soli.prestamo.addActionListener(this);
         this.soli.cerrarS.addActionListener(this);
-        
+
         //aver
-        controladorDatos = new Usuario_ControladorDatos(inven,soli);
+        controladorDatos = new Usuario_ControladorDatos(inven, soli);
     }
 
     @Override
@@ -94,8 +93,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             inicio.dispose();
         }
-        if (e.getSource() == inicio.cerrarS){
-            CargarInicio(sesion);
+        if (e.getSource() == inicio.cerrarS) {
+            CargarInicioS(sesion);
             inicio.dispose();
         }
 
@@ -112,12 +111,12 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             inven.dispose();
         }
-        if (e.getSource() == inven.cerrarS){
-            CargarInicio(sesion);
+        if (e.getSource() == inven.cerrarS) {
+            CargarInicioS(sesion);
             inven.dispose();
         }
         //Para que muestre los datos y la tabla
-         if (e.getSource() == inven.prueba) {
+        if (e.getSource() == inven.prueba) {
             CargarSolicitud(soli);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar(soli.tabla);
@@ -157,7 +156,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarSolicitud(soli);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar6(soli.tabla);
-            
+
             inven.dispose();
         }
         if (e.getSource() == inven.prueba7) {
@@ -202,7 +201,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             controladorDatos.pruebaMostrar13(soli.tabla);
             inven.dispose();
         }
-        
 
         ////////////////////////////////////////////
         if (e.getSource() == pres.iniciod) {
@@ -217,8 +215,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             pres.dispose();
         }
-        if (e.getSource() == pres.cerrarS){
-            CargarInicio(sesion);
+        if (e.getSource() == pres.cerrarS) {
+            CargarInicioS(sesion);
             pres.dispose();
         }
 
@@ -235,8 +233,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarHistorial(pres);
             noti.dispose();
         }
-        if (e.getSource() == noti.cerrarS){
-            CargarInicio(sesion);
+        if (e.getSource() == noti.cerrarS) {
+            CargarInicioS(sesion);
             noti.dispose();
         }
 
@@ -250,7 +248,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarHistorial(pres);
             soli.dispose();
         }
-        if (e.getSource() == soli.inventario){
+        if (e.getSource() == soli.inventario) {
             CargarInventario(inven);
             soli.dispose();
         }
@@ -258,7 +256,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             soli.dispose();
         }
-        
+
         if (e.getSource() == soli.volver) {
             CargarInventario(inven);
             soli.dispose();
@@ -267,13 +265,13 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == soli.solicitar) {
             JOptionPane.showMessageDialog(null, "Solicitud con exito");
         }
-        if (e.getSource() == soli.cerrarS){
-            CargarInicio(sesion);
+        if (e.getSource() == soli.cerrarS) {
+            CargarInicioS(sesion);
             soli.dispose();
         }
-    
+
     }
-    
+
     public void CargarInicio(Usuario_Inicio inicio) {
         inicio.setVisible(true);
         inicio.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -304,11 +302,12 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         soli.setExtendedState(JFrame.MAXIMIZED_BOTH);
         soli.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    public void CargarInicio(Vista_Login sesion){
+
+    public void CargarInicioS(Vista_Login sesion) {
         sesion.setVisible(true);
         sesion.setExtendedState(JFrame.MAXIMIZED_BOTH);
         sesion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
     }
 
 }
