@@ -11,6 +11,7 @@ import proyect_loansys.view.Usuario_Inicio;
 import proyect_loansys.view.Usuario_Inventario;
 import proyect_loansys.view.Usuario_Notificacion;
 import proyect_loansys.view.Usuario_SolicitarPrestamo;
+import proyect_loansys.view.Vista_Login;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
 
@@ -21,6 +22,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     Usuario_HistorialPrestamo pres = new Usuario_HistorialPrestamo("Aprendiz", "Aprendiz", "Miguel");
     Usuario_Notificacion noti = new Usuario_Notificacion("Aprendiz", "Aprendiz", "Miguel");
     Usuario_SolicitarPrestamo soli = new Usuario_SolicitarPrestamo("Aprendiz", "Aprendiz", "Miguel");
+    Vista_Login sesion = new Vista_Login();
     
     //comtroladores
     Usuario_ControladorDatos controladorDatos;
@@ -30,6 +32,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inicio.inventario.addActionListener(this);
         this.inicio.prestamo.addActionListener(this);
         this.inicio.notificacion.addActionListener(this);
+        this.inicio.cerrarS.addActionListener(this);
 
         ///////////////////////////////////////////////////
         this.inven.iniciod.addActionListener(this);
@@ -49,19 +52,27 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inven.prueba11.addActionListener(this);
         this.inven.prueba12.addActionListener(this);
         this.inven.prueba13.addActionListener(this);
+        this.inven.cerrarS.addActionListener(this);
 
         /////////////////////////////////////////////////////
         this.pres.iniciod.addActionListener(this);
         this.pres.inventario.addActionListener(this);
         this.pres.notificacion.addActionListener(this);
+        this.pres.cerrarS.addActionListener(this);
         /////////////////////////////////////////////////////
         this.noti.iniciod.addActionListener(this);
         this.noti.prestamo.addActionListener(this);
         this.noti.inventario.addActionListener(this);
+        this.noti.cerrarS.addActionListener(this);
 
         ////////////////////////////////////////////////////
         this.soli.volver.addActionListener(this);
         this.soli.solicitar.addActionListener(this);
+        this.soli.iniciod.addActionListener(this);
+        this.soli.inventario.addActionListener(this);
+        this.soli.notificacion.addActionListener(this);
+        this.soli.prestamo.addActionListener(this);
+        this.soli.cerrarS.addActionListener(this);
         
         //aver
         controladorDatos = new Usuario_ControladorDatos(inven,soli);
@@ -83,6 +94,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             inicio.dispose();
         }
+        if (e.getSource() == inicio.cerrarS){
+            CargarInicio(sesion);
+            inicio.dispose();
+        }
 
         ////////////////////////////////////////////
         if (e.getSource() == inven.iniciod) {
@@ -95,6 +110,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == inven.notificacion) {
             CargarNotificacion(noti);
+            inven.dispose();
+        }
+        if (e.getSource() == inven.cerrarS){
+            CargarInicio(sesion);
             inven.dispose();
         }
         //Para que muestre los datos y la tabla
@@ -198,6 +217,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarNotificacion(noti);
             pres.dispose();
         }
+        if (e.getSource() == pres.cerrarS){
+            CargarInicio(sesion);
+            pres.dispose();
+        }
 
         ///////////////////////////////////////////
         if (e.getSource() == noti.iniciod) {
@@ -212,8 +235,30 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarHistorial(pres);
             noti.dispose();
         }
+        if (e.getSource() == noti.cerrarS){
+            CargarInicio(sesion);
+            noti.dispose();
+        }
 
         //////////////////////////////////////
+        
+        if (e.getSource() == soli.iniciod) {
+            CargarInicio(inicio);
+            soli.dispose();
+        }
+        if (e.getSource() == soli.prestamo) {
+            CargarHistorial(pres);
+            soli.dispose();
+        }
+        if (e.getSource() == soli.inventario){
+            CargarInventario(inven);
+            soli.dispose();
+        }
+        if (e.getSource() == soli.notificacion) {
+            CargarNotificacion(noti);
+            soli.dispose();
+        }
+        
         if (e.getSource() == soli.volver) {
             CargarInventario(inven);
             soli.dispose();
@@ -221,6 +266,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
         if (e.getSource() == soli.solicitar) {
             JOptionPane.showMessageDialog(null, "Solicitud con exito");
+        }
+        if (e.getSource() == soli.cerrarS){
+            CargarInicio(sesion);
+            soli.dispose();
         }
     
     }
@@ -254,6 +303,12 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         soli.setVisible(true);
         soli.setExtendedState(JFrame.MAXIMIZED_BOTH);
         soli.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    public void CargarInicio(Vista_Login sesion){
+        sesion.setVisible(true);
+        sesion.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        sesion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
 
 }
