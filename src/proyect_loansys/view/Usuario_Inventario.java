@@ -7,8 +7,12 @@ package proyect_loansys.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,7 +33,7 @@ public class Usuario_Inventario extends Usuario_Plantilla{
             panel033,panel034,panel035,panel036,panel037,panel038,panel039,
             panel040,panel041,panel042,panel043;
     
-    private JLabel inventario,fEstado,codigo,
+    private JLabel inventario,fEstado,codigo,estado,
             text1,text2,text3,text4;
     private JTextField lcodigo;
     private String lista[] = {"","Disponible","Mantenimiento","Ocupado"};
@@ -277,9 +281,12 @@ public class Usuario_Inventario extends Usuario_Plantilla{
         
         panel030 = new JPanel();
 
-        panel030.setPreferredSize(new Dimension(200, 145));
-        prueba = new JButton("1");
+        panel030.setPreferredSize(new Dimension(200, 160));
+        estado = new JLabel("Disponible");
+        estado.setHorizontalAlignment(SwingConstants.CENTER);
+        prueba = crearBoton("1", new Color(34, 139, 34), Color.white);
         panel030.setLayout(new BorderLayout());
+        panel030.add(estado,BorderLayout.NORTH);
         panel030.add(prueba);
         panel030.setBackground(Color.CYAN);
         
@@ -417,5 +424,27 @@ public class Usuario_Inventario extends Usuario_Plantilla{
         
         panel5.add(panel8);
         panel4.add(panel5);
+    }
+    private JButton crearBoton(String texto, Color fondo, Color textoColor) {
+        JButton boton = new JButton(texto) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+
+        boton.setBackground(fondo);
+        boton.setForeground(textoColor);
+        boton.setContentAreaFilled(false); // importante: para que se vea el redondeado y no el cuadrado por defecto
+        boton.setBorderPainted(false);
+        boton.setFocusPainted(false);
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        return boton;
     }
 }

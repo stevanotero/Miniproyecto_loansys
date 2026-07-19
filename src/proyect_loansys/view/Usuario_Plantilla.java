@@ -1,175 +1,232 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyect_loansys.view;
 
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
+import javax.swing.SwingConstants;
+import javax.swing.BoxLayout;
+import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Cursor;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public abstract class Usuario_Plantilla extends JFrame {
 
-    private JPanel panel1, panel2, panel3, panel4;
-    private Container contenedor;
-    private JLabel lnombreLogo, lnombrelogo2, ltiInve, espacio, espacio2, espacio3,
-            espacio4, lbienvp, rolp, nombrep, ldescu, lbienvp4;
-
-    private JLabel espacios1, espacios2, espacios3, espacios4, espacios5, espacios6,
-            espacios7, espacios8, espacios9, espacios10, espacios11, espacios12;
-
+    // Se conservan los mismos campos públicos que ya usan otras clases
     public JButton iniciod, prestamo, notificacion, cerrarS, inventario;
 
-    private GridLayout grid1, grid2, grid3;
-    private FlowLayout miflow1;
+    // Campos internos (privados, no afectan a quien ya usa esta clase)
+    private Container contenedor;
+    private JPanel barralateral;
+    private JPanel panelContenido;
+    private JPanel panel4; // se conserva el nombre para no romper getPanel()
+    private JLabel logo;
+    private JLabel nombreDelSistema;
+    private JLabel textoDeBienvenida;
+    private JLabel textoDelPanelPrincipal;
+
     private String rol;
     private String nombre;
     private String titulo;
 
     public Usuario_Plantilla(String titulo, String rol, String nombre) {
-
         super(titulo);
-        /////////////////1///////////////////////////////////
-        contenedor = getContentPane();
-        miflow1 = new FlowLayout();
-        contenedor.setLayout(miflow1);
-        panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout());
-
-        grid1 = new GridLayout(2, 1, 10, 2);
-        panel1.setLayout(grid1);
-        panel1.setBackground(Color.decode("#D1D1D6"));
-
-        Icon imagen1 = new ImageIcon("SenaCalidadsinfondo.png");
-        lnombreLogo = new JLabel(imagen1, SwingConstants.NORTH_EAST);
-        lnombrelogo2 = new JLabel("");
-        ltiInve = new JLabel("");
-        espacio = new JLabel("");
-        lbienvp = new JLabel("     LoanSys" + " " + "Sistema de prestamo");
-        lbienvp.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
+        this.titulo = titulo;
         this.rol = rol;
         this.nombre = nombre;
-        rolp = new JLabel("¡Bienvenido," + "  " + "[" + rol + "]" + "  " + "[" + nombre + "!]");
-        nombrep = new JLabel("");
-        espacio2 = new JLabel("");
 
-        panel1.add(lnombreLogo);
-        lnombreLogo.setForeground(Color.black);
-        panel1.add(lnombrelogo2);
-        lnombrelogo2.setForeground(Color.black);
-        panel1.add(ltiInve);
-        ltiInve.setForeground(Color.black);
-        panel1.add(espacio);
-        espacio.setForeground(Color.black);
-        panel1.add(lbienvp);
-        lbienvp.setForeground(Color.black);
-        panel1.add(rolp);
-        rolp.setForeground(Color.black);
-        panel1.add(nombrep);
-        nombrep.setForeground(Color.black);
-        panel1.add(espacio2);
-        espacio2.setForeground(Color.black);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        contenedor = getContentPane();
         contenedor.setLayout(new BorderLayout());
 
-        contenedor.add(panel1, BorderLayout.NORTH);
+        crearBarraLateral();
+        crearPanelContenido();
 
-        //-----------------------2----------------------//
-        panel2 = new JPanel();
-        panel2.setPreferredSize(new Dimension(235, 1000));
-        panel2.setLayout(new BorderLayout());
-
-        ldescu = new JLabel("Descubrir", SwingConstants.CENTER);
-
-        Icon imagen2 = new ImageIcon("iconscasa24.png");
-        iniciod = new JButton("Inicio", imagen2);
-
-        Icon imagen3 = new ImageIcon("iconsinventario.png");
-        inventario = new JButton("Inventario", imagen3);
-
-        Icon imagen4 = new ImageIcon("iconspréstamo24.png");
-        prestamo = new JButton("Historial de Prestamo", imagen4);
-
-        Icon imagen5 = new ImageIcon("iconsnotificacion24.png");
-        notificacion = new JButton("Notificación", imagen5);
-
-        espacios2 = new JLabel("");
-        espacios3 = new JLabel("");
-        espacios4 = new JLabel("");
-        espacios5 = new JLabel("");
-        espacios6 = new JLabel("");
-        espacios7 = new JLabel("");
-        espacios8 = new JLabel("");
-        cerrarS = new JButton("Cerrar Sesión");
-
-        panel3 = new JPanel();
-
-        //grid3 = new GridLayout(2,1,1,1);
-        panel3.setBackground(Color.decode("#D1D1D6")); //Cambiar el color al menu
-
-        grid2 = new GridLayout(15, 1, 5, 10);
-
-        panel3.setLayout(grid2);
-        panel3.add(ldescu);
-        ldescu.setForeground(Color.black);
-        ldescu.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 13));
-        panel3.add(iniciod);
-        iniciod.setForeground(Color.black);
-        iniciod.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 13));
-        iniciod.setBackground(Color.decode("#D1D1D6")); //ABABDA
-
-        panel3.add(inventario);
-        inventario.setForeground(Color.black);
-        inventario.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 13));
-        inventario.setBackground(Color.decode("#D1D1D6"));
-
-        panel3.add(prestamo);
-        prestamo.setForeground(Color.black);
-        prestamo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 13));
-        prestamo.setBackground(Color.decode("#D1D1D6"));
-
-        panel3.add(notificacion);
-        notificacion.setForeground(Color.black);
-        notificacion.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 13));
-        notificacion.setBackground(Color.decode("#D1D1D6"));
-
-        panel3.add(espacios2);
-        panel3.add(espacios3);
-        panel3.add(espacios4);
-        panel3.add(espacios5);
-        panel3.add(espacios6);
-        panel3.add(espacios7);
-        panel3.add(espacios8);
-        panel3.add(cerrarS);
-        cerrarS.setForeground(Color.white);
-        cerrarS.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 13));
-        cerrarS.setBackground(Color.decode("#F36E67"));
-
-        panel2.add(panel3, BorderLayout.CENTER);
-
-        contenedor.add(panel2, BorderLayout.WEST);
-        //////////////////3/////////////////////////////////
-        ///
-        panel4 = new JPanel();
-        panel4.setPreferredSize(new Dimension(100, 70));
-        //panel4.setLayout(new BorderLayout());
-        //panel4.setLayout(grid3);
-        panel4.setBackground(Color.WHITE);
-        contenedor.add(panel4);
-
+        contenedor.add(barralateral, BorderLayout.WEST);
+        contenedor.add(panelContenido, BorderLayout.CENTER);
     }
 
+    private void crearBarraLateral() {
+        barralateral = new JPanel();
+        barralateral.setPreferredSize(new Dimension(260, getHeight()));
+        barralateral.setBackground(new Color(228, 230, 233));
+        barralateral.setLayout(new BoxLayout(barralateral, BoxLayout.Y_AXIS));
+        barralateral.setBorder(new EmptyBorder(20, 0, 30, 0));
+
+        // Encabezado con logo y nombre del sistema
+        JPanel panelDelEncabezado = new JPanel();
+        panelDelEncabezado.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        panelDelEncabezado.setOpaque(false);
+        panelDelEncabezado.setMaximumSize(new Dimension(260, 90));
+        panelDelEncabezado.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        Image imgSena = new ImageIcon(getClass().getResource("/proyect_loansys/img/sena.png"))
+                .getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+        logo = new JLabel(new ImageIcon(imgSena));
+
+        JPanel panelTextos = new JPanel();
+        panelTextos.setLayout(new BoxLayout(panelTextos, BoxLayout.Y_AXIS));
+        panelTextos.setOpaque(false);
+
+        nombreDelSistema = new JLabel("LoanSys");
+        nombreDelSistema.setFont(nombreDelSistema.getFont().deriveFont(Font.BOLD, 22f));
+
+        JLabel lblSubtitulo1 = new JLabel("Sistema de inventario");
+        lblSubtitulo1.setFont(lblSubtitulo1.getFont().deriveFont(Font.PLAIN, 11f));
+        JLabel lblSubtitulo2 = new JLabel("y préstamo");
+        lblSubtitulo2.setFont(lblSubtitulo2.getFont().deriveFont(Font.PLAIN, 11f));
+
+        panelTextos.add(nombreDelSistema);
+        panelTextos.add(lblSubtitulo1);
+        panelTextos.add(lblSubtitulo2);
+        panelDelEncabezado.add(logo);
+        panelDelEncabezado.add(panelTextos);
+        barralateral.add(panelDelEncabezado);
+        barralateral.add(Box.createVerticalStrut(40));
+
+        // Botones del menú (mismos campos públicos, mismo orden que en la plantilla original)
+        JLabel ldescu = new JLabel("Descubrir",SwingConstants.CENTER);
+        ldescu.setFont(ldescu.getFont().deriveFont(Font.BOLD, 13f));
+        ldescu.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ldescu.setBorder(new EmptyBorder(0, 20, 10, 0));
+        barralateral.add(ldescu);
+
+        //iniciod = crearBotonMenu("Inicio");
+        iniciod = crearBotonMenu("Inicio", "/proyect_loansys/img/iconscasa24.png");
+        inventario = crearBotonMenu("Inventario", "/proyect_loansys/img/iconsinventario.png");
+        prestamo = crearBotonMenu("Historial", "/proyect_loansys/img/iconspréstamo24.png");
+        notificacion = crearBotonMenu("Notificación", "/proyect_loansys/img/iconsnotificacion24.png");
+
+        int espacioBotones = 12;
+        barralateral.add(iniciod);
+        barralateral.add(Box.createVerticalStrut(espacioBotones));
+        barralateral.add(inventario);
+        barralateral.add(Box.createVerticalStrut(espacioBotones));
+        barralateral.add(prestamo);
+        barralateral.add(Box.createVerticalStrut(espacioBotones));
+        barralateral.add(notificacion);
+        barralateral.add(Box.createVerticalGlue(),BorderLayout.CENTER);
+
+        // Botón de cerrar sesión con esquinas redondeadas
+        cerrarS = new JButton("Cerrar sesión") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(241, 107, 97));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        cerrarS.setFont(cerrarS.getFont().deriveFont(Font.BOLD, 13f));
+        cerrarS.setForeground(Color.WHITE);
+        cerrarS.setHorizontalAlignment(SwingConstants.CENTER);
+        cerrarS.setContentAreaFilled(false);
+        cerrarS.setBorderPainted(false);
+        cerrarS.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        Dimension btnSize = new Dimension(220, 42);
+        cerrarS.setPreferredSize(btnSize);
+        cerrarS.setMinimumSize(btnSize);
+        cerrarS.setMaximumSize(btnSize);
+        cerrarS.setAlignmentX(Component.CENTER_ALIGNMENT);
+        barralateral.add(cerrarS);
+    }
+
+    private void crearPanelContenido() {
+        panelContenido = new JPanel(new BorderLayout());
+        panelContenido.setBackground(Color.WHITE);
+
+        JPanel barraDeArriba = new JPanel();
+        barraDeArriba.setBackground(new Color(218, 220, 224));
+        barraDeArriba.setPreferredSize(new Dimension(getWidth(), 80));
+        barraDeArriba.setLayout(new BoxLayout(barraDeArriba, BoxLayout.Y_AXIS));
+        barraDeArriba.setBorder(new EmptyBorder(15, 30, 15, 30));
+
+        // Se conserva el formato de bienvenida con rol y nombre, igual que la plantilla original
+        textoDeBienvenida = new JLabel("¡Bienvenido, [" + rol + "] [" + nombre + "!]");
+        textoDeBienvenida.setFont(textoDeBienvenida.getFont().deriveFont(Font.BOLD, 22f));
+
+        textoDelPanelPrincipal = new JLabel("Panel principal");
+        textoDelPanelPrincipal.setFont(textoDelPanelPrincipal.getFont().deriveFont(Font.PLAIN, 12f));
+        textoDelPanelPrincipal.setForeground(new Color(120, 120, 120));
+
+        barraDeArriba.add(textoDeBienvenida);
+        barraDeArriba.add(Box.createVerticalStrut(5));
+        barraDeArriba.add(textoDelPanelPrincipal);
+        panelContenido.add(barraDeArriba, BorderLayout.NORTH);
+
+        // panel4 se conserva igual: es donde cada vista hija agrega su contenido específico
+        panel4 = new JPanel();
+        panel4.setBackground(Color.WHITE);
+        panelContenido.add(panel4, BorderLayout.CENTER);
+    }
+/*
+    private JButton crearBotonMenu(String texto) {
+        JButton botondelmenu = new JButton(texto);
+        botondelmenu.setFont(botondelmenu.getFont().deriveFont(Font.PLAIN, 14f));
+        botondelmenu.setForeground(Color.BLACK);
+        botondelmenu.setHorizontalAlignment(SwingConstants.LEFT);
+        botondelmenu.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        botondelmenu.setContentAreaFilled(false);
+        botondelmenu.setBorderPainted(false);
+        botondelmenu.setFocusPainted(false);
+        botondelmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        Dimension btnSize = new Dimension(120, 42);
+        botondelmenu.setPreferredSize(btnSize);
+        botondelmenu.setMinimumSize(btnSize);
+        botondelmenu.setMaximumSize(btnSize);
+        botondelmenu.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return botondelmenu;
+    }
+*/
+    private JButton crearBotonMenu(String texto, String rutaIcono) {
+    JButton botondelmenu;
+
+    if (rutaIcono != null) {
+        Image img = new ImageIcon(getClass().getResource(rutaIcono))
+                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+        botondelmenu = new JButton(texto, new ImageIcon(img));
+    } else {
+        botondelmenu = new JButton(texto);
+    }
+
+    botondelmenu.setFont(botondelmenu.getFont().deriveFont(Font.PLAIN, 14f));
+    botondelmenu.setForeground(Color.BLACK);
+    botondelmenu.setHorizontalAlignment(SwingConstants.LEFT);
+    botondelmenu.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+    botondelmenu.setContentAreaFilled(false);
+    botondelmenu.setBorderPainted(false);
+    botondelmenu.setFocusPainted(false);
+    botondelmenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+    Dimension btnSize = new Dimension(220, 42);
+    botondelmenu.setPreferredSize(btnSize);
+    botondelmenu.setMinimumSize(btnSize);
+    botondelmenu.setMaximumSize(btnSize);
+    botondelmenu.setAlignmentX(Component.CENTER_ALIGNMENT);
+    return botondelmenu;
+}
+
+    // Se conservan los mismos métodos públicos que ya usan otras clases
     public Container getContainer() {
         return this.contenedor;
     }
@@ -177,5 +234,4 @@ public abstract class Usuario_Plantilla extends JFrame {
     public JPanel getPanel() {
         return this.panel4;
     }
-
 }

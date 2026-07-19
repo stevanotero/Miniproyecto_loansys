@@ -26,10 +26,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Cursor;
 
-/**
- *
- * @author Alexis
- */
+
 public abstract class Vista_Principal extends JFrame {
 
     //Cosas de la barra lateral
