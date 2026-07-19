@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import proyect_loansys.model.Usuario_Dao;
+import proyect_loansys.model.Usuario_Model;
 import proyect_loansys.view.Usuario_HistorialPrestamo;
 import proyect_loansys.view.Usuario_Inicio;
 import proyect_loansys.view.Usuario_Inventario;
@@ -13,21 +14,55 @@ import proyect_loansys.view.Usuario_SolicitarPrestamo;
 import proyect_loansys.view.Vista_Login;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
-
+/*
+    public Usuario_Model usuarioLogueado = new Usuario_Model();
+    private String nombreUsuario;
+    private String rolUsuario;
+    
     private boolean vali = false;
     Usuario_Dao prus = new Usuario_Dao();
-    Usuario_Inicio inicio = new Usuario_Inicio("Aprendiz", "Aprendiz", "Miguel");
-    Usuario_Inventario inven = new Usuario_Inventario("Aprendiz", "Aprendiz", "Miguel");
-    Usuario_HistorialPrestamo pres = new Usuario_HistorialPrestamo("Aprendiz", "Aprendiz", "Miguel");
-    Usuario_Notificacion noti = new Usuario_Notificacion("Aprendiz", "Aprendiz", "Miguel");
-    Usuario_SolicitarPrestamo soli = new Usuario_SolicitarPrestamo("Aprendiz", "Aprendiz", "Miguel");
+    Usuario_Inicio inicio = new Usuario_Inicio(rolUsuario, rolUsuario, nombreUsuario);
+    Usuario_Inventario inven = new Usuario_Inventario(rolUsuario, rolUsuario, nombreUsuario);
+    Usuario_HistorialPrestamo pres = new Usuario_HistorialPrestamo(rolUsuario, rolUsuario, nombreUsuario);
+    Usuario_Notificacion noti = new Usuario_Notificacion("Aprendiz", rolUsuario, nombreUsuario);
+    Usuario_SolicitarPrestamo soli = new Usuario_SolicitarPrestamo("Aprendiz", "Aprendiz", nombreUsuario);
     Vista_Login sesion = new Vista_Login();
+    
 
     //comtroladores
     Usuario_ControladorDatos controladorDatos;
 
     public Usuario_ControladorNavedagor(Usuario_Inicio inicio) {
+*/
+    private boolean vali = false;
+    private String nombreUsuario;
+    private String rolUsuario;
+
+    Usuario_Dao prus = new Usuario_Dao();
+
+    // Declara los campos SIN inicializarlos aquí
+    Usuario_Inicio inicio;
+    Usuario_Inventario inven;
+    Usuario_HistorialPrestamo pres;
+    Usuario_Notificacion noti;
+    Usuario_SolicitarPrestamo soli;
+    Vista_Login sesion = new Vista_Login(); // esta sí puede quedar aquí porque no depende de nombreUsuario/rolUsuario
+
+    Usuario_ControladorDatos controladorDatos;
+
+    public Usuario_ControladorNavedagor(Usuario_Inicio inicio, String nombreUsuario, String rolUsuario) {
+        // 1º: asigno los campos
         this.inicio = inicio;
+        this.nombreUsuario = nombreUsuario;
+        this.rolUsuario = rolUsuario;
+
+        // 2º: AHORA sí creo las demás vistas, ya con los valores reales
+        this.inven = new Usuario_Inventario(rolUsuario, rolUsuario, nombreUsuario);
+        this.pres = new Usuario_HistorialPrestamo(rolUsuario, rolUsuario, nombreUsuario);
+        this.noti = new Usuario_Notificacion(rolUsuario, rolUsuario, nombreUsuario);
+        this.soli = new Usuario_SolicitarPrestamo(rolUsuario, rolUsuario, nombreUsuario);
+
+        //this.inicio = inicio;
         this.inicio.inventario.addActionListener(this);
         this.inicio.prestamo.addActionListener(this);
         this.inicio.notificacion.addActionListener(this);

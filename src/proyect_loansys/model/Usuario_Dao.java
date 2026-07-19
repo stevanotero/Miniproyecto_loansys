@@ -143,31 +143,40 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         return e; // ← retorna el objeto
     }
 
-    public Usuario_Model login(int documento, String contraseña) {
-        String sql = "SELECT u.id_usuario, u.nombre, u.apellido, r.nombre_rol "
-                + "FROM login_de_usuarios l "
-                + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
-                + "INNER JOIN roles r ON u.id_rol = r.id_rol "
-                + "WHERE l.correo = ? AND l.contraseña = ?";
-        try {
-            con = conectar.getConection();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, documento);
-            ps.setString(2, contraseña);
+    public Usuario_Model validarLogin2(int documento, String contraseña) {
+    String sql = "SELECT u.id_usuario, u.nombre, u.id_rol, r.nombre_rol "
+            + "FROM login_de_usuarios l "
+            + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
+            + "INNER JOIN roles r ON u.id_rol = r.id_rol "
+            + "WHERE u.documento = ? AND l.contraseña = ?";
+    try {
+        con = conectar.getConection();
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, documento);
+        ps.setString(2, contraseña);
+        rs = ps.executeQuery();
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Usuario_Model u = new Usuario_Model();
-                    u.setId_usuario(rs.getInt("id_usuario"));
-                    u.setNombre(rs.getString("nombre"));
-                    u.setNombre_rol(rs.getString("nombre_rol"));
-                    return u;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (rs.next()) {
+            Usuario_Model u = new Usuario_Model();
+            u.setId_usuario(rs.getInt("id_usuario"));
+            u.setNombre(rs.getString("nombre"));
+            u.setId_rol(rs.getInt("id_rol"));
+            u.setNombre_rol(rs.getString("nombre_rol"));
+            return u; // login correcto, con todos los datos
         }
-        return null; // login fallido
+        return null; // contraseña incorrecta o no existe
+
+    } catch (Exception e) {
+        System.out.println("Error en validarLogin: " + e.getMessage());
+        return null;
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+        } catch (Exception e) {
+        }
     }
+}
 
 }
