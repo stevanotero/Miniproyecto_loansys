@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -59,137 +61,99 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel4 = super.getPanel();
 
         panel5 = new JPanel();
-
         panel5.setPreferredSize(new Dimension(1100, 600));
-        grid = new GridLayout(3, 1, 3, 3);
         panel5.setBackground(Color.WHITE);
-        panel5.setLayout(grid);
+        panel5.setLayout(new BorderLayout(10, 10));
 
-        //////////////////////////////////////////////////////////
-        
-        panel6 = new JPanel();
+        // ========== PANEL SUPERIOR - FILTROS (panel6) ==========
+        panel6 = new JPanel(new BorderLayout());
+        panel6.setPreferredSize(new Dimension(1100, 80));
+        panel6.setBackground(Color.WHITE);
+        panel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        grid2 = new GridLayout(1, 2, 4, 4);
-        panel6.setLayout(grid2);
-
-        panel6.setBackground(Color.white);
-
-        /////////////////////////////////////
-        
-        panel7 = new JPanel();
-        grid4 = new GridLayout(1, 4, 4, 4);
-        panel7.setLayout(grid4);
-        panel7.setBackground(Color.WHITE);
-
-        //////////////////////////////////////////////////
-        panel8 = new JPanel();
-        panel8.setBackground(Color.white);
-        panel8.setLayout(null);
-
-        /////////////////////////////////////////
-        
-        //Panel del primer grid Del panel 1
-        panel9 = new JPanel();
-
-        panel9.setBackground(Color.white);
-        /////////////////////////////////////
-        // Panel de Primer grid Del panel 1
-        panel010 = new JPanel();
-        panel010.setBackground(Color.white);
-        //////////////////////////
-        
-        panel011 = new JPanel();
-        panel011.setPreferredSize(new Dimension(550, 20));
-        grid3 = new GridLayout(1, 4, 7, 2);
-        panel011.setLayout(grid3);
+        // Panel izquierdo del filtro (panel9)
+        panel9 = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 5));
+        panel9.setBackground(Color.WHITE);
 
         fEstado = new JLabel("Filtro de estado");
+        fEstado.setFont(fEstado.getFont().deriveFont(Font.BOLD, 12f));
         listaEstado = new JComboBox(lista);
-        codigo = new JLabel("busqueda por nombre");
-        lcodigo = new JTextField("");
-        panel011.add(fEstado);
-        panel011.add(listaEstado);
-        panel011.add(codigo);
-        panel011.add(lcodigo);
-        panel011.setBackground(Color.white);
 
-        //////////////////////////////////////
-        panel012 = new JPanel();
-        panel012.setPreferredSize(new Dimension(500, 20));
-        panel012.setLayout(new BorderLayout());
+        panel9.add(fEstado);
+        panel9.add(listaEstado);
+
+        // Panel derecho del filtro (panel010)
+        panel010 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 5));
+        panel010.setBackground(Color.WHITE);
+
+        codigo = new JLabel("busqueda por nombre");
+        codigo.setFont(codigo.getFont().deriveFont(Font.BOLD, 12f));
+        lcodigo = new JTextField(15);
 
         Image imabusqude = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgIconBuscar.png")).getImage();
         Icon imagen1 = new ImageIcon(imabusqude);
         buscador = crearBoton("Buscar...", imagen1, new Color(228, 230, 233), Color.black);
 
-        //Icon imagen1 = new ImageIcon("iconscasa24.png");
-        //buscador = new JButton("Buscar...", imagen1);
-        panel012.add((buscador), BorderLayout.EAST);
-        panel012.setBackground(Color.white);
-        ///////////////////////////////////
-        panel013 = new JPanel();
+        panel010.add(codigo);
+        panel010.add(lcodigo);
+        panel010.add(buscador);
 
+        panel6.add(panel9, BorderLayout.WEST);
+        panel6.add(panel010, BorderLayout.EAST);
+
+        // ========== PANEL CENTRAL - CATEGORÍAS (panel7) ==========
+        panel7 = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 15));
+        panel7.setPreferredSize(new Dimension(1100, 180));
+        panel7.setBackground(Color.WHITE);
+
+        // Categoría: Computadores (panel013)
+        panel013 = new JPanel(new BorderLayout());
+        panel013.setPreferredSize(new Dimension(200, 160));
         panel013.setBackground(Color.WHITE);
-        //////////////////////////////////
-        panel014 = new JPanel();
+        panel013.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 
-        panel014.setBackground(Color.WHITE);
-        ///////////////////////////////////
-        panel015 = new JPanel();
-
-        panel015.setBackground(Color.WHITE);
-        ///////////////////////////////////
-        panel016 = new JPanel();
-
-        panel016.setBackground(Color.WHITE);
-        ///////////////////////////////////
-        panel017 = new JPanel();
+        panel017 = new JPanel(new BorderLayout());
         panel017.setPreferredSize(new Dimension(200, 180));
-        panel017.setLayout(new BorderLayout());
         panel017.setBackground(Color.WHITE);
 
         panel021 = new JPanel();
         panel021.setPreferredSize(new Dimension(20, 40));
         panel021.setLayout(new BorderLayout());
         text1 = new JLabel("Computadores", SwingConstants.CENTER);
-
         panel021.setBackground(Color.red);
         panel021.add(text1);
         text1.setForeground(Color.BLACK);
-
         panel017.add(panel021, BorderLayout.NORTH);
 
         panel022 = new JPanel();
         panel022.setPreferredSize(new Dimension(100, 80));
         panel022.setLayout(new BorderLayout());
-
         Image imgCom = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgIconoCompu.png")).getImage();
         Icon imagen7 = new ImageIcon(imgCom);
         computadores = crearBoton("", imagen7, new Color(255, 255, 255), Color.white);
-
-        //Icon image1 = new ImageIcon("iconscasa24.png");
-        //computadores = new JButton("", image1);
-        //computadores.setIcon(imagen1);
         computadores.setHorizontalTextPosition(SwingConstants.CENTER);
         panel022.add(computadores);
         panel017.add(panel022, BorderLayout.CENTER);
 
-        ///////////////////////////////////////////////////
-        panel018 = new JPanel();
-        panel018.setLayout(new BorderLayout());
+        panel013.add(panel017, BorderLayout.CENTER);
+
+        // Categoría: Periféricos (panel014)
+        panel014 = new JPanel(new BorderLayout());
+        panel014.setPreferredSize(new Dimension(200, 160));
+        panel014.setBackground(Color.WHITE);
+        panel014.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+
+        panel018 = new JPanel(new BorderLayout());
         panel018.setPreferredSize(new Dimension(200, 180));
-        panel018.setLayout(new BorderLayout());
         panel018.setBackground(Color.WHITE);
 
         panel023 = new JPanel();
         panel023.setPreferredSize(new Dimension(20, 40));
         panel023.setLayout(new BorderLayout());
         text2 = new JLabel("Perifericos", SwingConstants.CENTER);
-
         panel023.setBackground(Color.blue);
         panel023.add(text2);
         text2.setForeground(Color.BLACK);
-
         panel018.add(panel023, BorderLayout.NORTH);
 
         panel024 = new JPanel();
@@ -198,29 +162,29 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         Image imgPeri = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgIcoMa.png")).getImage();
         Icon imagen8 = new ImageIcon(imgPeri);
         perifericos = crearBoton("", imagen8, new Color(255, 255, 255), Color.white);
-        //Icon image2 = new ImageIcon("iconscasa24.png");
-        //perifericos = new JButton("", image2);
-        //perifericos.setIcon(imagen1);
-
         perifericos.setHorizontalTextPosition(SwingConstants.CENTER);
         panel024.add(perifericos);
         panel018.add(panel024, BorderLayout.CENTER);
 
-        ///////////////////////////////////////
-        panel019 = new JPanel();
+        panel014.add(panel018, BorderLayout.CENTER);
+
+        // Categoría: Herramientas (panel015)
+        panel015 = new JPanel(new BorderLayout());
+        panel015.setPreferredSize(new Dimension(200, 160));
+        panel015.setBackground(Color.WHITE);
+        panel015.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+
+        panel019 = new JPanel(new BorderLayout());
         panel019.setPreferredSize(new Dimension(200, 180));
-        panel019.setLayout(new BorderLayout());
         panel019.setBackground(Color.WHITE);
 
         panel025 = new JPanel();
         panel025.setPreferredSize(new Dimension(20, 40));
         panel025.setLayout(new BorderLayout());
         text3 = new JLabel("Herramientas", SwingConstants.CENTER);
-
         panel025.setBackground(Color.YELLOW);
         panel025.add(text3);
         text3.setForeground(Color.BLACK);
-
         panel019.add(panel025, BorderLayout.NORTH);
 
         panel026 = new JPanel();
@@ -229,34 +193,29 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         Image imgHerra = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgHerramienta.png")).getImage();
         Icon imagen9 = new ImageIcon(imgHerra);
         herramientas = crearBoton("", imagen9, new Color(255, 255, 255), Color.white);
-        //Icon image3 = new ImageIcon("iconscasa24.png");
-        //herramientas = new JButton("", image3);
-        //herramientas.setIcon(imagen1);
         herramientas.setHorizontalTextPosition(SwingConstants.CENTER);
         panel026.add(herramientas);
         panel019.add(panel026, BorderLayout.CENTER);
 
-        //////////////////////////////////////////////////////////////
-        panel020 = new JPanel();
-        panel020.setPreferredSize(new Dimension(200, 180));
-        //maquinas;
-        panel020.setLayout(new BorderLayout());
-        panel020.setBackground(Color.WHITE);
+        panel015.add(panel019, BorderLayout.CENTER);
 
-        panel020 = new JPanel();
+        // Categoría: Máquinas (panel016)
+        panel016 = new JPanel(new BorderLayout());
+        panel016.setPreferredSize(new Dimension(200, 160));
+        panel016.setBackground(Color.WHITE);
+        panel016.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+
+        panel020 = new JPanel(new BorderLayout());
         panel020.setPreferredSize(new Dimension(200, 180));
-        panel020.setLayout(new BorderLayout());
         panel020.setBackground(Color.WHITE);
 
         panel027 = new JPanel();
         panel027.setPreferredSize(new Dimension(20, 40));
         panel027.setLayout(new BorderLayout());
         text4 = new JLabel("Maquinas", SwingConstants.CENTER);
-
         panel027.setBackground(Color.GREEN);
         panel027.add(text4);
         text4.setForeground(Color.BLACK);
-
         panel020.add(panel027, BorderLayout.NORTH);
 
         panel028 = new JPanel();
@@ -265,36 +224,30 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         Image imgMaqui = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgIcoProye.png")).getImage();
         Icon imagen10 = new ImageIcon(imgMaqui);
         maquinas = crearBoton("", imagen10, new Color(255, 255, 255), Color.white);
-        //Icon image4 = new ImageIcon("iconscasa24.png");
-        //maquinas = new JButton("", image4);
-        //maquinas.setIcon(imagen1);
         maquinas.setHorizontalTextPosition(SwingConstants.CENTER);
         panel028.add(maquinas);
         panel020.add(panel028, BorderLayout.CENTER);
-        ////////////////////////////////////////////////////
-        
-        //panel8    
-        
-        //Scroll de del panel8
-        miscroll = new JScrollPane();
-        miscroll.setBounds(10, 10, 1080, 180);
 
-        panel029 = new JPanel();
-        panel029.setPreferredSize(new Dimension(1080, 600));
+        panel016.add(panel020, BorderLayout.CENTER);
 
-        panel029.setBackground(Color.white);
-        miscroll.setViewportView(panel029);
+        // Agregar categorías al panel7
+        panel7.add(panel013);
+        panel7.add(panel014);
+        panel7.add(panel015);
+        panel7.add(panel016);
 
+        // ========== PANEL INFERIOR - ELEMENTOS (panel8) ==========
+        panel8 = new JPanel(new BorderLayout());
+        panel8.setPreferredSize(new Dimension(1100, 280));
+        panel8.setBackground(Color.WHITE);
+
+        // Panel con GridLayout para los botones
+        panel029 = new JPanel(new GridLayout(4, 4, 5, 5));
         panel029.setBackground(Color.WHITE);
+        panel029.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        panel8.add(miscroll);
-
-        /////////////////////////////////////////////////////
-        
-        
-        
+        // Crear paneles con botones de prueba
         panel030 = new JPanel();
-
         panel030.setPreferredSize(new Dimension(200, 200));
         estado = new JLabel("");
         Image imgTaladro = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgTaladrosena.png")).getImage();
@@ -307,7 +260,6 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel030.setBackground(new Color(228, 230, 233));
 
         panel031 = new JPanel();
-
         panel031.setPreferredSize(new Dimension(200, 200));
         estado1 = new JLabel("");
         Image imgMul = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgMultimetro.png")).getImage();
@@ -463,6 +415,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel043.setBackground(new Color(228, 230, 233));
         panel043.add(prueba13);
 
+        // Agregar todos los botones al panel029
         panel029.add(panel043);
         panel029.add(panel042);
         panel029.add(panel041);
@@ -478,42 +431,20 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel029.add(panel031);
         panel029.add(panel030);
 
-        panel6.add(panel9);
-        panel9.add(panel011);
+        // Scroll pane para los elementos
+        miscroll = new JScrollPane(panel029);
+        miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        miscroll.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-        ////////////////////////
-        panel6.add(panel010);
+        panel8.add(miscroll, BorderLayout.CENTER);
 
-        panel010.add(panel012);
-        //////////////////////////////////////
-        panel5.add(panel6);
-        /////////////////////
-        /////////////////////
-        
-        panel013.add(panel017);
+        // ========== AGREGAR PANELES PRINCIPALES ==========
+        panel5.add(panel6, BorderLayout.NORTH);
+        panel5.add(panel7, BorderLayout.CENTER);
+        panel5.add(panel8, BorderLayout.SOUTH);
 
-        panel7.add(panel013);
-
-        //////////////////////////
-        panel014.add(panel018);
-        panel7.add(panel014);
-
-        /////////////////////////
-        panel015.add(panel019);
-        panel7.add(panel015);
-
-        ///////////////////////////
-        panel016.add(panel020);
-        panel7.add(panel016);
-
-        ////////////////////////////
-        panel5.add(panel7);
-
-        /////////////////////////
-        
-        panel5.add(panel8);
         panel4.add(panel5);
-
     }
 
     private JButton crearBoton(String texto, Icon icono, Color fondo, Color textoColor) {
@@ -536,7 +467,4 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return boton;
     }
-
-   
-
 }

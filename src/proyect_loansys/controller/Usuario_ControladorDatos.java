@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.model.Usuario_Dao;
 import proyect_loansys.model.Usuario_Elemento;
 import proyect_loansys.model.Usuario_Historial;
@@ -70,9 +71,11 @@ public class Usuario_ControladorDatos implements ActionListener {
     }
 
     public void limpiarTabla() {
-        for (int i = 0; i < soliprestamo1.tabla.getRowCount(); i++) {
-            modelo.removeRow(i);
-            i = i - 1;
+        DefaultTableModel model = (DefaultTableModel) soliprestamo1.tabla.getModel();
+        if (model.getRowCount() > 0) {  // Solo eliminar si hay filas
+            for (int i = model.getRowCount() - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
         }
     }
 
@@ -470,18 +473,31 @@ public class Usuario_ControladorDatos implements ActionListener {
     }
 
     public void mostrarH(JTable tabla) {
-        modelo = (DefaultTableModel) tabla.getModel();
-        List<Usuario_Historial> lista = elementoDao.listarh();
-        Object[] object = new Object[6];
-        for (int indice = 0; indice < lista.size(); indice++) {
-            object[0] = lista.get(indice).getId_elemento();
-            object[1] = lista.get(indice).getNombre_elemento();
-            object[2] = lista.get(indice).getFecha_prestamo();
-            object[3] = lista.get(indice).getFecha_limite();
-            object[4] = lista.get(indice).getNombre_estado_entrega();
-            object[5] = lista.get(indice).getNombre_categoria();
-            modelo.addRow(object);
+        // Limpiar la tabla antes de cargar nuevos datos
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        if (modelo.getRowCount() > 0) {
+            modelo.setRowCount(0);
         }
-        tabla.setModel(modelo); // <-- usa el parámetro que ya recibiste, no 'histori'
+
+        // Obtener el ID del usuario actual
+        int idUsuario = Administrador_Sesion.getIdUsuario();
+
+        // Obtener el historial solo del usuario actual
+        List<Usuario_Historial> lista = elementoDao.listarHistorialPorUsuario(idUsuario);
+
+        if (lista != null && !lista.isEmpty()) {
+            for (Usuario_Historial h : lista) {
+                modelo.addRow(new Object[]{
+                    h.getCodigo_elemento(),
+                    h.getNombre_elemento(),
+                    h.getNombre_categoria(),
+                    h.getFecha_prestamo(),
+                    h.getFecha_limite(),
+                    h.getNombre_estado_entrega()
+                });
+            }
+        }
+
+        tabla.setModel(modelo);
     }
 }

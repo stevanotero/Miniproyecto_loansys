@@ -36,7 +36,7 @@ public abstract class Usuario_Plantilla extends JFrame {
     private JPanel panel4; // se conserva el nombre para no romper getPanel()
     private JLabel logo;
     private JLabel nombreDelSistema;
-    private JLabel textoDeBienvenida;
+    public JLabel textoDeBienvenida;
     private JLabel textoDelPanelPrincipal;
 
     private String rol;
@@ -161,7 +161,7 @@ public abstract class Usuario_Plantilla extends JFrame {
         barraDeArriba.setBorder(new EmptyBorder(15, 30, 15, 30));
 
         // Se conserva el formato de bienvenida con rol y nombre, igual que la plantilla original
-        textoDeBienvenida = new JLabel("¡Bienvenido, [" + rol + "] [" + nombre + "!]");
+        textoDeBienvenida = new JLabel("" + rol + " " + nombre + "");
         textoDeBienvenida.setFont(textoDeBienvenida.getFont().deriveFont(Font.BOLD, 22f));
 
         textoDelPanelPrincipal = new JLabel("Panel principal");

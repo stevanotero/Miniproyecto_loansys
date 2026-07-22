@@ -11,6 +11,15 @@ public class Usuario_Historial {
     private int id_historial_prestamo;
     private int id_usuario;
     private int id_elemento;
+    private String codigo_elemento;
+
+    public String getCodigo_elemento() {
+        return codigo_elemento;
+    }
+
+    public void setCodigo_elemento(String codigo_elemento) {
+        this.codigo_elemento = codigo_elemento;
+    }
     private String nombre_elemento;
     private Timestamp fecha_prestamo;
     private Timestamp fecha_limite;
@@ -106,8 +115,10 @@ public class Usuario_Historial {
 
     @Override
     public String toString() {
-        return "Usuario_Historial{" + "id_historial_prestamo=" + id_historial_prestamo + ", id_usuario=" + id_usuario + ", id_elemento=" + id_elemento + ", nombre_elemento=" + nombre_elemento + ", fecha_prestamo=" + fecha_prestamo + ", fecha_limite=" + fecha_limite + ", id_estado_entrega=" + id_estado_entrega + ", nombre_estado_entrega=" + nombre_estado_entrega + ", id_categoria=" + id_categoria + ", nombre_categoria=" + nombre_categoria + '}';
+        return "Usuario_Historial{" + "id_historial_prestamo=" + id_historial_prestamo + ", id_usuario=" + id_usuario + ", id_elemento=" + id_elemento + ", codigo_elemento=" + codigo_elemento + ", nombre_elemento=" + nombre_elemento + ", fecha_prestamo=" + fecha_prestamo + ", fecha_limite=" + fecha_limite + ", id_estado_entrega=" + id_estado_entrega + ", nombre_estado_entrega=" + nombre_estado_entrega + ", id_categoria=" + id_categoria + ", nombre_categoria=" + nombre_categoria + '}';
     }
+
+    
 
     
     

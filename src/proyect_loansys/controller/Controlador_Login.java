@@ -123,13 +123,13 @@ public class Controlador_Login implements ActionListener {
                 // Se evalua el rol y lo lleva a una vista en especifico
                 switch (idRol) {
                     case 1: // aprendiz
-                        Usuario_Inicio aprendiz = new Usuario_Inicio(rolUsuario, rolUsuario, nombreUsuario);
+                        Usuario_Inicio aprendiz = new Usuario_Inicio( rolUsuario, rolUsuario, nombreUsuario);
                         Usuario_ControladorNavedagor aprendizC = new Usuario_ControladorNavedagor(aprendiz, nombreUsuario, rolUsuario);
                         aprendiz.setVisible(true);
                         break;
 
                     case 2: // instructor
-                        Usuario_Inicio instructor = new Usuario_Inicio(rolUsuario, rolUsuario, nombreUsuario);
+                        Usuario_Inicio instructor = new Usuario_Inicio( rolUsuario, rolUsuario, nombreUsuario);
                         Usuario_ControladorNavedagor instructorC = new Usuario_ControladorNavedagor(instructor, nombreUsuario, rolUsuario);
                         instructor.setVisible(true);
                         break;

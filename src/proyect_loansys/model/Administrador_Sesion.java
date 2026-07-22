@@ -13,6 +13,24 @@ package proyect_loansys.model;
 public class Administrador_Sesion {
 
     private static int idUsuario;
+    private static String nombreUsuario;
+    private static String rolUsuario;
+
+    public static String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public static void setNombreUsuario(String nombreUsuario) {
+        Administrador_Sesion.nombreUsuario = nombreUsuario;
+    }
+
+    public static String getRolUsuario() {
+        return rolUsuario;
+    }
+
+    public static void setRolUsuario(String rolUsuario) {
+        Administrador_Sesion.rolUsuario = rolUsuario;
+    }
 
     public static int getIdUsuario() {
         return idUsuario;

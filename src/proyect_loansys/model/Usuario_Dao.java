@@ -66,9 +66,6 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         return lista;
     }
 
-    
-
-    
     @Override
     public int setAgregar(Usuario_Solicitud sr) {
         int r;
@@ -310,13 +307,14 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         }
         return lista;
     }
-    
-    public List<Usuario_Historial> listarh() {
+
+    public List<Usuario_Historial> listarHistorialPorUsuario(int idUsuario) {
     List<Usuario_Historial> lista = new ArrayList<>();
     String sql = "SELECT "
             + "  h.id_historial_prestamo, "
             + "  h.id_usuario, "
             + "  h.id_elemento, "
+            + "  e.codigo_elemento, "        // ← AGREGAR CÓDIGO DEL ELEMENTO
             + "  e.nombre_elemento, "
             + "  h.fecha_prestamo, "
             + "  h.fecha_limite, "
@@ -328,34 +326,36 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             + "INNER JOIN elemento e ON h.id_elemento = e.id_elemento "
             + "INNER JOIN estado_entrega ee ON h.id_estado_entrega = ee.id_estado_entrega "
             + "INNER JOIN categoria_elemento c ON h.id_categoria = c.id_categoria "
+            + "WHERE h.id_usuario = ? "
             + "ORDER BY h.fecha_prestamo DESC";
 
-    try (Connection con = conectar.getConection();
-         PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+    try (Connection con = conectar.getConection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        while (rs.next()) {
-            Usuario_Historial h = new Usuario_Historial();
-            h.setId_historial_prestamo(rs.getInt("id_historial_prestamo"));
-            h.setId_usuario(rs.getInt("id_usuario"));
-            h.setId_elemento(rs.getInt("id_elemento"));
-            h.setNombre_elemento(rs.getString("nombre_elemento"));
-            h.setFecha_prestamo(rs.getTimestamp("fecha_prestamo"));
-            h.setFecha_limite(rs.getTimestamp("fecha_limite"));
-            h.setId_estado_entrega(rs.getInt("id_estado_entrega"));
-            h.setNombre_estado_entrega(rs.getString("nombre_estado_entrega"));
-            h.setId_categoria(rs.getInt("id_categoria"));
-            h.setNombre_categoria(rs.getString("nombre_categoria"));
-            lista.add(h);
+        ps.setInt(1, idUsuario);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Usuario_Historial h = new Usuario_Historial();
+                h.setId_historial_prestamo(rs.getInt("id_historial_prestamo"));
+                h.setId_usuario(rs.getInt("id_usuario"));
+                h.setId_elemento(rs.getInt("id_elemento"));
+                h.setCodigo_elemento(rs.getString("codigo_elemento"));  // ← ASIGNAR CÓDIGO
+                h.setNombre_elemento(rs.getString("nombre_elemento"));
+                h.setFecha_prestamo(rs.getTimestamp("fecha_prestamo"));
+                h.setFecha_limite(rs.getTimestamp("fecha_limite"));
+                h.setId_estado_entrega(rs.getInt("id_estado_entrega"));
+                h.setNombre_estado_entrega(rs.getString("nombre_estado_entrega"));
+                h.setId_categoria(rs.getInt("id_categoria"));
+                h.setNombre_categoria(rs.getString("nombre_categoria"));
+                lista.add(h);
+            }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.toString(), "Error al listar historial", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error al listar historial: " + e.toString(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();  // ← Agregar para ver el error completo
     }
     return lista;
 }
-
-    
-
-    
 
 }

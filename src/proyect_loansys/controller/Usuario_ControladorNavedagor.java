@@ -17,6 +17,8 @@ import proyect_loansys.view.Usuario_Notificacion;
 import proyect_loansys.view.Usuario_SolicitarPrestamo;
 import proyect_loansys.view.Vista_Login;
 import java.sql.Timestamp;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.PersonaDao_Login;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
@@ -51,10 +53,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.rolUsuario = rolUsuario;
 
         // 2º: AHORA sí creo las demás vistas, ya con los valores reales
-        this.inven = new Usuario_Inventario(rolUsuario, rolUsuario, nombreUsuario);
-        this.pres = new Usuario_HistorialPrestamo(rolUsuario, rolUsuario, nombreUsuario);
-        this.noti = new Usuario_Notificacion(rolUsuario, rolUsuario, nombreUsuario);
-        this.soli = new Usuario_SolicitarPrestamo(rolUsuario, rolUsuario, nombreUsuario);
+        this.inven = new Usuario_Inventario(rolUsuario, "", "");
+        this.pres = new Usuario_HistorialPrestamo(rolUsuario, "", "");
+        this.noti = new Usuario_Notificacion(rolUsuario, "", "");
+        this.soli = new Usuario_SolicitarPrestamo(rolUsuario, "", "");
 
         //this.inicio = inicio;
         this.inicio.inventario.addActionListener(this);
@@ -133,6 +135,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarHistorial(pres);
             controladorDatos.mostrarH(pres.tabla);
             inicio.dispose();
+            /*
+            if(pres.textoDeBienvenida == null){
+            }
+             */
         }
         if (e.getSource() == inicio.notificacion) {
             CargarNotificacion(noti);
@@ -292,10 +298,12 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
         ////////////////////////////////////////////
         if (e.getSource() == pres.iniciod) {
+            limpiarHistorial(pres.tabla);
             CargarInicio(inicio);
             pres.dispose();
         }
         if (e.getSource() == pres.inventario) {
+            limpiarHistorial(pres.tabla);
             CargarInventario(inven);
             controladorDatos.mostrarEstado(inven.estado);
             controladorDatos.mostrarEstado1(inven.estado1);
@@ -314,10 +322,12 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             pres.dispose();
         }
         if (e.getSource() == pres.notificacion) {
+            limpiarHistorial(pres.tabla);
             CargarNotificacion(noti);
             pres.dispose();
         }
         if (e.getSource() == pres.cerrarS) {
+            limpiarHistorial(pres.tabla);
             CargarInicioS(sesion);
             pres.dispose();
         }
@@ -395,6 +405,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == soli.solicitar) {
             setAdd(); // toda la validación ya vive adentro (estado + duplicado + carga real de datos)
+
         }
 
         if (e.getSource() == soli.cerrarS) {
@@ -452,9 +463,26 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             return;
         }
 
-        if (idElementoSeleccionado == 0) {
-            JOptionPane.showMessageDialog(soli, "No se ha seleccionado ningún elemento", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        // Validar estado del elemento — cortar la ejecución si no está disponible
+        String estado = soli.texto1.getText();
+        switch (estado) {
+            case "Disponible":
+                break; // sigue con el flujo normal
+            case "Prestado":
+                JOptionPane.showMessageDialog(soli, "Elemento no disponible por préstamo", "Prestado", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            case "En Mantenimiento":
+                JOptionPane.showMessageDialog(soli, "Elemento no disponible por mantenimiento", "Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            case "Dañado":
+                JOptionPane.showMessageDialog(soli, "Elemento no disponible por estado dañado", "Daño", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            case "Dado de Baja":
+                JOptionPane.showMessageDialog(soli, "Elemento no se encuentra disponible en el almacén", "Robo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            default:
+                JOptionPane.showMessageDialog(soli, "Estado del elemento desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
         }
 
         // Validar que no exista ya una solicitud de este usuario para este elemento
@@ -476,6 +504,13 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void limpiarHistorial(JTable tabla) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        if (modelo.getRowCount() > 0) {
+            modelo.setRowCount(0);
         }
     }
 
