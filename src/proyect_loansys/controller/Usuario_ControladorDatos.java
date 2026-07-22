@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -79,14 +80,6 @@ public class Usuario_ControladorDatos implements ActionListener {
         }
     }
 
-    /*
-    public void mostrarimg1() {
-        Image imgTaladro = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgTaladrosena.png")).getImage();
-        Image escalada = imgTaladro.getScaledInstance(180, 130, Image.SCALE_SMOOTH);
-        soliprestamo1.texto2.setIcon(new ImageIcon(escalada));
-        soliprestamo1.texto2.setText(null); // por si quedó texto viejo
-    }
-     */
     public void mostrarImagen(String nombreArchivo) {
         ImageIcon icono = new ImageIcon(getClass().getResource("/proyect_loansys/img/" + nombreArchivo));
         soliprestamo1.texto2.setIcon(icono);

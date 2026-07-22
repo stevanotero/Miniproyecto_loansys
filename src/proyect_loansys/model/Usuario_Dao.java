@@ -242,120 +242,82 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         }
     }
 
-    public List<Usuario_Elemento> buscarConFiltros(String estadoNombre, String codigoTexto, String categoriaNombre) {
-        List<Usuario_Elemento> lista = new ArrayList<>();
+    public List<Usuario_Historial> listarHistorialPorUsuario(int idUsuario) {
+        List<Usuario_Historial> lista = new ArrayList<>();
+        String sql = "SELECT "
+                + "  h.id_historial_prestamo, "
+                + "  h.id_usuario, "
+                + "  h.id_elemento, "
+                + "  e.codigo_elemento, " // ← AGREGAR CÓDIGO DEL ELEMENTO
+                + "  e.nombre_elemento, "
+                + "  h.fecha_prestamo, "
+                + "  h.fecha_limite, "
+                + "  h.id_estado_entrega, "
+                + "  ee.nombre_estado_entrega, "
+                + "  h.id_categoria, "
+                + "  c.nombre_categoria "
+                + "FROM historial_prestamo h "
+                + "INNER JOIN elemento e ON h.id_elemento = e.id_elemento "
+                + "INNER JOIN estado_entrega ee ON h.id_estado_entrega = ee.id_estado_entrega "
+                + "INNER JOIN categoria_elemento c ON h.id_categoria = c.id_categoria "
+                + "WHERE h.id_usuario = ? "
+                + "ORDER BY h.fecha_prestamo DESC";
 
-        StringBuilder sql = new StringBuilder("""
-            SELECT e.id_elemento,
-                   e.codigo_elemento,
-                   e.nombre_elemento,
-                   c.id_categoria,
-                   c.nombre_categoria,
-                   e.descripcion,
-                   e.imagenes,
-                   e.id_estado_elemento,
-                   ee.nombre_estado_elemento
-            FROM elemento e
-            INNER JOIN categoria_elemento c ON e.id_categoria = c.id_categoria
-            INNER JOIN estado_elemento ee ON e.id_estado_elemento = ee.id_estado_elemento
-            WHERE 1 = 1
-            """);
+        try (Connection con = conectar.getConection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        if (estadoNombre != null && !estadoNombre.isBlank()) {
-            sql.append(" AND ee.nombre_estado_elemento = ? ");
-        }
-        if (codigoTexto != null && !codigoTexto.isBlank()) {
-            sql.append(" AND e.codigo_elemento LIKE ? ");
-        }
-        if (categoriaNombre != null && !categoriaNombre.isBlank()) {
-            sql.append(" AND c.nombre_categoria = ? ");
-        }
-        sql.append(" ORDER BY e.codigo_elemento");
+            ps.setInt(1, idUsuario);
 
-        try {
-            con = conectar.getConection();
-            ps = con.prepareStatement(sql.toString());
-
-            int indice = 1;
-            if (estadoNombre != null && !estadoNombre.isBlank()) {
-                ps.setString(indice++, estadoNombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Usuario_Historial h = new Usuario_Historial();
+                    h.setId_historial_prestamo(rs.getInt("id_historial_prestamo"));
+                    h.setId_usuario(rs.getInt("id_usuario"));
+                    h.setId_elemento(rs.getInt("id_elemento"));
+                    h.setCodigo_elemento(rs.getString("codigo_elemento"));  // ← ASIGNAR CÓDIGO
+                    h.setNombre_elemento(rs.getString("nombre_elemento"));
+                    h.setFecha_prestamo(rs.getTimestamp("fecha_prestamo"));
+                    h.setFecha_limite(rs.getTimestamp("fecha_limite"));
+                    h.setId_estado_entrega(rs.getInt("id_estado_entrega"));
+                    h.setNombre_estado_entrega(rs.getString("nombre_estado_entrega"));
+                    h.setId_categoria(rs.getInt("id_categoria"));
+                    h.setNombre_categoria(rs.getString("nombre_categoria"));
+                    lista.add(h);
+                }
             }
-            if (codigoTexto != null && !codigoTexto.isBlank()) {
-                ps.setString(indice++, "%" + codigoTexto + "%");
-            }
-            if (categoriaNombre != null && !categoriaNombre.isBlank()) {
-                ps.setString(indice++, categoriaNombre);
-            }
-
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Usuario_Elemento e = new Usuario_Elemento();
-                e.setId_elemento(rs.getInt("id_elemento"));
-                e.setCodigo_elemento(rs.getInt("codigo_elemento"));
-                e.setNombre_elemento(rs.getString("nombre_elemento"));
-                e.setId_categoria(rs.getInt("id_categoria"));
-                e.setCategoria_nombre(rs.getString("nombre_categoria"));
-                e.setDescripcion(rs.getString("descripcion"));
-                e.setImagen(rs.getString("imagenes"));
-                e.setId_estado_elemento(rs.getInt("id_estado_elemento"));
-                e.setEstado_nombre(rs.getString("nombre_estado_elemento"));
-                lista.add(e);
-            }
-        } catch (Exception a) {
-            JOptionPane.showMessageDialog(null, "Error en consulta: " + a.toString(),
-                    "Error de consulta", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al listar historial: " + e.toString(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();  // ← Agregar para ver el error completo
         }
         return lista;
     }
-
-    public List<Usuario_Historial> listarHistorialPorUsuario(int idUsuario) {
-    List<Usuario_Historial> lista = new ArrayList<>();
-    String sql = "SELECT "
-            + "  h.id_historial_prestamo, "
-            + "  h.id_usuario, "
-            + "  h.id_elemento, "
-            + "  e.codigo_elemento, "        // ← AGREGAR CÓDIGO DEL ELEMENTO
-            + "  e.nombre_elemento, "
-            + "  h.fecha_prestamo, "
-            + "  h.fecha_limite, "
-            + "  h.id_estado_entrega, "
-            + "  ee.nombre_estado_entrega, "
-            + "  h.id_categoria, "
-            + "  c.nombre_categoria "
-            + "FROM historial_prestamo h "
-            + "INNER JOIN elemento e ON h.id_elemento = e.id_elemento "
-            + "INNER JOIN estado_entrega ee ON h.id_estado_entrega = ee.id_estado_entrega "
-            + "INNER JOIN categoria_elemento c ON h.id_categoria = c.id_categoria "
-            + "WHERE h.id_usuario = ? "
-            + "ORDER BY h.fecha_prestamo DESC";
-
-    try (Connection con = conectar.getConection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-        ps.setInt(1, idUsuario);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Usuario_Historial h = new Usuario_Historial();
-                h.setId_historial_prestamo(rs.getInt("id_historial_prestamo"));
-                h.setId_usuario(rs.getInt("id_usuario"));
-                h.setId_elemento(rs.getInt("id_elemento"));
-                h.setCodigo_elemento(rs.getString("codigo_elemento"));  // ← ASIGNAR CÓDIGO
-                h.setNombre_elemento(rs.getString("nombre_elemento"));
-                h.setFecha_prestamo(rs.getTimestamp("fecha_prestamo"));
-                h.setFecha_limite(rs.getTimestamp("fecha_limite"));
-                h.setId_estado_entrega(rs.getInt("id_estado_entrega"));
-                h.setNombre_estado_entrega(rs.getString("nombre_estado_entrega"));
-                h.setId_categoria(rs.getInt("id_categoria"));
-                h.setNombre_categoria(rs.getString("nombre_categoria"));
-                lista.add(h);
-            }
+    public String consultarEstadoElemento(int id_elemento) {
+    String estado = null;
+    String sql = """
+             SELECT ee.nombre_estado_elemento
+             FROM elemento e
+             INNER JOIN estado_elemento ee ON e.id_estado_elemento = ee.id_estado_elemento
+             WHERE e.id_elemento = ?
+             """;
+    try {
+        con = conectar.getConection();
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, id_elemento);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            estado = rs.getString("nombre_estado_elemento");
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error al listar historial: " + e.toString(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();  // ← Agregar para ver el error completo
+    } catch (Exception a) {
+        a.printStackTrace();
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+        } catch (Exception e) {
+        }
     }
-    return lista;
+    return estado; // null si el elemento no existe
 }
 
 }

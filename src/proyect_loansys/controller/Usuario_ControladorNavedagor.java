@@ -51,6 +51,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inicio = inicio;
         this.nombreUsuario = nombreUsuario;
         this.rolUsuario = rolUsuario;
+        
 
         // 2º: AHORA sí creo las demás vistas, ya con los valores reales
         this.inven = new Usuario_Inventario(rolUsuario, "", "");
@@ -83,6 +84,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inven.prueba12.addActionListener(this);
         this.inven.prueba13.addActionListener(this);
         this.inven.cerrarS.addActionListener(this);
+        this.inven.buscador.addActionListener(this);
 
         /////////////////////////////////////////////////////
         this.pres.iniciod.addActionListener(this);
@@ -412,6 +414,9 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarInicioS(sesion);
             soli.dispose();
         }
+        if (e.getSource()== inven.buscador){
+            filtroEstado();
+        }
 
     }
 
@@ -514,4 +519,65 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
     }
 
+    /*
+        public void filtroEstado(){
+            String estodofiltro = invecon.listaEstado.
+        }
+     */
+    public void filtroEstado() {
+        int idUsuario = Administrador_Sesion.getIdUsuario();
+
+        Usuario_Model usuarioActual = elementoDao.consultarPorId(idUsuario);
+        if (usuarioActual == null) {
+            JOptionPane.showMessageDialog(soli, "No se pudo cargar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Consulta el estado real desde la BD, no desde el label de la pantalla
+        String estado = elementoDao.consultarEstadoElemento(idElementoSeleccionado);
+        if (estado == null) {
+            JOptionPane.showMessageDialog(soli, "No se pudo verificar el estado del elemento", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        switch (estado) {
+            case "Disponible":
+                break;
+            case "Prestado":
+                JOptionPane.showMessageDialog(soli, "Elemento no disponible por préstamo", "Prestado", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            case "En Mantenimiento":
+                JOptionPane.showMessageDialog(soli, "Elemento no disponible por mantenimiento", "Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            case "Dañado":
+                JOptionPane.showMessageDialog(soli, "Elemento no disponible por estado dañado", "Daño", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            case "Dado de Baja":
+                JOptionPane.showMessageDialog(soli, "Elemento no se encuentra disponible en el almacén", "Robo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            default:
+                JOptionPane.showMessageDialog(soli, "Estado del elemento desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+        }
+
+        if (elementoDao.existeSolicitud(idUsuario, idElementoSeleccionado)) {
+            JOptionPane.showMessageDialog(soli, "Ya tienes una solicitud registrada para este elemento",
+                    "Solicitud duplicada", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        sr.setId_usuario(idUsuario);
+        sr.setNombre(usuarioActual.getNombre());
+        sr.setApellido(usuarioActual.getApellido());
+        sr.setDocumento(usuarioActual.getDocumento());
+        sr.setId_elemento(idElementoSeleccionado);
+        sr.setFecha_envio(new Timestamp(System.currentTimeMillis()));
+
+        int resultado = elementoDao.setAgregar(sr);
+        if (resultado > 0) {
+            JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

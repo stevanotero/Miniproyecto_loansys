@@ -44,9 +44,9 @@ public class Usuario_Inventario extends Usuario_Plantilla {
 
     public JLabel inventario, fEstado, codigo, estado1, estado2, estado3, estado4, estado5,
             estado6, estado7, estado8, estado9, estado10, estado11, estado, estado12, estado13, text1, text2, text3, text4;
-    private JTextField lcodigo;
-    private String lista[] = {"", "Disponible", "Mantenimiento", "Ocupado", "Dañado", "No Disponible"};
-    private JComboBox listaEstado;
+    public JTextField lcodigo;
+    public String lista[] = {"", "Disponible", "Mantenimiento", "Ocupado", "Dañado", "No Disponible"};
+    public JComboBox listaEstado;
     public JButton buscador, perifericos, computadores, herramientas, maquinas, prueba,
             prueba1, prueba2, prueba3, prueba4, prueba5, prueba6, prueba7, prueba8, prueba9, prueba10,
             prueba11, prueba12, prueba13;
@@ -86,7 +86,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel010 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 5));
         panel010.setBackground(Color.WHITE);
 
-        codigo = new JLabel("busqueda por nombre");
+        codigo = new JLabel("busqueda por codigo de Elemento");
         codigo.setFont(codigo.getFont().deriveFont(Font.BOLD, 12f));
         lcodigo = new JTextField(15);
 
