@@ -163,6 +163,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 1;
+            controladorDatos.mostrarImagen("imgTaladrosena.png");
             controladorDatos.mostrarEstado(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar(soli.tabla);
@@ -171,6 +172,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba1) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 2;
+            controladorDatos.mostrarImagen("imgMultimetro.png");
             controladorDatos.mostrarEstado1(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar1(soli.tabla);
@@ -179,6 +181,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba2) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 3;
+            controladorDatos.mostrarImagen("imgLaptop.png");
             controladorDatos.mostrarEstado2(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar2(soli.tabla);
@@ -187,6 +190,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba3) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 4;
+            controladorDatos.mostrarImagen("imgOsciloscopio.png");
             controladorDatos.mostrarEstado3(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar3(soli.tabla);
@@ -195,6 +199,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba4) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 5;
+            controladorDatos.mostrarImagen("imgCautin.png");
             controladorDatos.mostrarEstado4(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar4(soli.tabla);
@@ -203,6 +208,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba5) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 6;
+            controladorDatos.mostrarImagen("imgTorque.png");
             controladorDatos.mostrarEstado5(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar5(soli.tabla);
@@ -211,6 +217,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba6) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 7;
+            controladorDatos.mostrarImagen("imgProtoboard.png");
             controladorDatos.mostrarEstado6(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar6(soli.tabla);
@@ -220,6 +227,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba7) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 8;
+            controladorDatos.mostrarImagen("imgArduino.png");
             controladorDatos.mostrarEstado7(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar7(soli.tabla);
@@ -228,6 +236,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba8) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 9;
+            controladorDatos.mostrarImagen("imgPinza.png");
             controladorDatos.mostrarEstado8(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar8(soli.tabla);
@@ -236,6 +245,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba9) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 10;
+            controladorDatos.mostrarImagen("imgRouter.png");
             controladorDatos.mostrarEstado9(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar9(soli.tabla);
@@ -244,6 +254,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba10) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 11;
+            controladorDatos.mostrarImagen("imgProyector.png");
             controladorDatos.mostrarEstado10(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar10(soli.tabla);
@@ -252,6 +263,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba11) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 12;
+            controladorDatos.mostrarImagen("imgMouse.png");
             controladorDatos.mostrarEstado11(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar11(soli.tabla);
@@ -260,6 +272,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba12) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 13;
+            controladorDatos.mostrarImagen("imgLaptop.png");
             controladorDatos.mostrarEstado12(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar12(soli.tabla);
@@ -268,6 +281,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == inven.prueba13) {
             CargarSolicitud(soli);
             idElementoSeleccionado = 14;
+            controladorDatos.mostrarImagen("imgLaptop.png");
             controladorDatos.mostrarEstado13(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar13(soli.tabla);

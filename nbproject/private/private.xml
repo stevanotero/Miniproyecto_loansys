@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/controller/Usuario_ControladorDatos.java</file>
             <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/Index.java</file>
-            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/controller/Usuario_ControladorNavedagor.java</file>
             <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/model/Usuario_Dao.java</file>
-            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Login.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/controller/Usuario_ControladorDatos.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/controller/Usuario_ControladorNavedagor.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/model/Usuario_Solicitud.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/model/Usuario_Model.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/view/Usuario_SolicitarPrestamo.java</file>
         </group>
     </open-files>
 </project-private>

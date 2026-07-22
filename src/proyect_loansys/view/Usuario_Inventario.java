@@ -295,7 +295,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         
         panel030 = new JPanel();
 
-        panel030.setPreferredSize(new Dimension(200, 160));
+        panel030.setPreferredSize(new Dimension(200, 200));
         estado = new JLabel("");
         Image imgTaladro = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgTaladrosena.png")).getImage();
         Icon imagen5 = new ImageIcon(imgTaladro);
@@ -308,7 +308,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
 
         panel031 = new JPanel();
 
-        panel031.setPreferredSize(new Dimension(200, 160));
+        panel031.setPreferredSize(new Dimension(200, 200));
         estado1 = new JLabel("");
         Image imgMul = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgMultimetro.png")).getImage();
         Icon imagen6 = new ImageIcon(imgMul);
@@ -320,7 +320,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel031.add(prueba1);
 
         panel032 = new JPanel();
-        panel032.setPreferredSize(new Dimension(200, 160));
+        panel032.setPreferredSize(new Dimension(200, 200));
         estado2 = new JLabel("");
         Image imgCompu = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgLaptop.png")).getImage();
         Icon imagen11 = new ImageIcon(imgCompu);
@@ -332,7 +332,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel032.add(prueba2);
 
         panel033 = new JPanel();
-        panel033.setPreferredSize(new Dimension(200, 160));
+        panel033.setPreferredSize(new Dimension(200, 200));
         estado3 = new JLabel("");
         panel033.setLayout(new BorderLayout());
         Image imgOsi = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgOsciloscopio.png")).getImage();
@@ -344,7 +344,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel033.add(prueba3);
 
         panel034 = new JPanel();
-        panel034.setPreferredSize(new Dimension(200, 160));
+        panel034.setPreferredSize(new Dimension(200, 200));
         panel034.setLayout(new BorderLayout());
         estado4 = new JLabel("");
         Image imgCau = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgCautin.png")).getImage();
@@ -356,7 +356,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel034.add(prueba4);
 
         panel035 = new JPanel();
-        panel035.setPreferredSize(new Dimension(200, 160));
+        panel035.setPreferredSize(new Dimension(200, 200));
         panel035.setLayout(new BorderLayout());
         estado5 = new JLabel("");
         Image imgTorq = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgTorque.png")).getImage();
@@ -368,7 +368,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel035.add(prueba5);
 
         panel036 = new JPanel();
-        panel036.setPreferredSize(new Dimension(200, 160));
+        panel036.setPreferredSize(new Dimension(200, 200));
         panel036.setLayout(new BorderLayout());
         estado6 = new JLabel("");
         Image imgPboar = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgProtoboard.png")).getImage();
@@ -380,7 +380,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel036.add(prueba6);
 
         panel037 = new JPanel();
-        panel037.setPreferredSize(new Dimension(200, 160));
+        panel037.setPreferredSize(new Dimension(200, 200));
         panel037.setLayout(new BorderLayout());
         estado7 = new JLabel("");
         Image imgArdu = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgArduino.png")).getImage();
@@ -392,7 +392,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel037.add(prueba7);
 
         panel038 = new JPanel();
-        panel038.setPreferredSize(new Dimension(200, 160));
+        panel038.setPreferredSize(new Dimension(200, 200));
         panel038.setLayout(new BorderLayout());
         estado8 = new JLabel("");
         Image imgPinza = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgPinza.png")).getImage();
@@ -404,7 +404,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel038.add(prueba8);
 
         panel039 = new JPanel();
-        panel039.setPreferredSize(new Dimension(200, 160));
+        panel039.setPreferredSize(new Dimension(200, 200));
         panel039.setLayout(new BorderLayout());
         estado9 = new JLabel("");
         Image imgRouter = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgRouter.png")).getImage();
@@ -416,7 +416,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel039.add(prueba9);
 
         panel040 = new JPanel();
-        panel040.setPreferredSize(new Dimension(200, 160));
+        panel040.setPreferredSize(new Dimension(200, 200));
         panel040.setLayout(new BorderLayout());
         estado10 = new JLabel("");
         Image imgProyector = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgProyector.png")).getImage();
@@ -428,7 +428,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel040.add(prueba10);
 
         panel041 = new JPanel();
-        panel041.setPreferredSize(new Dimension(200, 160));
+        panel041.setPreferredSize(new Dimension(200, 200));
         panel041.setLayout(new BorderLayout());
         estado11 = new JLabel("");
         Image imgMouse = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgMouse.png")).getImage();
@@ -440,7 +440,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel041.add(prueba11);
 
         panel042 = new JPanel();
-        panel042.setPreferredSize(new Dimension(200, 160));
+        panel042.setPreferredSize(new Dimension(200, 200));
         panel042.setLayout(new BorderLayout());
         estado12 = new JLabel("");
         Image imgPorL = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgLaptop.png")).getImage();
@@ -452,7 +452,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel042.add(prueba12);
 
         panel043 = new JPanel();
-        panel043.setPreferredSize(new Dimension(200, 160));
+        panel043.setPreferredSize(new Dimension(200, 200));
         panel043.setLayout(new BorderLayout());
         estado13 = new JLabel("");
         Image imgPorA = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgLaptop.png")).getImage();

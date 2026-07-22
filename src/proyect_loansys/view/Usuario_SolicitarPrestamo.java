@@ -7,7 +7,13 @@ package proyect_loansys.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -52,7 +58,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         panel8.setPreferredSize(new Dimension(300, 30));
         texto1 = new JLabel("",SwingConstants.CENTER);
         panel8.setLayout(new BorderLayout());
-        
+        texto1.setFont(texto1.getFont().deriveFont(Font.BOLD,14f));
         panel8.setBackground(Color.white);
         panel8.add(texto1);
         panel6.add(panel8);
@@ -61,7 +67,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         //Panel 2 de la tabla
         
         panel7 = new JPanel();
-        panel7.setPreferredSize(new Dimension(1100, 350));
+        panel7.setPreferredSize(new Dimension(1100, 250));
         panel7.setBackground(Color.white);
         
         
@@ -69,7 +75,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
             @Override
             public boolean isCellEditable(int row,int column){
                 return false;
-            }
+            } //para no poder editar los campos de la tabla
         };
         modelo.addColumn("Codigo Elemento");
         modelo.addColumn("Nombre Elemento");
@@ -80,7 +86,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
         panel9 = new JPanel();
         panel9.setLayout(new BorderLayout());
-        panel9.setPreferredSize(new Dimension(1070, 340));
+        panel9.setPreferredSize(new Dimension(1070, 200));
         
         tabla = new JTable(modelo);
         miscroll=new JScrollPane(tabla);
@@ -96,13 +102,13 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         ////////////////////////////////////////////////////////////////////////
         // Panel 3 sobre los botones        
         panel011 = new JPanel();
-        solicitar = new JButton("solicitar");
+        solicitar = crearBoton("Solocitar", new Color(34, 139, 34),Color.WHITE);
         panel011.setPreferredSize(new Dimension(80, 30));
         panel011.setBackground(Color.white);
         panel011.add(solicitar);
         
         panel012 = new JPanel();
-        volver = new JButton("Volver");
+        volver = crearBoton("Volver", new Color(220, 53, 69),Color.WHITE);
         panel012.add(volver);
         panel012.setPreferredSize(new Dimension(80, 30));
         panel012.setBackground(Color.white);
@@ -116,14 +122,14 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
         //Panel de imagen//
         panel013 = new JPanel();
-        panel013.setPreferredSize(new Dimension(400, 100));
-        panel013.setBackground(Color.BLACK);
+        panel013.setPreferredSize(new Dimension(400, 200));
+        panel013.setBackground(Color.WHITE);
         
         
         
         panel014 = new JPanel();
-        texto2 = new JLabel("Imagen");
-        panel014.setPreferredSize(new Dimension(120, 90));
+        texto2 = new JLabel("");
+        panel014.setPreferredSize(new Dimension(200, 190));
         texto2.setForeground(Color.black);
         panel014.setBackground(Color.white);
         panel014.add(texto2);
@@ -143,6 +149,26 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
          panel4.add(panel5);
         
+    }
+    private JButton crearBoton(String texto, Color fondo, Color textoColor) {
+        JButton boton = new JButton(texto) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        boton.setBackground(fondo);
+        boton.setForeground(textoColor);
+        boton.setContentAreaFilled(false);
+        boton.setBorderPainted(false);
+        boton.setFocusPainted(false);
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return boton;
     }
 }
 
