@@ -23,7 +23,7 @@ public class Controlador_Restablecer implements ActionListener {
     // Variables para el control de intentos y bloqueo temporal
     private int intentosFallidos = 0;
     private long tiempoBloqueoHasta = 0; // Guardará el tiempo en milisegundos
-    private final long TIEMPO_ESPERA = 60000; // 60,000 ms = 1 minuto de bloqueo
+    private final long TIEMPO_ESPERA = 60000; 
 
     public PersonaDao_Restablecer pdao = new PersonaDao_Restablecer();
     public Vista_RestablecerContraseña vista;
@@ -61,7 +61,6 @@ public class Controlador_Restablecer implements ActionListener {
                     Controlador_nuevaContraseña conNueva = new Controlador_nuevaContraseña(vista_Nueva, correoABuscar);                 
                     vista_Nueva.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
                     vista_Nueva.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-                    //Se pone visible
                     vista_Nueva.setVisible(true);
                 } else {
                     intentosFallidos++; //Sumamos un intento si el correo no existe o tiene mal formato

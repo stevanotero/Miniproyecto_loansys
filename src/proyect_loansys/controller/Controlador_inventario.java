@@ -15,8 +15,10 @@ import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Elemento;
 import proyect_loansys.model.PersonaDao_Inventario;
 import proyect_loansys.view.VentanaEditarElemento;
+import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.view.Vista_Inventario;
 import proyect_loansys.view.Vista_Login;
+import proyect_loansys.view.Vista_Prestamo;
 import proyect_loansys.view.Vista_Solicitudes;
 
 /**
@@ -32,15 +34,14 @@ public class Controlador_inventario implements ActionListener {
         this.vista = vista;
         this.modelo = new PersonaDao_Inventario();
 
-        // Asignación de listeners para navegación y botones de acción
+        this.vista.botonSolicitudes.addActionListener(this);
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonInventario.addActionListener(this);
         this.vista.botonCerrarSesion.addActionListener(this);
+        this.vista.botonPrestamos.addActionListener(this);
         this.vista.btnBuscar.addActionListener(this);
         this.vista.btnLimpiar.addActionListener(this);
-        // Cargar los componentes en la JTable al iniciar
         listarComponentesTabla();
-        // Escuchador del doble clic en la tabla
         this.vista.tablaDeElementos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -49,8 +50,7 @@ public class Controlador_inventario implements ActionListener {
                 }
             }
         });
-
-        // Escuchadores para los filtros en tiempo real
+        // Escuchadores para los filtros
         this.vista.cbxCategoria.addActionListener(e -> filtrarComponentesTabla());
         this.vista.cbxEstado.addActionListener(e -> filtrarComponentesTabla());
     }
@@ -161,14 +161,17 @@ public class Controlador_inventario implements ActionListener {
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
             vistaLogin.setVisible(true);
         }
-
-        if (e.getSource() == vista.botonInventario) {
-            vista.dispose();
-            Vista_Inventario vistaInventario = new Vista_Inventario();
-            Controlador_inventario controladorIn = new Controlador_inventario(vistaInventario);
-            vistaInventario.setVisible(true);
+        // Metodo para buscar
+        if (e.getSource() == vista.btnBuscar) {
+            ejecutarBusqueda();
         }
 
+        // Metodo para limpiar
+        if (e.getSource() == vista.btnLimpiar) {
+            limpiarBusquedaYFiltros();
+        }
+
+        //Modulo de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
@@ -176,6 +179,20 @@ public class Controlador_inventario implements ActionListener {
             vistaSolicitud.setVisible(true);
         }
 
-    }
+        // Modulo de inicio
+        if (e.getSource() == vista.botonInicio) {
+            vista.dispose();
+            Vista_Inicio vistaIni = new Vista_Inicio();
+            Controlador_inicio controlin = new Controlador_inicio(vistaIni);
+            vistaIni.setVisible(true);
+        }
 
+        // Modulo de prestamos
+        if (e.getSource() == vista.botonPrestamos) {
+            vista.dispose();
+            Vista_Prestamo vistap = new Vista_Prestamo();
+            Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
+            vistap.setVisible(true);
+        }
+    }
 }

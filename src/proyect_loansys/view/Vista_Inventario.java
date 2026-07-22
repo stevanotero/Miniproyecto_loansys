@@ -27,7 +27,7 @@ public class Vista_Inventario extends Vista_Principal {
 
     public JTextField textoParaBuscar;
     public JButton btnBuscar;
-    public JButton btnLimpiar; // ✨ NUEVO: Declaración del botón limpiar
+    public JButton btnLimpiar; 
     public JComboBox<String> cbxCategoria;
     public JComboBox<String> cbxEstado;
     public JTable tablaDeElementos;
@@ -71,11 +71,11 @@ public class Vista_Inventario extends Vista_Principal {
         btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnBuscar.setBorder(BorderFactory.createLineBorder(new Color(190, 190, 190), 1, true));
 
-        // ✨ NUEVO: Creación del Botón Limpiar
+        // creacion del boton limpiar
         btnLimpiar = new JButton("Limpiar");
         btnLimpiar.setPreferredSize(new Dimension(90, 35)); 
         btnLimpiar.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        btnLimpiar.setBackground(new Color(240, 240, 240)); // Un tono sutilmente diferente
+        btnLimpiar.setBackground(new Color(240, 240, 240)); 
         btnLimpiar.setForeground(new Color(80, 80, 80)); 
         btnLimpiar.setFocusPainted(false);
         btnLimpiar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -84,7 +84,7 @@ public class Vista_Inventario extends Vista_Principal {
         // Añadimos los tres elementos al panel de búsqueda
         panelBusqueda.add(textoParaBuscar);
         panelBusqueda.add(btnBuscar);
-        panelBusqueda.add(btnLimpiar); // ✨ NUEVO: Agregado al flujo
+        panelBusqueda.add(btnLimpiar); 
 
         JPanel panelFiltros = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
         panelFiltros.setOpaque(false);
@@ -180,9 +180,5 @@ public class Vista_Inventario extends Vista_Principal {
         panelPrincipalCentrado.add(panelParaTabla, BorderLayout.CENTER);
         
         return panelPrincipalCentrado;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Vista_Inventario().setVisible(true));
     }
 }

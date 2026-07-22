@@ -10,6 +10,7 @@ import proyect_loansys.view.Vista_Inventario;
 import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_Solicitudes;
 import proyect_loansys.view.Vista_Inicio;
+import proyect_loansys.view.Vista_Prestamo;
 
 /**
  *
@@ -41,21 +42,29 @@ public class Controlador_inicio implements ActionListener {
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
             vistaLogin.setVisible(true);
         }
-        
-        if(e.getSource() == vista.botonInventario){
-        vista.dispose();
-        Vista_Inventario vistaInventario = new Vista_Inventario();
-        Controlador_inventario controladorIn = new Controlador_inventario(vistaInventario);
-        vistaInventario.setVisible(true);
+
+        if (e.getSource() == vista.botonInventario) {
+            vista.dispose();
+            Vista_Inventario vistaInventario = new Vista_Inventario();
+            Controlador_inventario controladorIn = new Controlador_inventario(vistaInventario);
+            vistaInventario.setVisible(true);
+        }
+
+        if (e.getSource() == vista.botonSolicitudes) {
+            vista.dispose();
+            Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
+            Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
+            vistaSolicitud.setVisible(true);
         }
         
-        if(e.getSource() == vista.botonSolicitudes){
+        if(e.getSource() == vista.botonPrestamos){
         vista.dispose();
-        Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
-        Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
-        vistaSolicitud.setVisible(true);
+        Vista_Prestamo vistap = new Vista_Prestamo();
+        Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
+        vistap.setVisible(true);
         }
         
+
     }
 
 }

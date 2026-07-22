@@ -8,7 +8,7 @@ package proyect_loansys.model;
  *
  * @author Alexis
  */
-import proyect_loansys.model.Conexion_Restablecer;
+import proyect_loansys.model.Conexion_Registro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 public class PersonaDao_Restablecer {
 
     private Connection con;
-    private Conexion_Restablecer conectar = new Conexion_Restablecer();
+    private Conexion_Registro conectar = new Conexion_Registro();
     private PreparedStatement ps;
     private ResultSet rs;
 
