@@ -41,7 +41,7 @@ import javax.swing.table.DefaultTableModel;
 public class Administrador_Registro_de_usuario extends Administrador_Plantilla_Administrador {
 
     private Container contenedor;
-    public JPanel panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12;
+    public JPanel panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12,panel13,panel14,panel15;
     private GridLayout grid4;
     public JButton activacion_usuario, modificar;
     private JLabel titulo2;
@@ -70,8 +70,8 @@ public class Administrador_Registro_de_usuario extends Administrador_Plantilla_A
         //---------------------------------------------------------
 // creaccion de la tabla y boton para cambiar estado
         botonRegistro = new JButton("   Registrar usuario");
-        botonRegistro.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10, true));// Borde redondeado para el botón
-        botonRegistro.setBackground(Color.white);
+        botonRegistro.setBorder(BorderFactory.createLineBorder(Color.green, 10, true));// Borde redondeado para el botón
+        botonRegistro.setBackground(Color.green);
         registrar_usuario.setBorder(BorderFactory.createLineBorder(Color.gray, 10, true));
         registrar_usuario.setBackground(Color.gray);
         modelo = new DefaultTableModel();
@@ -87,25 +87,36 @@ public class Administrador_Registro_de_usuario extends Administrador_Plantilla_A
         miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         panel10 = new JPanel();
-        panel9 = new JPanel();
+        
+        panel14 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        panel15 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 800, 0));
+        
+        panel9 = new JPanel(new BorderLayout());
         panel8 = new JPanel(new BorderLayout());
         panel7 = new JPanel(new BorderLayout());
         panel6 = new JPanel(new BorderLayout());
+        panel13 = new JPanel(new BorderLayout());
 
         grid4 = new GridLayout(2, 1, 1, 1);
 
-        titulo2 = new JLabel("     Registrar usuario");
+        titulo2 = new JLabel(" Registrar usuario");
         titulo2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
-
-        panel9.setBorder(new EmptyBorder(90, 5, 0, 950));
-        panel10.setBorder(new EmptyBorder(50, 0, 0, 0));
-
+     
+        panel9 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 3, 3));
+        panel9.setBorder(new EmptyBorder(90, 0, 0, 950));
+        panel10.setBorder(new EmptyBorder(15, 15, 10, 15));
+        
+        
+        panel14.add(titulo2);
+        panel15.add(botonRegistro);
+        
         panel7.setSize(new Dimension(200, 100));
         panel8.setSize(new Dimension(400, 500));
         panel8.setBorder(new EmptyBorder(0, 0, 0, 0));
-        panel9.add(titulo2);
+        panel9.add(panel14);
+        panel9.add(panel15,BorderLayout.EAST);
         panel10.add(miscroll);
-        panel10.add(botonRegistro, BorderLayout.WEST);
+
         panel7.setBorder(
                 BorderFactory.createMatteBorder(
                         0, // arriba
@@ -114,13 +125,15 @@ public class Administrador_Registro_de_usuario extends Administrador_Plantilla_A
                         0, // derecha
                         Color.BLACK)
         );
+   
         panel10.setBackground(Color.white);
-        panel9.setBackground(Color.white);
         panel8.setBackground(Color.white);
         panel7.setBackground(Color.white);
         panel6.setBackground(Color.white);
         panel5.setBackground(Color.white);
-
+         panel5.setLayout(new BorderLayout());
+        
+        panel13.add(panel9);
         panel5.add(panel6);
         panel6.add(panel7, BorderLayout.LINE_START);
         panel6.add(panel8, BorderLayout.SOUTH);

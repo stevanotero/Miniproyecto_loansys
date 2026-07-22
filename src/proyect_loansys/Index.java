@@ -4,7 +4,6 @@
  */
 package proyect_loansys;
 
-
 import javax.swing.JFrame;
 import proyect_loansys.controller.Controlador_Login;
 import proyect_loansys.model.Conexion_Registro;
@@ -17,7 +16,7 @@ public class Index {
         con.getConection();
         Vista_Login view = new Vista_Login();
         Controlador_Login controller = new Controlador_Login(view);
-        view.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); 
+        view.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         view.setVisible(true);
         view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
