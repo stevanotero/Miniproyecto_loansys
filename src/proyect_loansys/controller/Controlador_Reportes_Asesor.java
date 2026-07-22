@@ -67,7 +67,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         }
     }
 
-    // ==================== CARGAR REPORTES ====================
+    
 
     public void getListarEstadoGeneral(JTable tabla) {
         modelo = (DefaultTableModel) tabla.getModel();
@@ -135,7 +135,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         modelo.setColumnCount(0);
     }
 
-    // ==================== GENERAR PDF ====================
+   
     private void exportarReportePDF() {
         String tituloReporte = "";
 
@@ -150,9 +150,9 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         boolean exito = PDFExporter.generarPDF(vista.tablaReportes, tituloReporte);
 
         if (exito) {
-            JOptionPane.showMessageDialog(vista, "✅ Reporte PDF generado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(vista, " Reporte PDF generado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(vista, "❌ Error al generar el PDF", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(vista, " Error al generar el PDF", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
