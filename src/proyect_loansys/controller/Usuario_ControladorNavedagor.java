@@ -131,6 +131,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
         if (e.getSource() == inicio.prestamo) {
             CargarHistorial(pres);
+            controladorDatos.mostrarH(pres.tabla);
             inicio.dispose();
         }
         if (e.getSource() == inicio.notificacion) {
@@ -149,6 +150,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == inven.prestamo) {
             CargarHistorial(pres);
+            controladorDatos.mostrarH(pres.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.notificacion) {
@@ -345,6 +347,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == noti.prestamo) {
             CargarHistorial(pres);
+            controladorDatos.mostrarH(pres.tabla);
             noti.dispose();
         }
         if (e.getSource() == noti.cerrarS) {
@@ -360,6 +363,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == soli.prestamo) {
             CargarHistorial(pres);
+            controladorDatos.mostrarH(pres.tabla);
             soli.dispose();
         }
         if (e.getSource() == soli.inventario) {

@@ -16,7 +16,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Usuario_Dao;
 import proyect_loansys.model.Usuario_Elemento;
+import proyect_loansys.model.Usuario_Historial;
 import proyect_loansys.model.Usuario_Model;
+import proyect_loansys.view.Usuario_HistorialPrestamo;
 import proyect_loansys.view.Usuario_Inventario;
 import proyect_loansys.view.Usuario_SolicitarPrestamo;
 
@@ -26,10 +28,14 @@ public class Usuario_ControladorDatos implements ActionListener {
     private Usuario_Inventario inveta;
     public Usuario_Dao elementoDao = new Usuario_Dao();
     public Usuario_Elemento elementos = new Usuario_Elemento();
+    public Usuario_Historial histori = new Usuario_Historial();
+    //public Usuario_HistorialPrestamo historipres = new Usuario_HistorialPrestamo();
     DefaultTableModel modelo = new DefaultTableModel();
 
-    public Usuario_ControladorDatos(Usuario_Inventario inveta, Usuario_SolicitarPrestamo soliprestamo) {
+    public Usuario_ControladorDatos(Usuario_Inventario inveta,
+            Usuario_SolicitarPrestamo soliprestamo) {
         this.soliprestamo1 = soliprestamo;
+
         this.inveta = inveta;
 
         this.inveta.prueba.addActionListener(this);
@@ -78,7 +84,6 @@ public class Usuario_ControladorDatos implements ActionListener {
         soliprestamo1.texto2.setText(null); // por si quedó texto viejo
     }
      */
-
     public void mostrarImagen(String nombreArchivo) {
         ImageIcon icono = new ImageIcon(getClass().getResource("/proyect_loansys/img/" + nombreArchivo));
         soliprestamo1.texto2.setIcon(icono);
@@ -464,4 +469,19 @@ public class Usuario_ControladorDatos implements ActionListener {
         }
     }
 
+    public void mostrarH(JTable tabla) {
+        modelo = (DefaultTableModel) tabla.getModel();
+        List<Usuario_Historial> lista = elementoDao.listarh();
+        Object[] object = new Object[6];
+        for (int indice = 0; indice < lista.size(); indice++) {
+            object[0] = lista.get(indice).getId_elemento();
+            object[1] = lista.get(indice).getNombre_elemento();
+            object[2] = lista.get(indice).getFecha_prestamo();
+            object[3] = lista.get(indice).getFecha_limite();
+            object[4] = lista.get(indice).getNombre_estado_entrega();
+            object[5] = lista.get(indice).getNombre_categoria();
+            modelo.addRow(object);
+        }
+        tabla.setModel(modelo); // <-- usa el parámetro que ya recibiste, no 'histori'
+    }
 }

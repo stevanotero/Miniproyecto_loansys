@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.sql.Timestamp;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,8 +20,8 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla{
     private Container contenedor;
     private JPanel panel4, panel5,panel6,panel7,panel8,panel9,panel010;
     private JLabel texto1;
-    private JTable tabla;
-    private DefaultTableModel modelo;
+    public JTable tabla;
+    public DefaultTableModel modelo;
     private JScrollPane miscroll;
     
     
@@ -59,14 +60,15 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla{
         panel7.setPreferredSize(new Dimension(1100, 600));
         panel7.setBackground(Color.white);
         
-        
+       
+    
         modelo = new DefaultTableModel();
-        modelo.addColumn("Codigo Elemento");
+        modelo.addColumn("Id_elemento");
         modelo.addColumn("Nombre Elemento");
         modelo.addColumn("Fecha Préstamo");
         modelo.addColumn("Fecha Devolución");
-        modelo.addColumn("Categoria");
         modelo.addColumn("Estado Prestamo");
+        modelo.addColumn("Categoria");
         
         panel9 = new JPanel();
         panel9.setLayout(new BorderLayout());
