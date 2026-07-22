@@ -4,24 +4,29 @@
  */
 package proyect_loansys.model;
 
-import proyect_loansys.model.Conexion_Login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import proyect_loansys.model.Conexion_Login;
 
+/**
+ *
+ * @author Alexis,Otero
+ */
 public class PersonaDao_Login {
 
     private Connection con;
     private Conexion_Login conectar = new Conexion_Login();
     private PreparedStatement ps;
     private ResultSet rs;
-    
+
     private int idUsuarioLogueado = -1;
-    
-    public int getIdUsuarioLogueado(){
+
+    public int getIdUsuarioLogueado() {
         return idUsuarioLogueado;
     }
-    
+
     // Validar que el documento existe
     public boolean existeDocumento(int documento) {
         String sql = "SELECT 1 FROM usuarios_sena WHERE documento = ?";
@@ -50,12 +55,42 @@ public class PersonaDao_Login {
         }
     }
 
+    public int obtenerIdLogin(int documento) {
+        String sql = "SELECT l.id_login FROM login_de_usuarios l "
+                + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
+                + "WHERE u.documento = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, documento);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_login");
+            }
+        } catch (Exception e) {
+            System.out.println("Error SQL en obtenerIdLogin: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return -1;
+    }
+
     public int validarLogin(int documento, String contraseña) {
         // valida que dependiendo de su rol lo lleve a una vista en especifico
-            String sql = "SELECT u.id_rol, u.id_usuario FROM login_de_usuarios l "
-            + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
-            + "WHERE u.documento = ? AND l.contraseña = ?";
-
+        String sql = "SELECT u.id_rol, u.id_usuario FROM login_de_usuarios l "
+                + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
+                + "WHERE u.documento = ? AND l.contraseña = ?";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
@@ -65,7 +100,7 @@ public class PersonaDao_Login {
 
             if (rs.next()) {
                 idUsuarioLogueado = rs.getInt("id_usuario");
-                return rs.getInt("id_rol"); // Si la contraseña es correcta, devuelve el número del rol que es (1, 2, 3, 4, 5)
+                return rs.getInt("id_rol"); // Si la contraseña es correcta, devuelve el número del rol que es
             }
             return -1; // Si la contraseña está mal, devuelve -1
 
@@ -86,5 +121,105 @@ public class PersonaDao_Login {
             } catch (Exception e) {
             }
         }
+    }
+
+    // metodo boleano para validar que existe el correo
+    public boolean existeCorreo(String correo) {
+        String sql = "SELECT id_login FROM login_de_usuarios WHERE correo = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(),
+                    "Error al consultar correo: " + e.getMessage(),
+                    JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                    if (ps != null) {
+                        ps.close();
+                    }
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.toString());
+                }
+            }
+        }
+        return false;
+    }
+
+    // Validar si la cuenta esta activa
+    public boolean estaCuentaActiva(int documento) {
+        String sql = "SELECT l.id_estado "
+                + "FROM login_de_usuarios l "
+                + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
+                + "WHERE u.documento = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, documento);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_estado") == 1; // 1 = Activo, 2 = Inactivo
+            }
+        } catch (Exception e) {
+            System.out.println("Error al consultar estado de cuenta: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    //Validar para conseguir el id del login por el correo
+    public int obtenerIdLoginPorCorreo(String correo) {
+        int idLogin = -1;
+        String sql = "SELECT id_login FROM login_de_usuarios WHERE correo = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, correo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                idLogin = rs.getInt("id_login");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(),
+                    "Error al obtener ID de login: " + e.getMessage(),
+                    JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                    if (ps != null) {
+                        ps.close();
+                    }
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.toString());
+                }
+            }
+        }
+        return idLogin;
     }
 }
