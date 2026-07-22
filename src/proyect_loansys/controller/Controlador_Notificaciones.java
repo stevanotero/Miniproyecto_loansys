@@ -232,7 +232,7 @@ public class Controlador_Notificaciones implements ActionListener {
         if (e.getSource()== vista.botonReportes){
         vista.dispose();
         Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();
-        Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor();
+        Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor(vistaRep);
         vistaRep.setVisible(true);
         }
     }

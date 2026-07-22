@@ -3,18 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/model/PDFExporter.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/view/DescargarReporte_Tecnico.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/model/ReporteInventarioDao.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/view/Vista_Registro.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/view/Vista_Principal.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/view/Administrador_Registro_de_usuario.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/controller/Controlador_Login.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/controller/Controlador_inventario.java</file>
+            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/model/Crud.java</file>
             <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/view/Vista_Reportes_Asesor.java</file>
+            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/view/VentanaGestionarSolicitud.java</file>
             <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/controller/Controlador_Reportes_Asesor.java</file>
             <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/Index.java</file>
-            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/model/GeneradorReportePDF.java</file>
+            <file>file:/C:/Users/juans/OneDrive/Documentos/NetBeansProjects/proyect_loansys/src/proyect_loansys/controller/Controlador_inicio.java</file>
         </group>
     </open-files>
 </project-private>
