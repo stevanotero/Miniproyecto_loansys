@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * @author Alexis
  */
 public class SolicitudesDao {
 
     Conexion_Registro conectar = new Conexion_Registro();
 
-    // 1. MÉTODO PARA LISTAR
+    // listar solicitudes
     public List<Solicitudes> listarSolicitudes() {
         List<Solicitudes> lista = new ArrayList<>();
 
@@ -67,11 +68,11 @@ public class SolicitudesDao {
         return lista;
     }
 
-    // 2. MÉTODO PARA RECHAZAR
+    // metodo de recchazar
     public boolean rechazarSolicitudConNotificacion(int idSolicitud, int idUsuario, String motivoRefusal, String nombreElemento) {
-        // 1. Insertamos la notificación tipo 6 (Solicitud <lh>Rechazada</lh>)
+        // insert de la notificacion tipo 6
         String sqlNotificacion = "INSERT INTO notificaciones_usuario (id_tipo_notificacion, mensaje, id_login) VALUES (?, ?, ?)";
-        // 2. Borramos la solicitud de la lista de pendientes
+        // se borra la que se selecciono 
         String sqlBorrarSolicitud = "DELETE FROM solicitudes_usuario WHERE id_solicitud = ?";
 
         Connection con = null;
@@ -80,21 +81,21 @@ public class SolicitudesDao {
 
         try {
             con = conectar.getConection();
-            con.setAutoCommit(false); // Transacción segura
+            con.setAutoCommit(false); 
 
-            // Configurar Notificación
+            // forma en la que va a salir el mensaje de la notificacion en el rechazo
             psNotif = con.prepareStatement(sqlNotificacion);
-            psNotif.setInt(1, 6); // Tipo 6: Solicitud Rechazada
+            psNotif.setInt(1, 6); // Tipo 6 solicitud Rechazada
             psNotif.setString(2, "Tu solicitud del elemento " + nombreElemento + " ha sido rechazada. Motivo: " + motivoRefusal);
             psNotif.setInt(3, idUsuario); // id_login del usuario afectado
             psNotif.executeUpdate();
 
-            // Eliminar de pendientes
+            // Eliminar la solicitud que estaba
             psBorrar = con.prepareStatement(sqlBorrarSolicitud);
             psBorrar.setInt(1, idSolicitud);
             psBorrar.executeUpdate();
 
-            con.commit(); // Si ambos queries son exitosos, guardamos
+            con.commit(); // Si ambas cosas son exitosas se guarda
             return true;
 
         } catch (Exception e) {

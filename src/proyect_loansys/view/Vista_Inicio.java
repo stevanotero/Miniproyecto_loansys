@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -16,6 +17,10 @@ import java.awt.Font;
 import java.awt.Component;
 import java.awt.Image;
 
+/**
+ *
+ * @author Alexis
+ */
 
 public class Vista_Inicio extends Vista_Principal{
     
@@ -55,10 +60,6 @@ public class Vista_Inicio extends Vista_Principal{
         panelCentro.add(Box.createVerticalGlue());
 
         return panelCentro; 
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Vista_Inicio().setVisible(true));
     }
 }
 

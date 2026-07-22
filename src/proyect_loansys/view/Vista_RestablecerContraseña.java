@@ -4,10 +4,7 @@
  */
 package proyect_loansys.view;
 
-/**
- *
- * @author Alexis
- */
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -28,6 +25,11 @@ import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+
+/**
+ *
+ * @author Alexis
+ */
 
 public class Vista_RestablecerContraseña extends JFrame {
 
@@ -89,18 +91,16 @@ public class Vista_RestablecerContraseña extends JFrame {
         botonCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
 
-        // Todo el orden final que se va agregar al campo de la tarjeta
-        // El createVerticalStrut permite poner el espacio entre lo que esta dentro del panel de la tarjeta
         card.add(Box.createVerticalStrut(80)); 
-        card.add(logo);                         // Se pone el logo primero
+        card.add(logo);                         
         card.add(Box.createVerticalStrut(20));
-        card.add(titulo);                       //el titulo del tipo de de modulo
+        card.add(titulo);                       
         card.add(Box.createVerticalStrut(15));
         
-        card.add(lCorreo);                    // El subtitulo del correo
-        card.add(Box.createVerticalStrut(6));  // El separador invisible
-        card.add(textoDelCorreo);             // Ponemos el campo redondo
-        card.add(Box.createVerticalStrut(20)); // Espacio grande para separar del siguiente bloque
+        card.add(lCorreo);                    
+        card.add(Box.createVerticalStrut(6));  
+        card.add(textoDelCorreo);             
+        card.add(Box.createVerticalStrut(20)); 
         
 
         card.add(botonOlvidar);
@@ -124,12 +124,9 @@ public class Vista_RestablecerContraseña extends JFrame {
             //Se establece que el que pintado lo hacel mismo usuario con
             @Override
             protected void paintComponent(Graphics g) {
-                //Clonamos la brocha y se convierte en un herramientra avanzada ya que al convertirlo a 2d permite realizar mas cosas
                 Graphics2D g2 = (Graphics2D) g.create();
-                //Se activa el Anti-Aliasing. Esto suaviza los bordes para que las curvas no se vean pixeladas
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(Color.WHITE);
-                //se define como de rendondo van a estar las esquinas de los campos
                 g2.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
                 g2.dispose();
                 super.paintComponent(g);
@@ -138,25 +135,17 @@ public class Vista_RestablecerContraseña extends JFrame {
             @Override
             protected void paintBorder(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
-                //Se suaviza el color de los bordes
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                //se le pone al g2 el color gris 
                 g2.setColor(new Color(215, 215, 215));
-                //Los ultimos dos números (10, 10) dicen qué tan redondas son las esquinas.
                 g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
                 g2.dispose();
             }
         };
 
-        //Se pone la caja original en java invisible
         campo.setOpaque(false);
-        //se limita el tamaño de los campos
         campo.setMaximumSize(new Dimension(350, 45));
-        //se le establece el tipo de letra
         campo.setFont(new Font("Arial", Font.PLAIN, 15));
-        //Para que no este pegada la informacion ingresada a los bordes de los campos
         campo.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 12));
-        //se entra el campo de texto ya terminado
         return campo;
     }
 
@@ -203,9 +192,8 @@ public class Vista_RestablecerContraseña extends JFrame {
                 super.paintComponent(g);
             }
         };
-
         boton.setBackground(fondo);
-        boton.setForeground(textoColor); //Aplica el color asignado a las letras
+        boton.setForeground(textoColor); 
         boton.setContentAreaFilled(false);
         boton.setBorderPainted(false);
         boton.setFont(new Font("Arial", Font.BOLD, 15));

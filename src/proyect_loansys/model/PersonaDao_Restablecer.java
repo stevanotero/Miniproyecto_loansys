@@ -28,19 +28,22 @@ public class PersonaDao_Restablecer {
             ps = con.prepareStatement(sql);
             ps.setString(1, correo);
             rs = ps.executeQuery();
-            
-            // Si el rs.next() es verdadero, significa que el correo sí está registrado
-            return rs.next(); 
-            
+            return rs.next();
+
         } catch (Exception e) {
             System.out.println("Error en verificarCorreo: " + e.getMessage());
             return false;
         } finally {
-            // Bloque de cierre seguro para liberar recursos de la base de datos
-            try { 
-                if (rs != null) rs.close(); 
-                if (ps != null) ps.close(); 
-                if (con != null) con.close(); 
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.getMessage());
             }

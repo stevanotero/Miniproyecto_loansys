@@ -8,6 +8,11 @@ package proyect_loansys.model;
  *
  * @author Alexis
  */
-public interface Crud_nuevaContraseña <T> {
-    public int setActualizar(T tr);
+public interface Crud<T> {
+    default boolean setAgregar(T tr) {
+        return false;
+    }
+    default boolean setActualizar(T tr) {
+        return false;
+    }
 }

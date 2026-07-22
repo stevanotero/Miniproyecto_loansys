@@ -12,6 +12,7 @@ import proyect_loansys.view.VentanaAsignarFechas;
 import proyect_loansys.view.VentanaMotivoRechazo;
 
 /**
+ *
  * @author Alexis
  */
 public class ControladorModal_solicitudes implements ActionListener {
@@ -23,10 +24,8 @@ public class ControladorModal_solicitudes implements ActionListener {
     //El constructor recibe los 3 parámetros obligatoriamente
     public ControladorModal_solicitudes(VentanaGestionarSolicitud vistaModal, Solicitudes solicitud, Controlador_Solicitudes controladorPadre) {
         this.vistaModal = vistaModal;
-        this.solicitud = solicitud;          //Ahora sí guarda el objeto real que viene de la tabla
-        this.controladorPadre = controladorPadre; //Ahora sí guarda la referencia del padre
-
-        // Activamos los listeners de los tres botones de tu vista
+        this.solicitud = solicitud;          
+        this.controladorPadre = controladorPadre; 
         this.vistaModal.botonAprobar.addActionListener(this);
         this.vistaModal.botonRechazar.addActionListener(this);
         this.vistaModal.botonCancelar.addActionListener(this);
@@ -34,10 +33,8 @@ public class ControladorModal_solicitudes implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Se le hace clic al botón aprobar
         if (e.getSource() == vistaModal.botonAprobar) {
             vistaModal.dispose();
-            
             VentanaAsignarFechas modalFechas = new VentanaAsignarFechas(null);
             Controlador_AsignarFechas controllerAsignar = new Controlador_AsignarFechas(modalFechas, this.solicitud, this.controladorPadre);
             modalFechas.setVisible(true);

@@ -7,6 +7,7 @@ package proyect_loansys.model;
 import java.sql.Timestamp;
 
 /**
+ *
  * @author Alexis
  */
 public class Solicitudes {

@@ -15,6 +15,7 @@ import proyect_loansys.model.Solicitudes;
 import proyect_loansys.view.VentanaAsignarFechas;
 
 /**
+ *
  * @author Alexis
  */
 public class Controlador_AsignarFechas implements ActionListener {
@@ -60,14 +61,13 @@ public class Controlador_AsignarFechas implements ActionListener {
                 if (solicitud != null && solicitud.getNombreRol() != null) {
                     rolUsuario = solicitud.getNombreRol().toUpperCase().trim();
                 } else {
-                    rolUsuario = "OTROS"; // Rol por defecto si no se detecta ninguno en la tabla
+                    rolUsuario = "OTROS"; 
                 }
 
                 //Condicion de que el aprendiz solo se puede el mismo dia
                 if (rolUsuario.contains("APRENDIZ")) {
                     if (diasDePrestamo != 0) {
-                        JOptionPane.showMessageDialog(vistaModal, 
-                            "⚠️ REGLA DE SEGURIDAD:\n" +
+                        JOptionPane.showMessageDialog(vistaModal,
                             "Los usuarios con rol APRENDIZ solo pueden solicitar elementos para el MISMO DÍA.\n" +
                             "Por favor, asigne la fecha de hoy: " + hoy);
                         return; 
@@ -78,7 +78,6 @@ public class Controlador_AsignarFechas implements ActionListener {
                 else if (rolUsuario.contains("INSTRUCTOR")) {
                     if (diasDePrestamo > 2) {
                         JOptionPane.showMessageDialog(vistaModal, 
-                            "⚠️ REGLA DE SEGURIDAD:\n" +
                             "Los INSTRUCTORES pueden tener el elemento un máximo de 2 días.\n" +
                             "La fecha máxima permitida para este préstamo es: " + hoy.plusDays(2));
                         return; 
@@ -87,13 +86,10 @@ public class Controlador_AsignarFechas implements ActionListener {
 
                 String fechaHoraFinal = fechaTexto + " 17:00:00";
                 int idCategoriaProvicional = 1; 
-
-                // Ejecutamos la inserción en la BD
                 boolean exito = prestamosDao.registrarPrestamoAprobado(solicitud, fechaHoraFinal, idCategoriaProvicional);
 
                 if (exito) {
                     JOptionPane.showMessageDialog(null, "¡Préstamo aprobado y registrado correctamente!");
-                    
                     if (controladorPadre != null) {
                         controladorPadre.listarSolicitudesTabla();
                     }
@@ -104,14 +100,11 @@ public class Controlador_AsignarFechas implements ActionListener {
                 }
 
             } catch (DateTimeParseException ex) {
-                // Captura específicamente si la fecha está mal digitada
                 JOptionPane.showMessageDialog(vistaModal, "Formato de fecha inválido. Por favor use: YYYY-MM-DD (Ejemplo: 2026-07-07)");
             } catch (NullPointerException ex) {
-                // Alerta si algún objeto del modelo llegó completamente vacío
                 JOptionPane.showMessageDialog(vistaModal, "Error: Hay un dato de la solicitud o elemento que llega en NULL.");
                 ex.printStackTrace();
             } catch (Exception ex) {
-                // Alerta general para errores de SQL o base de datos
                 JOptionPane.showMessageDialog(vistaModal, "Error inesperado en el sistema:\n" + ex.getMessage());
                 ex.printStackTrace();
             }

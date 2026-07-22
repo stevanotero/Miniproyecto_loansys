@@ -11,17 +11,14 @@
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Login.java</file>
-            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Conexion_Login.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_Login.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_Login.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_RestablecerContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Login.java</file>
-            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Conexion_Restablecer.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_Restablecer.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_Restablecer.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Restablecer.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_NuevaContraseña.java</file>
-            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Conexion_nuevaContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Crud_nuevaContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_nuevaContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_nuevaContraseña.java</file>
@@ -54,6 +51,25 @@
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Prestamos.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PrestamosActivosDao.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Prestamos.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Notificaciones.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Notificaciones.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/NotificacionesDAO.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Notificaciones.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Sesion.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/VentanaGestionPrestamo.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/ControladorModal_prestamos.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/VentanaObservacionesDevolucion.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_ObservacionesDevolucion.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Devoluciones.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Devolucion.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/DevolucionDao.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Devoluciones.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/UsuarioLogin.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/UsuarioLoginDao.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_GestionUsuarios.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/VentanaEstadoUsuarioModal.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_GestionUsuarios.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/TipoNotificacion.java</file>
         </group>
     </open-files>
 </project-private>

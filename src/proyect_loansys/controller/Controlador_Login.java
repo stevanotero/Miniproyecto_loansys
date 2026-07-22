@@ -12,23 +12,21 @@ import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.view.Vista_Registro;
+
 /**
  *
  * @author Alexis
  */
 
 public class Controlador_Login implements ActionListener {
-
     private int intentosFallidos = 0;
     private long tiempoBloqueoHasta = 0;
     private final long TIEMPO_ESPERA = 60000;
-
     public PersonaDao_Login pdao = new PersonaDao_Login();
     public Vista_Login vista;
 
     public Controlador_Login(Vista_Login vista) {
         this.vista = vista;
-
         this.vista.botonRegistrar.addActionListener(this);
         this.vista.botonOlvidar.addActionListener(this);
         this.vista.botonLogin.addActionListener(this);
@@ -50,7 +48,6 @@ public class Controlador_Login implements ActionListener {
                 if (procesarLogin(documentoTexto, passwordConvertido)) {
                     intentosFallidos = 0;
                 } else {
-                    // Los intentos solo suman si el documento era rea
                     if (intentosFallidos >= 5) {
                         tiempoBloqueoHasta = System.currentTimeMillis() + TIEMPO_ESPERA;
                         JOptionPane.showMessageDialog(vista,
@@ -72,80 +69,92 @@ public class Controlador_Login implements ActionListener {
             Controlador_Registro controladorReg = new Controlador_Registro(vistaRegistro);
             vistaRegistro.setVisible(true);
         }
-        
-        if(e.getSource()== vista.botonOlvidar){
-        vista.dispose();
-        Vista_RestablecerContraseña vistaRestablecer = new Vista_RestablecerContraseña();
-        vistaRestablecer.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        vistaRestablecer.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        Controlador_Restablecer controladorRestablecer = new Controlador_Restablecer(vistaRestablecer);
-        vistaRestablecer.setVisible(true);
+
+        if (e.getSource() == vista.botonOlvidar) {
+            vista.dispose();
+            Vista_RestablecerContraseña vistaRestablecer = new Vista_RestablecerContraseña();
+            vistaRestablecer.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+            vistaRestablecer.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            Controlador_Restablecer controladorRestablecer = new Controlador_Restablecer(vistaRestablecer);
+            vistaRestablecer.setVisible(true);
         }
-    
-        
     }
 
-   public boolean procesarLogin(String documentoTexto, String contraseña) {
-    try {
-        int documento = Integer.parseInt(documentoTexto);
+    public boolean procesarLogin(String documentoTexto, String contraseña) {
+        try {
+            int documento = Integer.parseInt(documentoTexto);
 
-        if (!pdao.existeDocumento(documento)) {
-            JOptionPane.showMessageDialog(vista, "El número de documento ingresado no se encuentra registrado", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
-            return false; 
-        }
-
-        int idRol = pdao.validarLogin(documento, contraseña);
-
-        if (idRol != -1) { 
-            JOptionPane.showMessageDialog(vista, "Bienvenido al Sistema de Préstamos del SENA", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
-            borrador();
-            vista.dispose(); 
-            
-            
-            
-            
-            // Se evalua el rol y lo lleva a una vista en especifico
-            switch (idRol) {
-                case 1: // aprendiz
-                case 2: // instructor
-                    Vista_Registro vistaUsuario = new Vista_Registro();
-                    vistaUsuario.setVisible(true);
-                    break;
-
-                case 3: // tecnico
-                    Vista_Registro vistaTecnico = new Vista_Registro();
-                    vistaTecnico.setVisible(true);
-                    break;
-
-                case 4: // asesor
-                    Vista_Inicio vistaAsesor = new Vista_Inicio(); 
-                    Controlador_inicio controlAsesor = new Controlador_inicio(vistaAsesor);
-                    vistaAsesor.setVisible(true);
-                    break;
-
-                case 5: // administrador
-                    Vista_Registro vistaAdmin = new Vista_Registro();
-                    vistaAdmin.setVisible(true);
-                    break;
-
-                default:
-                    JOptionPane.showMessageDialog(vista, "El rol asignado no cuenta con una interfaz configurada.", "Error de Rol", JOptionPane.ERROR_MESSAGE);
-                    break;
+            //Validar si el documento existe
+            if (!pdao.existeDocumento(documento)) {
+                JOptionPane.showMessageDialog(vista, "El número de documento ingresado no se encuentra registrado", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
-            
-            return true;
-        } else {
-            intentosFallidos++;
-            JOptionPane.showMessageDialog(vista, "La contraseña ingresada es incorrecta", "Contraseña Incorrecta", JOptionPane.ERROR_MESSAGE);
-            vista.textoDeLaContraseña.setText("");
+
+            //Validar si la cuenta está desactivada 
+            if (!pdao.estaCuentaActiva(documento)) {
+                JOptionPane.showMessageDialog(vista, 
+                        "Su cuenta se encuentra desactivada.\nPor favor, contacte al administrador del sistema.", 
+                        "Cuenta Desactivada", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+
+            // Validar credenciales
+            int idRol = pdao.validarLogin(documento, contraseña);
+
+            if (idRol != -1) {
+                JOptionPane.showMessageDialog(vista, "Bienvenido al Sistema de Préstamos del SENA", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
+                borrador();
+                vista.dispose();
+
+                // Capturar el id del login de la base de datos
+                int idLoginSesion = pdao.obtenerIdLogin(documento);
+                proyect_loansys.model.Sesion.setIdLogin(idLoginSesion);
+                
+                // Guardar el rol en la sesión para las notificaciones
+                proyect_loansys.model.Sesion.setIdRol(idRol); 
+
+                switch (idRol) {
+                    case 1: // aprendiz
+                    case 2: // instructor
+                        Vista_Registro vistaUsuario = new Vista_Registro();
+                        vistaUsuario.setVisible(true);
+                        break;
+
+                    case 3: // técnico
+                        Vista_Inicio wasa = new Vista_Inicio();
+                        Controlador_inicio lop = new Controlador_inicio(wasa);
+                        wasa.setVisible(true);
+                        break;
+
+                    case 4: // asesor
+                        Vista_Inicio vistaAsesor = new Vista_Inicio();
+                        Controlador_inicio controlAsesor = new Controlador_inicio(vistaAsesor);
+                        vistaAsesor.setVisible(true);
+                        break;
+
+                    case 5: // administrador
+                        Vista_Registro vistaAdmin = new Vista_Registro();
+                        vistaAdmin.setVisible(true);
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(vista, "El rol asignado no cuenta con una interfaz configurada.", "Error de Rol", JOptionPane.ERROR_MESSAGE);
+                        break;
+                }
+
+                return true;
+            } else {
+                intentosFallidos++;
+                JOptionPane.showMessageDialog(vista, "La contraseña ingresada es incorrecta", "Contraseña Incorrecta", JOptionPane.ERROR_MESSAGE);
+                vista.textoDeLaContraseña.setText("");
+                return false;
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vista, "El documento debe contener solo números enteros", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(vista, "El documento debe contener solo números enteros", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-        return false;
     }
-}
 
     private void borrador() {
         vista.textoDelDocumento.setText("");

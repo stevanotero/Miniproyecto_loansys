@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
+ *
  * @author Alexis
  */
 public class PrestamosDao {
@@ -21,55 +22,57 @@ public class PrestamosDao {
     // Recibe el objeto Solicitudes completo, la fecha límite digitada y el id de la categoría del elemento
     public boolean registrarPrestamoAprobado(Solicitudes solicitud, String fechaLimite, int idCategoria) {
 
-        // 1. SQL para registrar el préstamo en la tabla principal
+        //Insertar en la tabla de prestamos
         String sqlPrestamo = "INSERT INTO prestamo (id_usuario, id_elemento, fecha_inicio_prestamo, fecha_fin_devolucion, id_estado_elemento) "
                 + "VALUES (?, ?, NOW(), ?, 2)";
 
-        // 2. SQL para guardar la auditoría en el historial (id_estado_entrega = 2 significa 'Pendiente')
-        String sqlHistorial = "INSERT INTO historial_prestamo (nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria) "
-                + "VALUES (?, NOW(), ?, 2, ?)";
+        //Actualizar el id del usuario
+        String sqlUpdateMora = "UPDATE login_de_usuarios SET id_estado_mora = 2 WHERE id_usuario = ?";
 
-        // 3. SQL para eliminar la solicitud de la tabla temporal de pendientes porque ya se procesó
+        // Guardar en el historial del usuario
+        String sqlHistorial = "INSERT INTO historial_prestamo (nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria, id_login) "
+                + "VALUES (?, NOW(), ?, 2, ?, (SELECT id_login FROM login_de_usuarios WHERE id_usuario = ?))";
+
+        // Eliminar la solicitud que esta pediente
         String sqlEliminarSolicitud = "DELETE FROM solicitudes_usuario WHERE id_solicitud = ?";
 
         try {
             con = conectar.getConection();
-            // Desactivamos el commit automático para proteger la operación en bloque (Transacción)
             con.setAutoCommit(false);
-
-            // --- PASO 1: INSERTAR EN LA TABLA PRESTAMO ---
+            // Insertar en la tabla de prestamos
             ps = con.prepareStatement(sqlPrestamo);
             ps.setInt(1, solicitud.getIdUsuario());
-
-            // 🌟 CORREGIDO: Ahora toma correctamente el idElemento (la FK numérica) y no el código visual
             ps.setInt(2, solicitud.getIdElemento());
-
             ps.setString(3, fechaLimite);
             ps.executeUpdate();
             ps.close();
 
-            // --- PASO 2: INSERTAR EN EL HISTORIAL ---
+            // Actualizar el estado de la mora
+            ps = con.prepareStatement(sqlUpdateMora);
+            ps.setInt(1, solicitud.getIdUsuario());
+            ps.executeUpdate();
+            ps.close();
+
+            //Insertar en el historial de prestamo
             ps = con.prepareStatement(sqlHistorial);
             ps.setString(1, solicitud.getNombreElemento());
             ps.setString(2, fechaLimite);
             ps.setInt(3, idCategoria);
+            ps.setInt(4, solicitud.getIdUsuario()); 
             ps.executeUpdate();
             ps.close();
 
-            // --- PASO 3: ELIMINAR LA SOLICITUD YA PROCESADA ---
+            // Eliminar la solicitud pendiente
             ps = con.prepareStatement(sqlEliminarSolicitud);
             ps.setInt(1, solicitud.getIdSolicitud());
             ps.executeUpdate();
-
-            // Si los 3 pasos se ejecutaron sin errores, confirmamos la transacción en la BD
-            con.commit();
+            con.commit(); // Confirmar las 4 operaciones en la BD
             return true;
 
         } catch (SQLException e) {
-            // Si algo falla en cualquiera de los 3 pasos, deshacemos todo para no dejar datos corruptos
             if (con != null) {
                 try {
-                    con.rollback();
+                    con.rollback(); // Si falla alguna de las 4 operaciones, deshace todo
                 } catch (SQLException ex) {
                     System.out.println("Error en Rollback: " + ex.getMessage());
                 }
@@ -77,7 +80,6 @@ public class PrestamosDao {
             JOptionPane.showMessageDialog(null, "Error crítico al procesar la aprobación: " + e.getMessage());
             return false;
         } finally {
-            // Aseguramos el cierre de los recursos de conexión
             try {
                 if (ps != null) {
                     ps.close();
@@ -92,11 +94,9 @@ public class PrestamosDao {
     }
 
     public boolean rechazarSolicitudConNotificacion(int idSolicitud, int idUsuario, String motivoRefusal, String nombreElemento) {
-        // 🌟 CORREGIDO: Buscamos automáticamente el id_login que le corresponde a ese id_usuario
         String sqlNotificacion = "INSERT INTO notificaciones_usuario (id_tipo_notificacion, mensaje, id_login) "
                 + "SELECT ?, ?, id_login FROM login_de_usuarios WHERE id_usuario = ?";
 
-        // 2. Borramos la solicitud de la lista de pendientes
         String sqlBorrarSolicitud = "DELETE FROM solicitudes_usuario WHERE id_solicitud = ?";
 
         Connection con = null;
@@ -105,21 +105,17 @@ public class PrestamosDao {
 
         try {
             con = conectar.getConection();
-            con.setAutoCommit(false); // Transacción segura
-
-            // Configurar Notificación
+            con.setAutoCommit(false);
             psNotif = con.prepareStatement(sqlNotificacion);
-            psNotif.setInt(1, 6); // Tipo 6: Solicitud Rechazada
+            psNotif.setInt(1, 6); // Tipo 6 de solicictud rechazada
             psNotif.setString(2, "Tu solicitud del elemento " + nombreElemento + " ha sido rechazada. Motivo: " + motivoRefusal);
-            psNotif.setInt(3, idUsuario); // Sigue recibiendo el id_usuario, la base de datos hace el cruce sola
+            psNotif.setInt(3, idUsuario);
             psNotif.executeUpdate();
-
-            // Eliminar de pendientes
             psBorrar = con.prepareStatement(sqlBorrarSolicitud);
             psBorrar.setInt(1, idSolicitud);
             psBorrar.executeUpdate();
 
-            con.commit(); // Si ambos queries son exitosos, guardamos
+            con.commit();
             return true;
 
         } catch (Exception e) {

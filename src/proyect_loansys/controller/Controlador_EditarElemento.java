@@ -12,6 +12,7 @@ import proyect_loansys.model.PersonaDao_Inventario;
 import proyect_loansys.view.VentanaEditarElemento;
 
 /**
+ *
  * @author Alexis
  */
 public class Controlador_EditarElemento implements ActionListener {
@@ -54,22 +55,38 @@ public class Controlador_EditarElemento implements ActionListener {
                         "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
                 return; // Corta la ejecución de inmediato, impidiendo el registro erróneo
             }
+            
+            if (nombre.length() < 5){
+            JOptionPane.showMessageDialog(vistaEditar,
+                        "El nombre es demasiado corto (Minimo 5 caracteres).",
+                        "Minimo de Caracteres", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             //Límite de longitud para evitar desbordes en la Base de Datos
-            if (nombre.length() > 100) {
+            if (nombre.length() > 50) {
                 JOptionPane.showMessageDialog(vistaEditar,
-                        "El nombre/detalle es demasiado largo (Máximo 100 caracteres).",
-                        "Límite de Caracteres", JOptionPane.ERROR_MESSAGE);
+                        "El nombre es demasiado largo (Máximo 50 caracteres).",
+                        "Límite de Caracteres", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            if (descripcion.length() > 255) {
+            if (descripcion.length() > 60) {
                 JOptionPane.showMessageDialog(vistaEditar,
-                        "La descripción es demasiado larga (Máximo 255 caracteres).",
-                        "Límite de Caracteres", JOptionPane.ERROR_MESSAGE);
+                        "La descripción es demasiado larga (Máximo 60 caracteres).",
+                        "Límite de Caracteres", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            //Si el flujo llega hasta aquí, significa que los datos son 100% válidos
+            
+             if (descripcion.length() < 5){
+            JOptionPane.showMessageDialog(vistaEditar,
+                        "La descripción es demasiada corta (Minimo 5)",
+                        "Minimo de Caracteres", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            
+            //Si el flujo llega hasta aquí, significa que los datos son validos
             elemento.setNombreElemento(nombre);
             elemento.setDescripcion(descripcion);
 

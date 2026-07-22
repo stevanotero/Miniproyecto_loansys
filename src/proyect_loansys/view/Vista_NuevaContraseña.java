@@ -4,10 +4,7 @@
  */
 package proyect_loansys.view;
 
-/**
- *
- * @author Alexis
- */
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -27,6 +24,11 @@ import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+
+/**
+ *
+ * @author Alexis
+ */
 
 public class Vista_NuevaContraseña extends JFrame {
     //Declarar todo lo requerido

@@ -25,6 +25,11 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 
+/**
+ * 
+ * @author Alexis
+ */
+
 public class Vista_Registro extends JFrame {
 
     // Declaracion de variables

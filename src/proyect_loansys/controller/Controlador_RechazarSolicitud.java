@@ -12,6 +12,7 @@ import proyect_loansys.model.PrestamosDao;
 import proyect_loansys.view.VentanaMotivoRechazo;
 
 /**
+ *
  * @author Alexis
  */
 public class Controlador_RechazarSolicitud implements ActionListener {
@@ -41,14 +42,19 @@ public class Controlador_RechazarSolicitud implements ActionListener {
         if (e.getSource() == vistaRechazo.botonConfirmarRechazo) {
             // Capturamos el texto limpiando espacios al inicio y al final
            String motivo = vistaRechazo.areaMotivoRechazo.getText().trim();
-
+           
             if (motivo.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El motivo del rechazo no puede quedar vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            
+            if (motivo.length() < 10){
+            JOptionPane.showMessageDialog(null, "El motivo es muy corto. Minimo 10 caracteres (Llevas: " + motivo.length() + ").", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-            if (motivo.length() > 150) {
-                JOptionPane.showMessageDialog(null, "El motivo es muy largo. Máximo 150 caracteres (Llevas: " + motivo.length() + ").", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            if (motivo.length() > 60) {
+                JOptionPane.showMessageDialog(null, "El motivo es muy largo. Máximo 60 caracteres (Llevas: " + motivo.length() + ").", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
