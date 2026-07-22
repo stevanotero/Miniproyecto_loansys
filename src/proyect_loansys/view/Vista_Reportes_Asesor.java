@@ -1,21 +1,15 @@
-package proyect_loansys.view;
-
-import javax.swing.JPanel;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-/**
- *
- * @author juans
- */
+package proyect_loansys.view;
+
+
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,30 +18,29 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ *
+ * @author juans
+ */
 public class Vista_Reportes_Asesor extends Vista_Principal {
 
-    // Componentes
-    public JButton btnEstadoGeneral;
-    public JButton btnFrecuenciaUso;
-    public JButton btnAlertasMantenimiento;
-    public JButton btnExportarPDF;
-    public JButton btnLimpiar;
-
+    public JButton btnEstadoGeneral, btnFrecuenciaUso, btnAlertasMantenimiento, btnExportarPDF, btnLimpiar;
     public JTable tablaReportes;
     public DefaultTableModel modelo;
-    private JScrollPane scroll;
 
     public Vista_Reportes_Asesor() {
         super();
+
         setTextoBienvenida("¡Bienvenido, Asesor!");
         setTextoModulo("Reportes e Historial");
-
-        inicializarComponentes();
-        armarLayout();
     }
 
-    private void inicializarComponentes() {
+    @Override
+    protected JPanel crearPanelCentro() {
+        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        panelPrincipal.setBackground(Color.WHITE);
+
+        // Crear botones aquí (dentro del método)
         btnEstadoGeneral = new JButton("Estado General del Inventario");
         btnFrecuenciaUso = new JButton("Frecuencia de Uso");
         btnAlertasMantenimiento = new JButton("Alertas de Mantenimiento");
@@ -67,20 +60,7 @@ public class Vista_Reportes_Asesor extends Vista_Principal {
         btnExportarPDF.setForeground(Color.WHITE);
         btnLimpiar.setForeground(Color.WHITE);
 
-        // Tabla
-        modelo = new DefaultTableModel();
-        tablaReportes = new JTable(modelo);
-        scroll = new JScrollPane(tablaReportes);
-    }
-
-    private void armarLayout() {
-        // Usamos el panelCentro que viene de la clase padre
-        JPanel panelCentro = crearPanelCentro(); // Llamamos al método abstracto
-        panelCentro.setLayout(new BorderLayout(10, 10));
-        panelCentro.setBackground(Color.WHITE);
-        panelCentro.removeAll();
-
-        // Panel de botones superior
+        // Panel botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 12));
         panelBotones.setBackground(Color.WHITE);
         panelBotones.setBorder(new EmptyBorder(15, 20, 10, 20));
@@ -91,28 +71,24 @@ public class Vista_Reportes_Asesor extends Vista_Principal {
         panelBotones.add(btnExportarPDF);
         panelBotones.add(btnLimpiar);
 
-        // Panel de la tabla
+        // Tabla
+        modelo = new DefaultTableModel();
+        tablaReportes = new JTable(modelo);
+        JScrollPane scroll = new JScrollPane(tablaReportes);
+
         JPanel panelTabla = new JPanel(new BorderLayout());
         panelTabla.setBackground(Color.WHITE);
         panelTabla.setBorder(new EmptyBorder(10, 20, 20, 20));
 
         JLabel titulo = new JLabel("Resultados del Reporte");
         titulo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 18));
+
         panelTabla.add(titulo, BorderLayout.NORTH);
         panelTabla.add(scroll, BorderLayout.CENTER);
 
-        panelCentro.add(panelBotones, BorderLayout.NORTH);
-        panelCentro.add(panelTabla, BorderLayout.CENTER);
+        panelPrincipal.add(panelBotones, BorderLayout.NORTH);
+        panelPrincipal.add(panelTabla, BorderLayout.CENTER);
 
-        revalidate();
-        repaint();
-    }
-
-    @Override
-    protected JPanel crearPanelCentro() {
-        // Este método es obligatorio por ser abstracto en Vista_Principal
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.WHITE);
-        return panel;
+        return panelPrincipal;
     }
 }

@@ -16,9 +16,19 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import proyect_loansys.model.PDFExporter;
+import proyect_loansys.controller.Controlador_Login;
+import proyect_loansys.controller.Controlador_Prestamos;
+import proyect_loansys.controller.Controlador_Solicitudes;
+import proyect_loansys.controller.Controlador_inicio;
 import proyect_loansys.model.ReporteInventarioDao;
 import proyect_loansys.view.Vista_Reportes_Asesor;
+import proyect_loansys.controller.PDFExporter;
+import proyect_loansys.model.ReporteInventarioDao;
+import proyect_loansys.view.Vista_Inicio;
+import proyect_loansys.view.Vista_Login;
+import proyect_loansys.view.Vista_Prestamo;
+import proyect_loansys.view.Vista_Reportes_Asesor;
+import proyect_loansys.view.Vista_Solicitudes;
 
 public class Controlador_Reportes_Asesor implements ActionListener {
 
@@ -65,10 +75,40 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         if (e.getSource() == vista.btnLimpiar) {
             limpiarTabla();
         }
+        //dar clic a cerrar sesion 
+        if (e.getSource() == vista.botonCerrarSesion) {
+            vista.dispose();
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+            vistaLogin.setVisible(true);
+        }
+
+        //Modulo de solicitudes
+        if (e.getSource() == vista.botonSolicitudes) {
+            vista.dispose();
+            Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
+            Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
+            vistaSolicitud.setVisible(true);
+        }
+
+        // Modulo de inicio
+        if (e.getSource() == vista.botonInicio) {
+            vista.dispose();
+            Vista_Inicio vistaIni = new Vista_Inicio();
+            Controlador_inicio controlin = new Controlador_inicio(vistaIni);
+            vistaIni.setVisible(true);
+        }
+
+        // Modulo de prestamos
+        if (e.getSource() == vista.botonPrestamos) {
+            vista.dispose();
+            Vista_Prestamo vistap = new Vista_Prestamo();
+            Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
+            vistap.setVisible(true);
+        }
     }
 
-    
-
+ 
     public void getListarEstadoGeneral(JTable tabla) {
         modelo = (DefaultTableModel) tabla.getModel();
         modelo.setColumnCount(0);
@@ -135,24 +175,41 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         modelo.setColumnCount(0);
     }
 
-   
-    private void exportarReportePDF() {
-        String tituloReporte = "";
 
-        if (vista.btnEstadoGeneral.getBackground().equals(new Color(0, 153, 76))) {
-            tituloReporte = "Estado General del Inventario";
-        } else if (vista.btnFrecuenciaUso.getBackground().equals(new Color(0, 102, 204))) {
-            tituloReporte = "Frecuencia de Uso de Equipos";
-        } else {
-            tituloReporte = "Alertas de Mantenimiento";
+private void exportarReportePDF() {
+    String tituloReporte = "Reporte de Inventario";
+    String nombreBase = "Reporte";
+
+    // Mejor detección basada en la tabla actual (más confiable)
+    int columnas = vista.tablaReportes.getColumnCount();
+
+    if (columnas == 4) {
+        // Posible Estado General o Alertas
+        String primeraColumna = vista.tablaReportes.getColumnName(0);
+        if (primeraColumna != null && primeraColumna.contains("Código")) {
+            if (vista.tablaReportes.getColumnName(2).contains("Categoría")) {
+                tituloReporte = "Estado General del Inventario";
+                nombreBase = "Estado_General";
+            } else {
+                tituloReporte = "Alertas de Mantenimiento";
+                nombreBase = "Alertas_Mantenimiento";
+            }
         }
-
-        boolean exito = PDFExporter.generarPDF(vista.tablaReportes, tituloReporte);
-
-        if (exito) {
-            JOptionPane.showMessageDialog(vista, " Reporte PDF generado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(vista, " Error al generar el PDF", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    } 
+    else if (columnas == 3) {
+        tituloReporte = "Frecuencia de Uso de Equipos";
+        nombreBase = "Frecuencia_Uso";
     }
+
+    boolean exito = PDFExporter.generarPDFConSelector(
+        vista.tablaReportes, 
+        tituloReporte, 
+        nombreBase, 
+        vista
+    );
+
+    if (exito) {
+        JOptionPane.showMessageDialog(vista, "Reporte PDF guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
 }

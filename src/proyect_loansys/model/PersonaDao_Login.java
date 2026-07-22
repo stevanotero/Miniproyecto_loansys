@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import proyect_loansys.model.Conexion_Login;
+import proyect_loansys.model.Conexion;
 
 /**
  *
@@ -17,7 +17,7 @@ import proyect_loansys.model.Conexion_Login;
 public class PersonaDao_Login {
 
     private Connection con;
-    private Conexion_Login conectar = new Conexion_Login();
+    private Conexion conectar = new Conexion();
     private PreparedStatement ps;
     private ResultSet rs;
 
