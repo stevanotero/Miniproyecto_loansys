@@ -4,15 +4,15 @@
  */
 package proyect_loansys.model;
 
-import java.util.List;
-
 /**
  *
- * @author Sants
+ * @author Alexis
  */
 public interface Crud<T> {
-    public List<T> listar();
-    public int setAgregar(T t);
-    public int setActualizar(T t);
-    public int setEliminar(int id);
+    default boolean setAgregar(T tr) {
+        return false;
+    }
+    default boolean setActualizar(T tr) {
+        return false;
+    }
 }

@@ -4,7 +4,7 @@
  */
 package proyect_loansys.model;
 
-import java.sql.Timestamp; 
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,13 +13,15 @@ import java.sql.Timestamp;
 public class Solicitudes {
 
     private int idSolicitud;
-    private int codigoElemento; 
+    private int codigoElemento;
     private String nombreElemento;
     private String nombreUsuario;
     private String apellidoUsuario;
     private String documentoUsuario;
     private String nombreRol;
     private Timestamp fechaEnvio;
+    private int idUsuario;
+    private int idElemento;
 
     public Solicitudes(int idSolicitud, int codigoElemento, String nombreElemento, String nombreUsuario,
             String apellidoUsuario, String documentoUsuario, String nombreRol, Timestamp fechaEnvio) {
@@ -31,6 +33,9 @@ public class Solicitudes {
         this.documentoUsuario = documentoUsuario;
         this.nombreRol = nombreRol;
         this.fechaEnvio = fechaEnvio;
+    }
+
+    public Solicitudes() {
     }
 
     public int getIdSolicitud() {
@@ -95,5 +100,21 @@ public class Solicitudes {
 
     public void setFechaEnvio(Timestamp fechaEnvio) {
         this.fechaEnvio = fechaEnvio;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public int getIdElemento() {
+        return idElemento;
+    }
+
+    public void setIdElemento(int idElemento) {
+        this.idElemento = idElemento;
     }
 }

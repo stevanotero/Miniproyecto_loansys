@@ -24,9 +24,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ *
+ * @author Alexis
+ */
+
 public class VentanaEditarElemento extends JDialog {
 
-    // Componentes públicos para que el controlador pueda leerlos y escribir en ellos
+   
     public JTextField textoCodigo;
     public JTextField textoNombre;
     public JTextField textoCategoria;
@@ -41,18 +46,11 @@ public class VentanaEditarElemento extends JDialog {
         this.setLocationRelativeTo(padre);
         this.setResizable(false);
 
-        // Contenedor principal con margen elegante
+        // Contenedor principal con margen
         JPanel panelRaiz = new JPanel();
         panelRaiz.setLayout(new BoxLayout(panelRaiz, BoxLayout.Y_AXIS));
         panelRaiz.setBackground(Color.WHITE);
         panelRaiz.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
-
-        // Título de la ventana emergente
-        JLabel lblTitulo = new JLabel("Editar Detalles del Elemento");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitulo.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panelRaiz.add(lblTitulo);
-        panelRaiz.add(Box.createVerticalStrut(20));
 
         // texto del codigo
         textoCodigo = crearCampoFormulario(panelRaiz, "Código del Elemento:");
@@ -61,9 +59,9 @@ public class VentanaEditarElemento extends JDialog {
         // texto del nombre
         textoNombre = crearCampoFormulario(panelRaiz, "Nombre del Elemento:");
 
-        // texto de la categoria
-        textoNombre = crearCampoFormulario(panelRaiz, "Categoría:");
-        textoNombre.setEnabled(false);
+        //texto de  la categoría    
+        textoCategoria = crearCampoFormulario(panelRaiz, "Categoría:"); 
+        textoCategoria.setEnabled(false);
 
         // lista del estado
         JLabel lblEstado = new JLabel("Estado:");
@@ -135,8 +133,8 @@ public class VentanaEditarElemento extends JDialog {
         boton.setBackground(fondo);
         boton.setForeground(texto);
         boton.setFocusPainted(false);
-        boton.setContentAreaFilled(false); 
-        boton.setBorderPainted(false);     
+        boton.setContentAreaFilled(false);
+        boton.setBorderPainted(false);
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 

@@ -1,5 +1,8 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package proyect_loansys.controller;
-
 
 import proyect_loansys.view.Vista_Login;
 import java.awt.event.ActionEvent;
@@ -11,12 +14,16 @@ import proyect_loansys.model.PersonaDao_Registro;
 import proyect_loansys.model.Persona_Registro;
 import proyect_loansys.view.Vista_Registro;
 
+/**
+ *
+ * @author Alexis
+ */
 public class Controlador_Registro implements ActionListener {
 
     // Variables para el control de intentos y bloqueo temporal
     private int intentosFallidos = 0;
     private long tiempoBloqueoHasta = 0; // Guardara el tiempo en milisegundos
-    private final long TIEMPO_ESPERA = 60000; // 60,000 ms = 1 minuto de bloqueo
+    private final long TIEMPO_ESPERA = 60000;
 
     public PersonaDao_Registro pdao = new PersonaDao_Registro();
     public Vista_Registro vista = new Vista_Registro();
@@ -33,16 +40,15 @@ public class Controlador_Registro implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // Aquí es cuando el usuario le da clic en registrarse
         if (e.getSource() == vista.botonRegistrar) {
-
             // Condicion que verifica si actualmente está bloqueado
             if (System.currentTimeMillis() < tiempoBloqueoHasta) {
                 long segundosRestantes = (tiempoBloqueoHasta - System.currentTimeMillis()) / 1000;
                 JOptionPane.showMessageDialog(vista,
-                        "Acceso temporalmente bloqueado por demasiados intentos.\nIntente de nuevo en " + segundosRestantes +
-                                " segundos.",
+                        "Acceso temporalmente bloqueado por demasiados intentos.\nIntente de nuevo en " + segundosRestantes
+                        + " segundos.",
                         "Registro bloqueado", JOptionPane.ERROR_MESSAGE);
                 return;
-                //Corta la ejecución en caliente, no procesa nada más
+                //Corta la ejecución 
             }
             String passwordConvertido = String.valueOf(vista.textoDeLaContraseña.getPassword());
             if (!vista.textoDelDocumento.getText().isBlank()

@@ -5,7 +5,6 @@
 package proyect_loansys.model;
 
 import proyect_loansys.model.Elemento;
-import proyect_loansys.model.Crud_Inventario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,12 +12,14 @@ import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
+import proyect_loansys.model.Crud;
 
 /**
+ *
  * @author Alexis
  */
 
-public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
+public class PersonaDao_Inventario implements Crud<Elemento> {
 
     Conexion_Registro conectar = new Conexion_Registro();
     Connection con;
@@ -48,39 +49,28 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al listar los elementos del inventario: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error de consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception e) {
-            }
+            cerrarRecursos();
         }
         return lista;
     }
 
     public List<Elemento> buscarElementos(String texto) {
         List<Elemento> lista = new ArrayList<>();
-        // Busca coincidencias tanto en el nombre como en el código del elemento
         String sql = "SELECT e.codigo_elemento, e.nombre_elemento, e.descripcion, c.nombre_categoria, est.nombre_estado_elemento "
                 + "FROM elemento e "
                 + "INNER JOIN categoria_elemento c ON e.id_categoria = c.id_categoria "
                 + "INNER JOIN estado_elemento est ON e.id_estado_elemento = est.id_estado_elemento "
                 + "WHERE e.nombre_elemento LIKE ? OR e.codigo_elemento LIKE ?";
 
-        try (Connection con = conectar.getConection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
             ps.setString(1, "%" + texto + "%");
             ps.setString(2, "%" + texto + "%");
 
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Elemento elem = new Elemento();
                 elem.setCodigoElemento(rs.getInt("codigo_elemento"));
@@ -90,16 +80,16 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
                 elem.setDescripcion(rs.getString("descripcion"));
                 lista.add(elem);
             }
-        } catch (SQLException e) {
-            System.out.println("Error en la búsqueda del DAO: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error de búsqueda: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            cerrarRecursos();
         }
         return lista;
     }
 
     public List<Elemento> listarElementosConFiltro(String categoria, String estado) {
         List<Elemento> lista = new ArrayList<>();
-
-        // ✨ CORREGIDO: Nombres de columnas ajustados a tu BD (codigo_elemento y descripcion)
         StringBuilder sql = new StringBuilder(
                 "SELECT e.codigo_elemento, e.nombre_elemento, e.descripcion, c.nombre_categoria, est.nombre_estado_elemento "
                 + "FROM elemento e "
@@ -107,7 +97,6 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
                 + "INNER JOIN estado_elemento est ON e.id_estado_elemento = est.id_estado_elemento WHERE 1=1"
         );
 
-        // Si seleccionan algo diferente a "Todas" o "Todos", agregamos el filtro a la consulta SQL
         if (categoria != null && !categoria.equals("Todas")) {
             sql.append(" AND c.nombre_categoria = ?");
         }
@@ -115,7 +104,9 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
             sql.append(" AND est.nombre_estado_elemento = ?");
         }
 
-        try (Connection con = conectar.getConection(); PreparedStatement ps = con.prepareStatement(sql.toString())) {
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql.toString());
 
             int paramIndex = 1;
             if (categoria != null && !categoria.equals("Todas")) {
@@ -125,7 +116,7 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
                 ps.setString(paramIndex++, estado);
             }
 
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Elemento elem = new Elemento();
                 elem.setCodigoElemento(rs.getInt("codigo_elemento"));
@@ -135,8 +126,10 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
                 elem.setDescripcion(rs.getString("descripcion"));
                 lista.add(elem);
             }
-        } catch (SQLException e) {
-            System.out.println("Error en el filtro del DAO: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error de consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            cerrarRecursos();
         }
         return lista;
     }
@@ -156,18 +149,18 @@ public class PersonaDao_Inventario implements Crud_Inventario<Elemento> {
             return resultado > 0;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al modificar el elemento: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error en la actualización: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (Exception e) {
-            }
+            cerrarRecursos();
         }
+    }
+
+    private void cerrarRecursos() {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+        } catch (Exception e) {}
     }
 }

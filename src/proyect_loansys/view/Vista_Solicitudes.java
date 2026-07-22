@@ -92,8 +92,4 @@ public class Vista_Solicitudes extends Vista_Principal {
         
         return panelPrincipalCentrado;
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Vista_Solicitudes().setVisible(true));
-    }
 }

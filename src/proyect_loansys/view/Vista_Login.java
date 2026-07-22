@@ -12,7 +12,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
 import javax.swing.BorderFactory;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
@@ -24,6 +23,11 @@ import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+
+/**
+ *
+ * @author Alexis
+ */
 
 public class Vista_Login extends JFrame {
 
@@ -139,10 +143,6 @@ public class Vista_Login extends JFrame {
 
         fondo.add(card);
         add(fondo);
-
-        // Configuración final de la ventana
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     // Metodos de diseño para poner los textos y los botones redondos
@@ -247,9 +247,5 @@ public class Vista_Login extends JFrame {
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         return boton;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Vista_Login().setVisible(true));
     }
 }

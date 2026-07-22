@@ -10,32 +10,36 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import proyect_loansys.model.Prestamos;
+import proyect_loansys.model.PrestamosActivosDao;
 import proyect_loansys.view.Vista_Inventario;
 import proyect_loansys.view.Vista_Login;
-import proyect_loansys.model.Solicitudes;
-import proyect_loansys.model.SolicitudesDao;
+import proyect_loansys.view.Vista_Inicio;
+import proyect_loansys.view.Vista_Prestamo;
 import proyect_loansys.view.Vista_Solicitudes;
-import proyect_loansys.view.VentanaGestionarSolicitud;
+import proyect_loansys.controller.ControladorModal_prestamos;
+import proyect_loansys.view.VentanaGestionPrestamo;
 import proyect_loansys.view.Vista_Devoluciones;
 import proyect_loansys.view.Vista_Reportes_Asesor;
 import proyect_loansys.view.Vista_GestionUsuarios;
-import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.view.Vista_Notificaciones;
-import proyect_loansys.view.Vista_Prestamo;
 
 /**
+ *
  * @author Alexis
  */
-public class Controlador_Solicitudes implements ActionListener {
+public class Controlador_Prestamos implements ActionListener {
 
-    private Vista_Solicitudes vista;
-    private SolicitudesDao modelo;
+    private Vista_Prestamo vista;
+    private PrestamosActivosDao modelo;
     private DefaultTableModel modeloTabla;
-    private List<Solicitudes> listaSolicitudes;
+    private List<Prestamos> listaPrestamos;
 
-    public Controlador_Solicitudes(Vista_Solicitudes vista) {
+    public Controlador_Prestamos(Vista_Prestamo vista) {
         this.vista = vista;
-        this.modelo = new SolicitudesDao();
+        this.modelo = new PrestamosActivosDao();
+
+        // Escuchadores del menú principal heredados de Vista_Principal
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonInventario.addActionListener(this);
         this.vista.botonPrestamos.addActionListener(this);
@@ -46,9 +50,10 @@ public class Controlador_Solicitudes implements ActionListener {
         this.vista.botonSolicitudes.addActionListener(this);
         this.vista.botonCerrarSesion.addActionListener(this);
 
-        listarSolicitudesTabla();
+        listarPrestamosTabla();
 
-        this.vista.tablaDeSolicitudes.addMouseListener(new MouseAdapter() {
+        // Evento de doble clic para gestionar el préstamo
+        this.vista.tablaDePrestamos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
@@ -58,54 +63,49 @@ public class Controlador_Solicitudes implements ActionListener {
         });
     }
 
-    public void listarSolicitudesTabla() {
-        modeloTabla = (DefaultTableModel) vista.tablaDeSolicitudes.getModel();
+    public void listarPrestamosTabla() {
+        modeloTabla = (DefaultTableModel) vista.tablaDePrestamos.getModel();
         modeloTabla.setRowCount(0);
 
-        listaSolicitudes = modelo.listarSolicitudes();
-        Object[] fila = new Object[7];
+        listaPrestamos = modelo.listar();
+        Object[] fila = new Object[8];
 
-        for (Solicitudes sol : listaSolicitudes) {
-            fila[0] = sol.getIdSolicitud();
-            fila[1] = sol.getCodigoElemento();
-            fila[2] = sol.getNombreElemento();
-            fila[3] = sol.getNombreUsuario() + " " + sol.getApellidoUsuario();
-            fila[4] = sol.getDocumentoUsuario();
-            fila[5] = sol.getNombreRol();
-            fila[6] = sol.getFechaEnvio();
+        for (Prestamos pres : listaPrestamos) {
+            fila[0] = pres.getIdPrestamo();
+            fila[1] = pres.getCodigoElemento();
+            fila[2] = pres.getNombreElemento();
+            fila[3] = pres.getNombreUsuario() + " " + pres.getApellidoUsuario();
+            fila[4] = pres.getDocumentoUsuario();
+            fila[5] = pres.getFechaInicioPrestamo();
+            fila[6] = pres.getFechaFinDevolucion();
+            fila[7] = pres.getNombreEstadoElemento();
             modeloTabla.addRow(fila);
         }
     }
 
     private void abrirFormularioGestionar() {
-        int filaSeleccionada = vista.tablaDeSolicitudes.getSelectedRow();
+        int filaSeleccionada = vista.tablaDePrestamos.getSelectedRow();
         if (filaSeleccionada != -1) {
-            Solicitudes solicitudSeleccionada = listaSolicitudes.get(filaSeleccionada);
-            String idSolicitud = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 0).toString();
-            String codigoElemento = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 1).toString();
-            String nombreElemento = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 2).toString();
-            String solicitante = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 3).toString();
-            String documentoUsuario = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 4).toString();
-            String nombreRol = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 5).toString();
-            String fechaEnvio = vista.tablaDeSolicitudes.getValueAt(filaSeleccionada, 6).toString();
 
-            VentanaGestionarSolicitud ventanaGestion = new VentanaGestionarSolicitud(null);
+            Prestamos prestamoSeleccionado = listaPrestamos.get(filaSeleccionada);
 
-            // Pasamos los objetos limpios al controlador modal
-            ControladorModal_solicitudes gestionModal = new ControladorModal_solicitudes(ventanaGestion, solicitudSeleccionada, this);
+            String idPrestamo = vista.tablaDePrestamos.getValueAt(filaSeleccionada, 0).toString();
+            String nombreElemento = vista.tablaDePrestamos.getValueAt(filaSeleccionada, 2).toString();
+            String usuario = vista.tablaDePrestamos.getValueAt(filaSeleccionada, 3).toString();
+            String fechaInicio = vista.tablaDePrestamos.getValueAt(filaSeleccionada, 5).toString();
+            String fechaDevolucion = vista.tablaDePrestamos.getValueAt(filaSeleccionada, 6).toString();
+            VentanaGestionPrestamo ventanaGestion = new VentanaGestionPrestamo(null);
+            ControladorModal_prestamos gestionModal = new ControladorModal_prestamos(ventanaGestion, prestamoSeleccionado, this);
 
-            ventanaGestion.textoIdSolicitud.setText(idSolicitud);
-            ventanaGestion.textoCodigoElemento.setText(codigoElemento);
+            // Rellenado de campos informativos solicitados
+            ventanaGestion.textoIdPrestamo.setText(idPrestamo);
             ventanaGestion.textoNombreElemento.setText(nombreElemento);
-            ventanaGestion.textoUsuario.setText(solicitante);
-            ventanaGestion.textoDocumento.setText(documentoUsuario);
-            ventanaGestion.textoRol.setText(nombreRol);
-            ventanaGestion.textoFecha.setText(fechaEnvio);
+            ventanaGestion.textoUsuario.setText(usuario);
+            ventanaGestion.textoFechaInicio.setText(fechaInicio);
+            ventanaGestion.textoFechaDevolucion.setText(fechaDevolucion);
 
             ventanaGestion.setLocationRelativeTo(vista);
             ventanaGestion.setVisible(true);
-
-            listarSolicitudesTabla();
         }
     }
 
@@ -126,18 +126,18 @@ public class Controlador_Solicitudes implements ActionListener {
             vistaInventario.setVisible(true);
         }
 
-        if (e.getSource() == vista.botonPrestamos) {
-            vista.dispose();
-            Vista_Prestamo vistap = new Vista_Prestamo();
-            Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
-            vistap.setVisible(true);
-        }
-
         if (e.getSource() == vista.botonInicio) {
             vista.dispose();
             Vista_Inicio vistaIni = new Vista_Inicio();
             Controlador_inicio controlador = new Controlador_inicio(vistaIni);
             vistaIni.setVisible(true);
+        }
+
+        if (e.getSource() == vista.botonSolicitudes) {
+            vista.dispose();
+            Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
+            Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
+            vistaSolicitud.setVisible(true);
         }
 
         if (e.getSource() == vista.botonNotificaciones) {
@@ -165,6 +165,5 @@ public class Controlador_Solicitudes implements ActionListener {
         Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor(vistaRep);
         vistaRep.setVisible(true);
         }
-        
     }
 }

@@ -8,7 +8,7 @@ package proyect_loansys.model;
  *
  * @author Alexis
  */
-import proyect_loansys.model.Conexion_Restablecer;
+import proyect_loansys.model.Conexion_Registro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 public class PersonaDao_Restablecer {
 
     private Connection con;
-    private Conexion_Restablecer conectar = new Conexion_Restablecer();
+    private Conexion_Registro conectar = new Conexion_Registro();
     private PreparedStatement ps;
     private ResultSet rs;
 
@@ -28,19 +28,22 @@ public class PersonaDao_Restablecer {
             ps = con.prepareStatement(sql);
             ps.setString(1, correo);
             rs = ps.executeQuery();
-            
-            // Si el rs.next() es verdadero, significa que el correo sí está registrado
-            return rs.next(); 
-            
+            return rs.next();
+
         } catch (Exception e) {
             System.out.println("Error en verificarCorreo: " + e.getMessage());
             return false;
         } finally {
-            // Bloque de cierre seguro para liberar recursos de la base de datos
-            try { 
-                if (rs != null) rs.close(); 
-                if (ps != null) ps.close(); 
-                if (con != null) con.close(); 
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.getMessage());
             }
