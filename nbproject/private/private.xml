@@ -5,7 +5,6 @@
         <group>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/Index.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Registro.java</file>
-            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Crud_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Conexion_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_Registro.java</file>
@@ -19,7 +18,6 @@
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_Restablecer.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_Restablecer.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_NuevaContraseña.java</file>
-            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Crud_nuevaContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_nuevaContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_nuevaContraseña.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_nuevaContraseña.java</file>
@@ -31,7 +29,7 @@
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/VentanaEditarElemento.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_inventario.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/PersonaDao_Inventario.java</file>
-            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Crud_Inventario.java</file>
+            <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Crud.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_EditarElemento.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Prestamo.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Solicitudes.java</file>

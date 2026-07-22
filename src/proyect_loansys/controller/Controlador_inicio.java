@@ -101,7 +101,5 @@ public class Controlador_inicio implements ActionListener {
         Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor();
         vistaRep.setVisible(true);
         }
-        
     }
-
 }
