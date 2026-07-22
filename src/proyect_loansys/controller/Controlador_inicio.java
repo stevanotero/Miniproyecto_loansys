@@ -11,7 +11,6 @@ import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_Solicitudes;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.view.Vista_Prestamo;
-import proyect_loansys.view.Vista_Reportes_Asesor;
 
 /**
  *
@@ -63,12 +62,6 @@ public class Controlador_inicio implements ActionListener {
         Vista_Prestamo vistap = new Vista_Prestamo();
         Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
         vistap.setVisible(true);
-        }
-        if(e.getSource()==vista.botonReportes){
-            vista.dispose();
-            Vista_Reportes_Asesor reportes = new Vista_Reportes_Asesor();
-            Controlador_Reportes_Asesor controlReportes = new Controlador_Reportes_Asesor(reportes);
-            reportes.setVisible(true);
         }
         
 
