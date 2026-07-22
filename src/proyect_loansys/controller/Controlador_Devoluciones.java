@@ -6,25 +6,31 @@ package proyect_loansys.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import proyect_loansys.model.Devolucion;
+import proyect_loansys.model.DevolucionDao;
 import proyect_loansys.view.Vista_Devoluciones;
 import proyect_loansys.view.Vista_GestionUsuarios;
-import proyect_loansys.view.Vista_Inventario;
-import proyect_loansys.view.Vista_Login;
-import proyect_loansys.view.Vista_Solicitudes;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.view.Vista_Reportes_Asesor;
+import proyect_loansys.view.Vista_Inventario;
+import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_Prestamo;
+import proyect_loansys.view.Vista_Solicitudes;
 
 /**
- *
  * @author Alexis
  */
-public class Controlador_inicio implements ActionListener {
+public class Controlador_Devoluciones implements ActionListener {
 
-    public Vista_Inicio vista = new Vista_Inicio();
+    private Vista_Devoluciones vista;
+    private DevolucionDao dao;
 
-    public Controlador_inicio(Vista_Inicio vista) {
+    public Controlador_Devoluciones(Vista_Devoluciones vista) {
+        this.vista = vista;
+        this.dao = new DevolucionDao();
         this.vista = vista;
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonInventario.addActionListener(this);
@@ -35,11 +41,30 @@ public class Controlador_inicio implements ActionListener {
         this.vista.botonUsuarios.addActionListener(this);
         this.vista.botonSolicitudes.addActionListener(this);
         this.vista.botonCerrarSesion.addActionListener(this);
+        listarDevolucionesTabla();
+    }
+
+    public void listarDevolucionesTabla() {
+        List<Devolucion> lista = dao.listarDevoluciones();
+        DefaultTableModel modelo = (DefaultTableModel) vista.tablaDevoluciones.getModel();
+        modelo.setRowCount(0); // Limpia filas anteriores
+
+        for (Devolucion dev : lista) {
+            Object[] fila = new Object[6];
+            fila[0] = dev.getIdDevolucion();
+            fila[1] = dev.getIdPrestamo();
+            fila[2] = dev.getNombreElemento();
+            fila[3] = dev.getFechaInicioPrestamo();
+            fila[4] = dev.getFechaDevolucion();
+            fila[5] = dev.getObservaciones();
+
+            modelo.addRow(fila);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Cerrar sesión en el sistema y ir al login
+        //dar clic a cerrar sesion 
         if (e.getSource() == vista.botonCerrarSesion) {
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
@@ -47,7 +72,6 @@ public class Controlador_inicio implements ActionListener {
             vistaLogin.setVisible(true);
         }
 
-        //Modulo del inventario
         if (e.getSource() == vista.botonInventario) {
             vista.dispose();
             Vista_Inventario vistaInventario = new Vista_Inventario();
@@ -55,7 +79,6 @@ public class Controlador_inicio implements ActionListener {
             vistaInventario.setVisible(true);
         }
 
-        //Modulo de gestión de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
@@ -63,7 +86,6 @@ public class Controlador_inicio implements ActionListener {
             vistaSolicitud.setVisible(true);
         }
 
-        //Modulo de Prestamo
         if (e.getSource() == vista.botonPrestamos) {
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
@@ -71,35 +93,31 @@ public class Controlador_inicio implements ActionListener {
             vistap.setVisible(true);
         }
 
-        //Modulo de Notificaciones
+        if (e.getSource() == vista.botonInicio) {
+            vista.dispose();
+            Vista_Inicio vistaIni = new Vista_Inicio();
+            Controlador_inicio controlador = new Controlador_inicio(vistaIni);
+            vistaIni.setVisible(true);
+        }
+
         if (e.getSource() == vista.botonNotificaciones) {
             vista.dispose();
             Vista_Notificaciones vistaNo = new Vista_Notificaciones();
             Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             vistaNo.setVisible(true);
         }
-
-        //Modulo de devoluciones
-        if (e.getSource() == vista.botonDevoluciones) {
-            vista.dispose();
-            Vista_Devoluciones vistaDev = new Vista_Devoluciones();
-            Controlador_Devoluciones controlDev = new Controlador_Devoluciones(vistaDev);
-            vistaDev.setVisible(true);
-        }
-
-        // Modulo de gestión de usuarios
         if (e.getSource() == vista.botonUsuarios) {
             vista.dispose();
             Vista_GestionUsuarios vistaUsers = new Vista_GestionUsuarios();
             Controlador_GestionUsuarios controlUsers = new Controlador_GestionUsuarios(vistaUsers);
             vistaUsers.setVisible(true);
         }
-         //Modulo de reportes
         if (e.getSource()== vista.botonReportes){
         vista.dispose();
         Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();
         Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor();
         vistaRep.setVisible(true);
         }
+
     }
 }

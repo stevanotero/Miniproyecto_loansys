@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.BorderFactory;
 import java.awt.Frame;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,34 +21,30 @@ import javax.swing.JTextField;
  *
  * @author Alexis
  */
+public class VentanaGestionPrestamo extends JDialog {
 
-public class VentanaGestionarSolicitud extends JDialog {
-
-    public JButton botonAprobar;
-    public JButton botonRechazar;
-    public JButton botonCancelar;
-    public JTextField textoCodigoElemento;
+    public JTextField textoIdPrestamo;
     public JTextField textoNombreElemento;
     public JTextField textoUsuario;
-    public JTextField textoDocumento;
-    public JTextField textoRol;
-    public JTextField textoFecha;
-    public JTextField textoIdSolicitud;
-    private JLabel lblIdSol;
+    public JTextField textoFechaInicio;
+    public JTextField textoFechaDevolucion;
+
+    public JButton botonRegistrarDevolucion;
+    public JButton botonCancelar;
+
     private JLabel lblTitulo;
-    private JLabel lblCodigo;
+    private JLabel lblIdPrestamo;
     private JLabel lblElemento;
     private JLabel lblUsuario;
-    private JLabel lblDocumento;
-    private JLabel lblRol;
-    private JLabel lblFecha;
+    private JLabel lblFechaInicio;
+    private JLabel lblFechaDevolucion;
     private JPanel panelPrincipal;
 
-    public VentanaGestionarSolicitud(Frame padre) {
-        super(padre, true); 
+    public VentanaGestionPrestamo(Frame padre) {
+        super(padre, true);
         initComponents();
-        setTitle("Gestionar Solicitud de Elemento");
-        setSize(450, 480); 
+        setTitle("Gestionar Devolución de Elemento");
+        setSize(450, 400); // Ajustado el tamaño ya que son 5 campos en total
         setLocationRelativeTo(padre);
         setResizable(false);
     }
@@ -57,99 +52,76 @@ public class VentanaGestionarSolicitud extends JDialog {
     private void initComponents() {
         panelPrincipal = new javax.swing.JPanel();
         panelPrincipal.setBackground(Color.WHITE);
-        
-        lblTitulo = new JLabel("DETALLES DE LA SOLICITUD");
-        
-        lblIdSol = new javax.swing.JLabel("ID Solicitud:");
-        textoIdSolicitud = crearCampoRedondo();
-        
-        lblCodigo = new JLabel("Código Elemento:");
-        textoCodigoElemento = crearCampoRedondo();
+
+        lblTitulo = new JLabel("DETALLES DEL PRÉSTAMO");
+
+        lblIdPrestamo = new JLabel("ID Préstamo:");
+        textoIdPrestamo = crearCampoRedondo();
 
         lblElemento = new JLabel("Elemento:");
         textoNombreElemento = crearCampoRedondo();
 
-        lblUsuario = new JLabel("Solicitante:");
+        lblUsuario = new JLabel("Usuario:");
         textoUsuario = crearCampoRedondo();
 
-        lblDocumento = new JLabel("Documento:");
-        textoDocumento = crearCampoRedondo();
+        lblFechaInicio = new JLabel("Hora Inicio:");
+        textoFechaInicio = crearCampoRedondo();
 
-        lblRol = new JLabel("Rol SENA:");
-        textoRol = crearCampoRedondo();
+        lblFechaDevolucion = new JLabel("Hora Fin:");
+        textoFechaDevolucion = crearCampoRedondo();
 
-        lblFecha = new JLabel("Fecha Envío:");
-        textoFecha = crearCampoRedondo();
-
-        // Estilos de botones circulares
-        botonAprobar = crearBotonRedondo("Aprobar", new Color(40, 167, 69), Color.WHITE);
-        botonRechazar = crearBotonRedondo("Rechazar", new Color(220, 53, 69), Color.WHITE);
+        // Botones con estilos circulares modernos acordes al flujo
+        botonRegistrarDevolucion = crearBotonRedondo("Registrar Devolución", new Color(46, 204, 113), Color.WHITE);
         botonCancelar = crearBotonRedondo("Cancelar", new Color(230, 235, 240), Color.BLACK);
-        
-        panelPrincipal.setLayout(null); 
-        
-        // Titulo de la modal
+
+        panelPrincipal.setLayout(null);
+
+        // Título de la ventana modal
         lblTitulo.setFont(new Font("Segoe UI", 1, 16));
-        lblTitulo.setBounds(110, 20, 250, 25);
+        lblTitulo.setBounds(115, 20, 250, 25);
         panelPrincipal.add(lblTitulo);
-        
-        // ID de la solicitud
-        lblIdSol.setFont(new Font("Segoe UI", 1, 13));
-        lblIdSol.setBounds(40, 65, 130, 25);
-        textoIdSolicitud.setBounds(180, 65, 220, 25);
-        panelPrincipal.add(lblIdSol);
-        panelPrincipal.add(textoIdSolicitud);
 
-        //Codigo del elemento
-        lblCodigo.setFont(new Font("Segoe UI", 1, 13));
-        lblCodigo.setBounds(40, 105, 130, 25);
-        textoCodigoElemento.setBounds(180, 105, 220, 25);
-        panelPrincipal.add(lblCodigo);
-        panelPrincipal.add(textoCodigoElemento);
+        // ID del Préstamo
+        lblIdPrestamo.setFont(new Font("Segoe UI", 1, 13));
+        lblIdPrestamo.setBounds(40, 65, 130, 25);
+        textoIdPrestamo.setBounds(180, 65, 220, 25);
+        panelPrincipal.add(lblIdPrestamo);
+        panelPrincipal.add(textoIdPrestamo);
 
-        //Nombre del elemento
+        // Nombre del Elemento
         lblElemento.setFont(new Font("Segoe UI", 1, 13));
-        lblElemento.setBounds(40, 145, 130, 25);
-        textoNombreElemento.setBounds(180, 145, 220, 25);
+        lblElemento.setBounds(40, 105, 130, 25);
+        textoNombreElemento.setBounds(180, 105, 220, 25);
         panelPrincipal.add(lblElemento);
         panelPrincipal.add(textoNombreElemento);
 
-        // Nombres de los solicitante
+        // Nombre del Usuario
         lblUsuario.setFont(new Font("Segoe UI", 1, 13));
-        lblUsuario.setBounds(40, 185, 130, 25);
-        textoUsuario.setBounds(180, 185, 220, 25);
+        lblUsuario.setBounds(40, 145, 130, 25);
+        textoUsuario.setBounds(180, 145, 220, 25);
         panelPrincipal.add(lblUsuario);
         panelPrincipal.add(textoUsuario);
 
-        // Documento de identificacion
-        lblDocumento.setFont(new Font("Segoe UI", 1, 13));
-        lblDocumento.setBounds(40, 225, 130, 25);
-        textoDocumento.setBounds(180, 225, 220, 25);
-        panelPrincipal.add(lblDocumento);
-        panelPrincipal.add(textoDocumento);
+        // Fecha y Hora de Inicio
+        lblFechaInicio.setFont(new Font("Segoe UI", 1, 13));
+        lblFechaInicio.setBounds(40, 185, 130, 25);
+        textoFechaInicio.setBounds(180, 185, 220, 25);
+        panelPrincipal.add(lblFechaInicio);
+        panelPrincipal.add(textoFechaInicio);
 
-        //Roles que cubren en el sena
-        lblRol.setFont(new Font("Segoe UI", 1, 13));
-        lblRol.setBounds(40, 265, 130, 25);
-        textoRol.setBounds(180, 265, 220, 25);
-        panelPrincipal.add(lblRol);
-        panelPrincipal.add(textoRol);
+        // Fecha y Hora Límite de Devolución
+        lblFechaDevolucion.setFont(new Font("Segoe UI", 1, 13));
+        lblFechaDevolucion.setBounds(40, 225, 130, 25);
+        textoFechaDevolucion.setBounds(180, 225, 220, 25);
+        panelPrincipal.add(lblFechaDevolucion);
+        panelPrincipal.add(textoFechaDevolucion);
 
-        //Fecha del envio
-        lblFecha.setFont(new Font("Segoe UI", 1, 13));
-        lblFecha.setBounds(40, 305, 130, 25);
-        textoFecha.setBounds(180, 305, 220, 25);
-        panelPrincipal.add(lblFecha);
-        panelPrincipal.add(textoFecha);
-
-        //Botones bien puestos
-        botonAprobar.setBounds(40, 365, 100, 35);
-        panelPrincipal.add(botonAprobar);
-        botonRechazar.setBounds(165, 365, 100, 35);
-        panelPrincipal.add(botonRechazar);  
-        botonCancelar.setBounds(290, 365, 110, 35);
+        // Posicionamiento de Botones
+        botonRegistrarDevolucion.setBounds(40, 290, 190, 35);
+        panelPrincipal.add(botonRegistrarDevolucion);
+        botonCancelar.setBounds(250, 290, 150, 35);
         panelPrincipal.add(botonCancelar);
-        
+
         getContentPane().add(panelPrincipal);
     }
 
@@ -164,6 +136,7 @@ public class VentanaGestionarSolicitud extends JDialog {
                 g2.dispose();
                 super.paintComponent(g);
             }
+
             @Override
             protected void paintBorder(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -198,8 +171,8 @@ public class VentanaGestionarSolicitud extends JDialog {
         boton.setContentAreaFilled(false);
         boton.setBorderPainted(false);
         boton.setFocusPainted(false);
-        boton.setFont(new Font("Arial", Font.BOLD, 14));
-        boton.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
+        boton.setFont(new Font("Arial", Font.BOLD, 13));
+        boton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         return boton;
     }
 }

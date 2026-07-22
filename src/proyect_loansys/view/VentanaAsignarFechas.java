@@ -18,8 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
+ *
  * @author Alexis
  */
+
 public class VentanaAsignarFechas extends JDialog {
 
     public JButton botonConfirmar;

@@ -7,19 +7,17 @@ package proyect_loansys.model;
 import java.sql.Timestamp;
 
 /**
+ *
  * @author Alexis
  */
 public class Prestamos {
-    
-    // Campos propios de la tabla 'prestamo'
+
     private int idPrestamo;
     private int idUsuario;
     private int idElemento;
     private Timestamp fechaInicioPrestamo;
     private Timestamp fechaFinDevolucion;
     private int idEstadoElemento;
-    
-    // Campos adicionales para los JOINs de la vista
     private int codigoElemento;
     private String nombreElemento;
     private String nombreUsuario;
@@ -27,14 +25,12 @@ public class Prestamos {
     private String documentoUsuario;
     private String nombreEstadoElemento;
 
-    // Constructor vacío
     public Prestamos() {
     }
 
-    // Constructor completo para el listado del DAO
-    public Prestamos(int idPrestamo, int codigoElemento, String nombreElemento, 
-                     String nombreUsuario, String apellidoUsuario, String documentoUsuario, 
-                     Timestamp fechaInicioPrestamo, Timestamp fechaFinDevolucion, String nombreEstadoElemento) {
+    public Prestamos(int idPrestamo, int codigoElemento, String nombreElemento,
+            String nombreUsuario, String apellidoUsuario, String documentoUsuario,
+            Timestamp fechaInicioPrestamo, Timestamp fechaFinDevolucion, String nombreEstadoElemento) {
         this.idPrestamo = idPrestamo;
         this.codigoElemento = codigoElemento;
         this.nombreElemento = nombreElemento;
@@ -45,7 +41,6 @@ public class Prestamos {
         this.fechaFinDevolucion = fechaFinDevolucion;
         this.nombreEstadoElemento = nombreEstadoElemento;
     }
-
 
     public int getIdPrestamo() {
         return idPrestamo;

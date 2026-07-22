@@ -24,6 +24,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ *
+ * @author Alexis
+ */
+
 public class VentanaEditarElemento extends JDialog {
 
    
@@ -46,13 +51,6 @@ public class VentanaEditarElemento extends JDialog {
         panelRaiz.setLayout(new BoxLayout(panelRaiz, BoxLayout.Y_AXIS));
         panelRaiz.setBackground(Color.WHITE);
         panelRaiz.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
-
-        // Título de la ventana emergente
-        JLabel lblTitulo = new JLabel("Editar Detalles del Elemento");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitulo.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panelRaiz.add(lblTitulo);
-        panelRaiz.add(Box.createVerticalStrut(20));
 
         // texto del codigo
         textoCodigo = crearCampoFormulario(panelRaiz, "Código del Elemento:");

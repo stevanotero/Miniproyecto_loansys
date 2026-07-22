@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.Box;
-import javax.swing.SwingUtilities;
 import javax.swing.BoxLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,8 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ *
  * @author Alexis
  */
+
 public class Vista_Inventario extends Vista_Principal {
 
     public JTextField textoParaBuscar;
