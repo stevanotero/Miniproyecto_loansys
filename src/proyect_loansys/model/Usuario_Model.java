@@ -7,17 +7,36 @@ package proyect_loansys.model;
 public class Usuario_Model {
     private int id_usuario;
     private String  nombre;
+    private String apellido;
+    private int documento;
     private int  id_rol;
     private String  nombre_rol;
     
     public Usuario_Model(){
         
     }
-    public Usuario_Model(int id_usuario,String  nombre,int id_rol, String nombre_rol){
+    public Usuario_Model(int id_usuario,String  nombre,String apellido,
+    int documento,int id_rol, String nombre_rol){
         this.id_usuario=id_usuario;
         this.nombre=nombre;
         this.id_rol=id_rol;
         this.nombre_rol=nombre_rol;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public int getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(int documento) {
+        this.documento = documento;
     }
 
     public int getId_usuario() {
@@ -54,6 +73,7 @@ public class Usuario_Model {
 
     @Override
     public String toString() {
-        return "Id_Usuario{" + "id_usuario=" + id_usuario + ", nombre=" + nombre + ", id_rol=" + id_rol + ", nombre_rol=" + nombre_rol + '}';
+        return "Id_Usuario{" + "id_usuario=" + id_usuario + ", nombre=" + nombre + ", apellido=" + apellido + ", documento=" + documento + ", id_rol=" + id_rol + ", nombre_rol=" + nombre_rol + '}';
     }
 }
+

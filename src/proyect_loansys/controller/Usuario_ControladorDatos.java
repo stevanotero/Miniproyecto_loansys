@@ -7,6 +7,7 @@ package proyect_loansys.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -287,23 +288,7 @@ public class Usuario_ControladorDatos implements ActionListener {
             System.out.println("No se encontró el elemento con ese ID");
         }
     }
-    public void pruebaMostrar13(JTable tabla) {
-        Usuario_Elemento e = elementoDao.mostrarFila(13);
 
-        if (e != null) {
-            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-            modelo.setRowCount(0); // limpia la tabla antes de cargar
-
-            modelo.addRow(new Object[]{
-                e.getCodigo_elemento(),
-                e.getNombre_elemento(),
-                e.getCategoria_nombre(),
-                e.getDescripcion(),});
-        } else {
-            System.out.println("No se encontró el elemento con ese ID");
-        }
-    }
-/*
     public void pruebaMostrar13(JTable tabla) {
         Usuario_Elemento e = elementoDao.mostrarFila(14);
 
@@ -320,23 +305,146 @@ public class Usuario_ControladorDatos implements ActionListener {
             System.out.println("No se encontró el elemento con ese ID");
         }
     }
-    
 
-    Usuario_Dao dao = new Usuario_Dao();
-    Usuario_Model resultado = dao.login(correoIngresado, contraseñaIngresada);
+    public void mostrarEstado(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(1);
 
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
 
-if (resultado != null) {
-    // Aquí "saco" los datos del objeto y los guardo en variables sueltas
-    int id = resultado.getId_usuario();
-    String nombre = resultado.getNombre();
-    String rol = resultado.getNombre_rol();
+    public void mostrarEstado1(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(2);
 
-    System.out.println("Nombre: " + nombre);
-    System.out.println("Rol: " + rol);
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
 
-} else {
-    System.out.println("Login incorrecto");
+    public void mostrarEstado2(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(3);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado3(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(4);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado4(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(5);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado5(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(6);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado6(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(7);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado7(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(8);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado8(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(9);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado9(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(10);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado10(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(11);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado11(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(12);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado12(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(13);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
+    public void mostrarEstado13(JLabel texto) {
+        Usuario_Elemento e = elementoDao.mostrarFila(14);
+
+        if (e != null) {
+            texto.setText(e.getEstado_nombre());
+        } else {
+            texto.setText("No encontrado");
+        }
+    }
+
 }
-*/
-}
+

@@ -50,7 +50,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
         panel8 = new JPanel();
         panel8.setPreferredSize(new Dimension(300, 30));
-        texto1 = new JLabel("Disponible",SwingConstants.CENTER);
+        texto1 = new JLabel("",SwingConstants.CENTER);
         panel8.setLayout(new BorderLayout());
         
         panel8.setBackground(Color.white);
@@ -65,7 +65,12 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         panel7.setBackground(Color.white);
         
         
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row,int column){
+                return false;
+            }
+        };
         modelo.addColumn("Codigo Elemento");
         modelo.addColumn("Nombre Elemento");
         modelo.addColumn("Categoria");
@@ -140,3 +145,4 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
     }
 }
+

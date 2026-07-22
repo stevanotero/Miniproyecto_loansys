@@ -3,50 +3,44 @@ package proyect_loansys.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.model.Usuario_Dao;
+import proyect_loansys.model.Usuario_Elemento;
 import proyect_loansys.model.Usuario_Model;
+import proyect_loansys.model.Usuario_Solicitud;
 import proyect_loansys.view.Usuario_HistorialPrestamo;
 import proyect_loansys.view.Usuario_Inicio;
 import proyect_loansys.view.Usuario_Inventario;
 import proyect_loansys.view.Usuario_Notificacion;
 import proyect_loansys.view.Usuario_SolicitarPrestamo;
 import proyect_loansys.view.Vista_Login;
+import java.sql.Timestamp;
+import proyect_loansys.model.PersonaDao_Login;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
-/*
-    public Usuario_Model usuarioLogueado = new Usuario_Model();
-    private String nombreUsuario;
-    private String rolUsuario;
-    
+
+    Usuario_Solicitud sr = new Usuario_Solicitud();
+    public Usuario_Dao elementoDao = new Usuario_Dao();
+    Usuario_Elemento ele = new Usuario_Elemento();
+    Usuario_Solicitud solicitud = new Usuario_Solicitud();
     private boolean vali = false;
     Usuario_Dao prus = new Usuario_Dao();
-    Usuario_Inicio inicio = new Usuario_Inicio(rolUsuario, rolUsuario, nombreUsuario);
-    Usuario_Inventario inven = new Usuario_Inventario(rolUsuario, rolUsuario, nombreUsuario);
-    Usuario_HistorialPrestamo pres = new Usuario_HistorialPrestamo(rolUsuario, rolUsuario, nombreUsuario);
-    Usuario_Notificacion noti = new Usuario_Notificacion("Aprendiz", rolUsuario, nombreUsuario);
-    Usuario_SolicitarPrestamo soli = new Usuario_SolicitarPrestamo("Aprendiz", "Aprendiz", nombreUsuario);
-    Vista_Login sesion = new Vista_Login();
-    
+    PersonaDao_Login vistaLo = new PersonaDao_Login();
 
-    //comtroladores
-    Usuario_ControladorDatos controladorDatos;
-
-    public Usuario_ControladorNavedagor(Usuario_Inicio inicio) {
-*/
-    private boolean vali = false;
-    private String nombreUsuario;
-    private String rolUsuario;
-
-    Usuario_Dao prus = new Usuario_Dao();
-
-    // Declara los campos SIN inicializarlos aquí
     Usuario_Inicio inicio;
     Usuario_Inventario inven;
     Usuario_HistorialPrestamo pres;
     Usuario_Notificacion noti;
     Usuario_SolicitarPrestamo soli;
-    Vista_Login sesion = new Vista_Login(); // esta sí puede quedar aquí porque no depende de nombreUsuario/rolUsuario
+    Vista_Login sesion = new Vista_Login();
+    private String nombreUsuario;
+    private String rolUsuario;
+    public Usuario_Model usuario;
+    private int idElementoSeleccionado;
+    private Usuario_Dao apellidoUsuarioActual;
+    private Usuario_Dao documentoUsuarioActual;
 
     Usuario_ControladorDatos controladorDatos;
 
@@ -117,6 +111,21 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
         if (e.getSource() == inicio.inventario) {
             CargarInventario(inven);
+            controladorDatos.mostrarEstado(inven.estado);
+            controladorDatos.mostrarEstado1(inven.estado1);
+            controladorDatos.mostrarEstado2(inven.estado2);
+            controladorDatos.mostrarEstado3(inven.estado3);
+            controladorDatos.mostrarEstado4(inven.estado4);
+            controladorDatos.mostrarEstado5(inven.estado5);
+            controladorDatos.mostrarEstado6(inven.estado6);
+            controladorDatos.mostrarEstado7(inven.estado7);
+            controladorDatos.mostrarEstado8(inven.estado8);
+            controladorDatos.mostrarEstado9(inven.estado9);
+            controladorDatos.mostrarEstado10(inven.estado10);
+            controladorDatos.mostrarEstado11(inven.estado11);
+            controladorDatos.mostrarEstado12(inven.estado12);
+            controladorDatos.mostrarEstado13(inven.estado13);
+
             inicio.dispose();
         }
 
@@ -153,42 +162,56 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         //Para que muestre los datos y la tabla
         if (e.getSource() == inven.prueba) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 1;
+            controladorDatos.mostrarEstado(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba1) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 2;
+            controladorDatos.mostrarEstado1(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar1(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba2) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 3;
+            controladorDatos.mostrarEstado2(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar2(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba3) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 4;
+            controladorDatos.mostrarEstado3(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar3(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba4) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 5;
+            controladorDatos.mostrarEstado4(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar4(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba5) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 6;
+            controladorDatos.mostrarEstado5(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar5(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba6) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 7;
+            controladorDatos.mostrarEstado6(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar6(soli.tabla);
 
@@ -196,42 +219,56 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == inven.prueba7) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 8;
+            controladorDatos.mostrarEstado7(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar7(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba8) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 9;
+            controladorDatos.mostrarEstado8(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar8(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba9) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 10;
+            controladorDatos.mostrarEstado9(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar9(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba10) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 11;
+            controladorDatos.mostrarEstado10(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar10(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba11) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 12;
+            controladorDatos.mostrarEstado11(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar11(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba12) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 13;
+            controladorDatos.mostrarEstado12(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar12(soli.tabla);
             inven.dispose();
         }
         if (e.getSource() == inven.prueba13) {
             CargarSolicitud(soli);
+            idElementoSeleccionado = 14;
+            controladorDatos.mostrarEstado13(soli.texto1);
             controladorDatos.limpiarTabla();
             controladorDatos.pruebaMostrar13(soli.tabla);
             inven.dispose();
@@ -244,6 +281,20 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == pres.inventario) {
             CargarInventario(inven);
+            controladorDatos.mostrarEstado(inven.estado);
+            controladorDatos.mostrarEstado1(inven.estado1);
+            controladorDatos.mostrarEstado2(inven.estado2);
+            controladorDatos.mostrarEstado3(inven.estado3);
+            controladorDatos.mostrarEstado4(inven.estado4);
+            controladorDatos.mostrarEstado5(inven.estado5);
+            controladorDatos.mostrarEstado6(inven.estado6);
+            controladorDatos.mostrarEstado7(inven.estado7);
+            controladorDatos.mostrarEstado8(inven.estado8);
+            controladorDatos.mostrarEstado9(inven.estado9);
+            controladorDatos.mostrarEstado10(inven.estado10);
+            controladorDatos.mostrarEstado11(inven.estado11);
+            controladorDatos.mostrarEstado12(inven.estado12);
+            controladorDatos.mostrarEstado13(inven.estado13);
             pres.dispose();
         }
         if (e.getSource() == pres.notificacion) {
@@ -262,6 +313,20 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == noti.inventario) {
             CargarInventario(inven);
+            controladorDatos.mostrarEstado(inven.estado);
+            controladorDatos.mostrarEstado1(inven.estado1);
+            controladorDatos.mostrarEstado2(inven.estado2);
+            controladorDatos.mostrarEstado3(inven.estado3);
+            controladorDatos.mostrarEstado4(inven.estado4);
+            controladorDatos.mostrarEstado5(inven.estado5);
+            controladorDatos.mostrarEstado6(inven.estado6);
+            controladorDatos.mostrarEstado7(inven.estado7);
+            controladorDatos.mostrarEstado8(inven.estado8);
+            controladorDatos.mostrarEstado9(inven.estado9);
+            controladorDatos.mostrarEstado10(inven.estado10);
+            controladorDatos.mostrarEstado11(inven.estado11);
+            controladorDatos.mostrarEstado12(inven.estado12);
+            controladorDatos.mostrarEstado13(inven.estado13);
             noti.dispose();
         }
         if (e.getSource() == noti.prestamo) {
@@ -285,6 +350,20 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == soli.inventario) {
             CargarInventario(inven);
+            controladorDatos.mostrarEstado(inven.estado);
+            controladorDatos.mostrarEstado1(inven.estado1);
+            controladorDatos.mostrarEstado2(inven.estado2);
+            controladorDatos.mostrarEstado3(inven.estado3);
+            controladorDatos.mostrarEstado4(inven.estado4);
+            controladorDatos.mostrarEstado5(inven.estado5);
+            controladorDatos.mostrarEstado6(inven.estado6);
+            controladorDatos.mostrarEstado7(inven.estado7);
+            controladorDatos.mostrarEstado8(inven.estado8);
+            controladorDatos.mostrarEstado9(inven.estado9);
+            controladorDatos.mostrarEstado10(inven.estado10);
+            controladorDatos.mostrarEstado11(inven.estado11);
+            controladorDatos.mostrarEstado12(inven.estado12);
+            controladorDatos.mostrarEstado13(inven.estado13);
             soli.dispose();
         }
         if (e.getSource() == soli.notificacion) {
@@ -296,10 +375,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             CargarInventario(inven);
             soli.dispose();
         }
-
         if (e.getSource() == soli.solicitar) {
-            JOptionPane.showMessageDialog(null, "Solicitud con exito");
+            setAdd(); // toda la validación ya vive adentro (estado + duplicado + carga real de datos)
         }
+
         if (e.getSource() == soli.cerrarS) {
             CargarInicioS(sesion);
             soli.dispose();
@@ -343,6 +422,43 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         sesion.setExtendedState(JFrame.MAXIMIZED_BOTH);
         sesion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    }
+
+    public void setAdd() {
+        int idUsuario = Administrador_Sesion.getIdUsuario();
+
+        // Traer datos reales del usuario logueado desde la BD
+        Usuario_Model usuarioActual = elementoDao.consultarPorId(idUsuario);
+        if (usuarioActual == null) {
+            JOptionPane.showMessageDialog(soli, "No se pudo cargar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (idElementoSeleccionado == 0) {
+            JOptionPane.showMessageDialog(soli, "No se ha seleccionado ningún elemento", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que no exista ya una solicitud de este usuario para este elemento
+        if (elementoDao.existeSolicitud(idUsuario, idElementoSeleccionado)) {
+            JOptionPane.showMessageDialog(soli, "Ya tienes una solicitud registrada para este elemento",
+                    "Solicitud duplicada", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        sr.setId_usuario(idUsuario);
+        sr.setNombre(usuarioActual.getNombre());
+        sr.setApellido(usuarioActual.getApellido());
+        sr.setDocumento(usuarioActual.getDocumento());
+        sr.setId_elemento(idElementoSeleccionado);
+        sr.setFecha_envio(new Timestamp(System.currentTimeMillis()));
+
+        int resultado = elementoDao.setAgregar(sr);
+        if (resultado > 0) {
+            JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

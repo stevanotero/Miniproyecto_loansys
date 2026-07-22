@@ -6,6 +6,7 @@ package proyect_loansys.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -14,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,8 +25,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import proyect_loansys.model.Usuario_Dao;
+import proyect_loansys.model.Usuario_Elemento;
 
 public class Usuario_Inventario extends Usuario_Plantilla {
+
+    private Usuario_Dao elementoDao = new Usuario_Dao();
 
     private Container contenedor;
     private JPanel panel4, panel5, panel6, panel7, panel8, panel9, panel010, panel011,
@@ -34,16 +40,17 @@ public class Usuario_Inventario extends Usuario_Plantilla {
             panel033, panel034, panel035, panel036, panel037, panel038, panel039,
             panel040, panel041, panel042, panel043;
 
-    private JLabel inventario, fEstado, codigo, estado1,estado2,estado3,estado4,estado5,
-            estado6,estado7,estado8,estado9,estado10,estado11,estado,estado12,estado13,text1, text2, text3, text4;
+    public JLabel inventario, fEstado, codigo, estado1, estado2, estado3, estado4, estado5,
+            estado6, estado7, estado8, estado9, estado10, estado11, estado, estado12, estado13, text1, text2, text3, text4;
     private JTextField lcodigo;
-    private String lista[] = {"", "Disponible", "Mantenimiento", "Ocupado"};
+    private String lista[] = {"", "Disponible", "Mantenimiento", "Ocupado", "Dañado", "No Disponible"};
     private JComboBox listaEstado;
     public JButton buscador, perifericos, computadores, herramientas, maquinas, prueba,
             prueba1, prueba2, prueba3, prueba4, prueba5, prueba6, prueba7, prueba8, prueba9, prueba10,
             prueba11, prueba12, prueba13;
     private GridLayout grid, grid2, grid3, grid4, grid5, grid6, grid7;
     private JScrollPane miscroll;
+    
 
     public Usuario_Inventario(String titulo, String rol, String nombre) {
         super(titulo, rol, nombre);
@@ -110,11 +117,11 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel012 = new JPanel();
         panel012.setPreferredSize(new Dimension(500, 20));
         panel012.setLayout(new BorderLayout());
-        
+
         Image imabusqude = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgIconBuscar.png")).getImage();
         Icon imagen1 = new ImageIcon(imabusqude);
         buscador = crearBoton("Buscar...", imagen1, new Color(228, 230, 233), Color.black);
-        
+
         //Icon imagen1 = new ImageIcon("iconscasa24.png");
         //buscador = new JButton("Buscar...", imagen1);
         panel012.add((buscador), BorderLayout.EAST);
@@ -155,11 +162,11 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel022 = new JPanel();
         panel022.setPreferredSize(new Dimension(100, 80));
         panel022.setLayout(new BorderLayout());
-        
+
         Image imgCom = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgIconoCompu.png")).getImage();
         Icon imagen7 = new ImageIcon(imgCom);
         computadores = crearBoton("", imagen7, new Color(255, 255, 255), Color.white);
-        
+
         //Icon image1 = new ImageIcon("iconscasa24.png");
         //computadores = new JButton("", image1);
         //computadores.setIcon(imagen1);
@@ -194,7 +201,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         //Icon image2 = new ImageIcon("iconscasa24.png");
         //perifericos = new JButton("", image2);
         //perifericos.setIcon(imagen1);
-        
+
         perifericos.setHorizontalTextPosition(SwingConstants.CENTER);
         panel024.add(perifericos);
         panel018.add(panel024, BorderLayout.CENTER);
@@ -289,7 +296,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel030 = new JPanel();
 
         panel030.setPreferredSize(new Dimension(200, 160));
-        estado = new JLabel("Disponible");
+        estado = new JLabel("");
         Image imgTaladro = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgTaladrosena.png")).getImage();
         Icon imagen5 = new ImageIcon(imgTaladro);
         estado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -300,9 +307,9 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel030.setBackground(new Color(228, 230, 233));
 
         panel031 = new JPanel();
-        
+
         panel031.setPreferredSize(new Dimension(200, 160));
-        estado1 = new JLabel("Disponible");
+        estado1 = new JLabel("");
         Image imgMul = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgMultimetro.png")).getImage();
         Icon imagen6 = new ImageIcon(imgMul);
         prueba1 = crearBoton("", imagen6, new Color(255, 255, 255), Color.white);
@@ -311,12 +318,10 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel031.add(estado1, BorderLayout.NORTH);
         panel031.setBackground(new Color(228, 230, 233));
         panel031.add(prueba1);
-        
-        
 
         panel032 = new JPanel();
         panel032.setPreferredSize(new Dimension(200, 160));
-        estado2 = new JLabel("Disponible");
+        estado2 = new JLabel("");
         Image imgCompu = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgLaptop.png")).getImage();
         Icon imagen11 = new ImageIcon(imgCompu);
         prueba2 = crearBoton("", imagen11, new Color(255, 255, 255), Color.white);
@@ -325,109 +330,107 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel032.add(estado2, BorderLayout.NORTH);
         panel032.setBackground(new Color(228, 230, 233));
         panel032.add(prueba2);
-        
 
         panel033 = new JPanel();
         panel033.setPreferredSize(new Dimension(200, 160));
-        estado3 = new JLabel("Disponible");
+        estado3 = new JLabel("");
         panel033.setLayout(new BorderLayout());
         Image imgOsi = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgOsciloscopio.png")).getImage();
         Icon imagen12 = new ImageIcon(imgOsi);
         prueba3 = crearBoton("", imagen12, new Color(255, 255, 255), Color.white);
         estado3.setHorizontalAlignment(SwingConstants.CENTER);
         panel033.add(estado3, BorderLayout.NORTH);
-        panel033.setBackground(new Color(228, 230, 233)); 
+        panel033.setBackground(new Color(228, 230, 233));
         panel033.add(prueba3);
-        
 
         panel034 = new JPanel();
         panel034.setPreferredSize(new Dimension(200, 160));
         panel034.setLayout(new BorderLayout());
-        estado4 = new JLabel("Disponible");
+        estado4 = new JLabel("");
         Image imgCau = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgCautin.png")).getImage();
         Icon imagen13 = new ImageIcon(imgCau);
         prueba4 = crearBoton("", imagen13, new Color(255, 255, 255), Color.white);
         estado4.setHorizontalAlignment(SwingConstants.CENTER);
         panel034.add(estado4, BorderLayout.NORTH);
-        panel034.setBackground(new Color(228, 230, 233)); 
+        panel034.setBackground(new Color(228, 230, 233));
         panel034.add(prueba4);
 
         panel035 = new JPanel();
         panel035.setPreferredSize(new Dimension(200, 160));
         panel035.setLayout(new BorderLayout());
-        estado5 = new JLabel("Disponible");
+        estado5 = new JLabel("");
         Image imgTorq = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgTorque.png")).getImage();
         Icon imagen14 = new ImageIcon(imgTorq);
         prueba5 = crearBoton("", imagen14, new Color(255, 255, 255), Color.white);
         estado5.setHorizontalAlignment(SwingConstants.CENTER);
         panel035.add(estado5, BorderLayout.NORTH);
-        panel035.setBackground(new Color(228, 230, 233)); 
+        panel035.setBackground(new Color(228, 230, 233));
         panel035.add(prueba5);
 
         panel036 = new JPanel();
         panel036.setPreferredSize(new Dimension(200, 160));
         panel036.setLayout(new BorderLayout());
-        estado6 = new JLabel("Disponible");
+        estado6 = new JLabel("");
         Image imgPboar = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgProtoboard.png")).getImage();
         Icon imagen15 = new ImageIcon(imgPboar);
         prueba6 = crearBoton("", imagen15, new Color(255, 255, 255), Color.white);
         estado6.setHorizontalAlignment(SwingConstants.CENTER);
         panel036.add(estado6, BorderLayout.NORTH);
-        panel036.setBackground(new Color(228, 230, 233)); 
+        panel036.setBackground(new Color(228, 230, 233));
         panel036.add(prueba6);
 
         panel037 = new JPanel();
         panel037.setPreferredSize(new Dimension(200, 160));
         panel037.setLayout(new BorderLayout());
-        estado7 = new JLabel("Disponible");
+        estado7 = new JLabel("");
         Image imgArdu = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgArduino.png")).getImage();
         Icon imagen16 = new ImageIcon(imgArdu);
         prueba7 = crearBoton("", imagen16, new Color(255, 255, 255), Color.white);
         estado7.setHorizontalAlignment(SwingConstants.CENTER);
         panel037.add(estado7, BorderLayout.NORTH);
-        panel037.setBackground(new Color(228, 230, 233)); 
+        panel037.setBackground(new Color(228, 230, 233));
         panel037.add(prueba7);
 
         panel038 = new JPanel();
         panel038.setPreferredSize(new Dimension(200, 160));
         panel038.setLayout(new BorderLayout());
-        estado8 = new JLabel("Disponible");
+        estado8 = new JLabel("");
         Image imgPinza = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgPinza.png")).getImage();
         Icon imagen17 = new ImageIcon(imgPinza);
         prueba8 = crearBoton("", imagen17, new Color(255, 255, 255), Color.white);
         estado8.setHorizontalAlignment(SwingConstants.CENTER);
         panel038.add(estado8, BorderLayout.NORTH);
-        panel038.setBackground(new Color(228, 230, 233)); 
+        panel038.setBackground(new Color(228, 230, 233));
         panel038.add(prueba8);
 
         panel039 = new JPanel();
         panel039.setPreferredSize(new Dimension(200, 160));
         panel039.setLayout(new BorderLayout());
-        estado9 = new JLabel("Disponible");
+        estado9 = new JLabel("");
         Image imgRouter = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgRouter.png")).getImage();
         Icon imagen18 = new ImageIcon(imgRouter);
         prueba9 = crearBoton("", imagen18, new Color(255, 255, 255), Color.white);
         estado9.setHorizontalAlignment(SwingConstants.CENTER);
         panel039.add(estado9, BorderLayout.NORTH);
-        panel039.setBackground(new Color(228, 230, 233)); 
+        panel039.setBackground(new Color(228, 230, 233));
         panel039.add(prueba9);
 
         panel040 = new JPanel();
         panel040.setPreferredSize(new Dimension(200, 160));
         panel040.setLayout(new BorderLayout());
-        estado10 = new JLabel("Disponible");
+        estado10 = new JLabel("");
         Image imgProyector = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgProyector.png")).getImage();
         Icon imagen19 = new ImageIcon(imgProyector);
         prueba10 = crearBoton("", imagen19, new Color(255, 255, 255), Color.white);
         estado10.setHorizontalAlignment(SwingConstants.CENTER);
         panel040.add(estado10, BorderLayout.NORTH);
-        panel040.setBackground(new Color(228, 230, 233)); 
+        panel040.setBackground(new Color(228, 230, 233));
         panel040.add(prueba10);
 
         panel041 = new JPanel();
         panel041.setPreferredSize(new Dimension(200, 160));
         panel041.setLayout(new BorderLayout());
-        estado11 = new JLabel("Disponible");
+        estado11 = new JLabel("");
         Image imgMouse = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgMouse.png")).getImage();
         Icon imagen20 = new ImageIcon(imgMouse);
         prueba11 = crearBoton("", imagen20, new Color(255, 255, 255), Color.white);
@@ -439,7 +442,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel042 = new JPanel();
         panel042.setPreferredSize(new Dimension(200, 160));
         panel042.setLayout(new BorderLayout());
-        estado12 = new JLabel("Disponible");
+        estado12 = new JLabel("");
         Image imgPorL = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgLaptop.png")).getImage();
         Icon imagen21 = new ImageIcon(imgPorL);
         prueba12 = crearBoton("", imagen21, new Color(255, 255, 255), Color.white);
@@ -451,7 +454,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel043 = new JPanel();
         panel043.setPreferredSize(new Dimension(200, 160));
         panel043.setLayout(new BorderLayout());
-        estado13 = new JLabel("Disponible");
+        estado13 = new JLabel("");
         Image imgPorA = new ImageIcon(getClass().getResource("/proyect_loansys/img/imgLaptop.png")).getImage();
         Icon imagen22 = new ImageIcon(imgPorA);
         prueba13 = crearBoton("", imagen22, new Color(255, 255, 255), Color.white);
@@ -510,10 +513,11 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         
         panel5.add(panel8);
         panel4.add(panel5);
+
     }
 
     private JButton crearBoton(String texto, Icon icono, Color fondo, Color textoColor) {
-        JButton boton = new JButton(texto, icono) { // 👈 aquí se le pasa el ícono al JButton
+        JButton boton = new JButton(texto, icono) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -532,4 +536,7 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return boton;
     }
+
+   
+
 }

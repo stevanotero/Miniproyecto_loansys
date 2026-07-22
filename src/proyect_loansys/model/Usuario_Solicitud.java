@@ -4,7 +4,8 @@
  */
 package proyect_loansys.model;
 
-import java.time.LocalTime;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 public class Usuario_Solicitud {
@@ -15,7 +16,7 @@ public class Usuario_Solicitud {
     private String apellido;
     private int documento;
     private int id_elemento;
-    private LocalTime fecha_envio;
+    private Timestamp fecha_envio;
 
     public Usuario_Solicitud() {
         
@@ -70,11 +71,11 @@ public class Usuario_Solicitud {
         this.id_elemento = id_elemento;
     }
 
-    public LocalTime getFecha_envio() {
+    public Timestamp getFecha_envio() {
         return fecha_envio;
     }
 
-    public void setFecha_envio(LocalTime fecha_envio) {
+    public void setFecha_envio(Timestamp fecha_envio) {
         this.fecha_envio = fecha_envio;
     }
 
@@ -85,3 +86,4 @@ public class Usuario_Solicitud {
     
     
 }
+
