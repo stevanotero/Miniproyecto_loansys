@@ -6,96 +6,351 @@ package proyect_loansys.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.RenderingHints;
+import java.awt.event.FocusEvent;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Miguel
  */
-public class Usuario_Notificacion extends Usuario_Plantilla{
-     private Container contenedor;
-    private JPanel panel4, panel5,panel6,panel7,panel8,panel9;
-    private JLabel texto1;
-    private JTable tabla;
-    private DefaultTableModel modelo;
-    private JScrollPane miscroll;
-    
-    
+public class Usuario_Notificacion extends Usuario_Plantilla {
+
+    private Container contenedor;
+    private JPanel panel4;
+
+    public JTable tablaNotificaciones;
+    public DefaultTableModel modeloTabla;
+    public JComboBox<String> comboTipoNotificacion;
+    public JTextField txtDocumentoDestinatario;
+    public JTextArea txtAreaMensaje;
+    public JButton btnEnviarNotificacion;
 
     public Usuario_Notificacion(String titulo, String rol, String nombre) {
-        
         super(titulo, rol, nombre);
         contenedor = super.getContainer();
         panel4 = super.getPanel();
-        
-        panel5 = new JPanel();
-        //panel5.setLayout(null);
-        panel5.setPreferredSize(new Dimension(1100, 600));
-        panel5.setBackground(Color.white);
-        
-        ////////////////////////////////////////////////////////////////////////
-        
-        panel6 = new JPanel();
-        panel6.setPreferredSize(new Dimension(1100, 150));
-        panel6.setBackground(Color.white);
-        
-        
-        
-        panel8 = new JPanel();
-        panel8.setPreferredSize(new Dimension(400, 130));
-        texto1 = new JLabel("Notificaciones",SwingConstants.CENTER);
-        panel8.setLayout(new BorderLayout());
-        
-        panel8.setBackground(Color.white);
-        panel8.add(texto1);
-        panel6.add(panel8);
-        
-        ////////////////////////////////////////////////////////////////////////
-        
-        
-        panel7 = new JPanel();
-        panel7.setPreferredSize(new Dimension(1100, 600));
-        panel7.setBackground(Color.white);
-        
-        
-        modelo = new DefaultTableModel();
-        modelo.addColumn("Notificador");
-        modelo.addColumn("Mensaje");
-     
-        
-        
-        panel9 = new JPanel();
-        panel9.setLayout(new BorderLayout());
-        panel9.setPreferredSize(new Dimension(1070, 420));
-        
-        tabla = new JTable(modelo);
-        miscroll=new JScrollPane(tabla);
-        
-        miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panel9.add(miscroll);
-        panel9.setBackground(Color.white);
-        
-        panel7.add(panel9);
-        
-        
-        
-        
-        ////////////////////////////////////////////////////////////////////////
-        
-        
-        //
-        //panel5.add(panel8,BorderLayout.CENTER);
-        panel5.add(panel6,BorderLayout.NORTH);
-        panel5.add(panel7,BorderLayout.CENTER);
-        
-        panel4.add(panel5);
+
+        // Panel contenedor con márgenes
+        JPanel panelPrincipalCentrado = new JPanel(new GridLayout(1, 2, 40, 0));
+        panelPrincipalCentrado.setBackground(Color.WHITE);
+        panelPrincipalCentrado.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        panelPrincipalCentrado.setPreferredSize(new Dimension(1100, 600));
+
+        Color colorFondoTarjetas = new Color(220, 220, 220);
+        Color colorCampos = new Color(198, 198, 198);
+
+        // Panel izquierdo redondeado (listado)
+        JPanel panelIzquierdo = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
+                g2.dispose();
+            }
+        };
+        panelIzquierdo.setBackground(colorFondoTarjetas);
+        panelIzquierdo.setOpaque(false);
+        panelIzquierdo.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+
+        JLabel lbTituloListado = new JLabel("Todas las notificaciones", JLabel.CENTER);
+        lbTituloListado.setFont(new Font("Arial", Font.BOLD, 22));
+        lbTituloListado.setForeground(new Color(30, 30, 30));
+        lbTituloListado.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        panelIzquierdo.add(lbTituloListado, BorderLayout.NORTH);
+
+        modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
+        modeloTabla.addColumn("Tipo");
+        modeloTabla.addColumn("Mensaje de la Notificación");
+
+        tablaNotificaciones = new JTable(modeloTabla);
+        tablaNotificaciones.setRowHeight(40);
+        tablaNotificaciones.setFont(new Font("Arial", Font.PLAIN, 14));
+        tablaNotificaciones.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        tablaNotificaciones.getTableHeader().setReorderingAllowed(false);
+        tablaNotificaciones.setGridColor(new Color(235, 235, 235));
+        tablaNotificaciones.getColumnModel().getColumn(0).setPreferredWidth(130);
+        tablaNotificaciones.getColumnModel().getColumn(0).setMaxWidth(180);
+
+        JScrollPane scrollTabla = new JScrollPane(tablaNotificaciones);
+        scrollTabla.setBorder(BorderFactory.createLineBorder(new Color(210, 210, 210), 1));
+        scrollTabla.getViewport().setBackground(Color.WHITE);
+        panelIzquierdo.add(scrollTabla, BorderLayout.CENTER);
+
+        // Panel derecho redondeado (formulario)
+        JPanel panelDerecho = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
+                g2.dispose();
+            }
+        };
+        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
+        panelDerecho.setBackground(colorFondoTarjetas);
+        panelDerecho.setOpaque(false);
+        panelDerecho.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+
+        JLabel lbTituloCrear = new JLabel("Crear nueva notificación");
+        lbTituloCrear.setFont(new Font("Arial", Font.BOLD, 22));
+        lbTituloCrear.setForeground(new Color(30, 30, 30));
+        lbTituloCrear.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        txtDocumentoDestinatario = crearCampo(colorCampos);
+
+        String[] opcionesDb = {
+            "Préstamo Aprobado",
+            "Devolución Pendiente",
+            "Elemento en Mantenimiento",
+            "Solicitud Recibida",
+            "Alerta de Daño",
+            "Solicitud Rechazada"
+        };
+        comboTipoNotificacion = crearCombo(opcionesDb, colorCampos);
+
+        JScrollPane scrollAreaMensaje = crearAreaTexto(colorCampos);
+
+        btnEnviarNotificacion = crearBoton("Enviar notificación", new Color(46, 204, 113), Color.WHITE);
+
+        JPanel panelFormulario = new JPanel();
+        panelFormulario.setLayout(new BoxLayout(panelFormulario, BoxLayout.Y_AXIS));
+        panelFormulario.setBackground(colorFondoTarjetas);
+        panelFormulario.setOpaque(false);
+        panelFormulario.setMaximumSize(new Dimension(350, 450));
+        panelFormulario.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panelFormulario.add(crearGrupoCampo("Tipo de notificación", comboTipoNotificacion, colorFondoTarjetas));
+        panelFormulario.add(Box.createVerticalStrut(20));
+
+        panelFormulario.add(crearGrupoCampo("Destinatario", txtDocumentoDestinatario, colorFondoTarjetas));
+        panelFormulario.add(Box.createVerticalStrut(20));
+
+        panelFormulario.add(crearGrupoCampo("Mensaje", scrollAreaMensaje, colorFondoTarjetas));
+        panelFormulario.add(Box.createVerticalStrut(25));
+
+        panelFormulario.add(btnEnviarNotificacion);
+
+        panelDerecho.add(lbTituloCrear);
+        panelDerecho.add(Box.createVerticalStrut(30));
+        panelDerecho.add(panelFormulario);
+
+        panelPrincipalCentrado.add(panelIzquierdo);
+        panelPrincipalCentrado.add(panelDerecho);
+
+        panel4.add(panelPrincipalCentrado);
+    }
+
+    private JTextField crearCampo(Color fondo) {
+        JTextField campo = new JTextField() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(fondo);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        campo.setOpaque(false);
+        campo.setMaximumSize(new Dimension(350, 42));
+        campo.setPreferredSize(new Dimension(350, 42));
+        campo.setFont(new Font("Arial", Font.PLAIN, 14));
+        campo.setForeground(new Color(40, 40, 40));
+        campo.setCaretColor(Color.BLACK);
+        campo.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return campo;
+    }
+
+    private JComboBox<String> crearCombo(String[] items, Color fondo) {
+        JComboBox<String> combo = new JComboBox<>(items) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(fondo);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        combo.setOpaque(false);
+        combo.setMaximumSize(new Dimension(350, 42));
+        combo.setPreferredSize(new Dimension(350, 42));
+        combo.setFont(new Font("Arial", Font.PLAIN, 14));
+        combo.setForeground(new Color(40, 40, 40));
+        combo.setBackground(fondo);
+        combo.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 10));
+
+        combo.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton btn = new JButton() {
+                    @Override
+                    public void paint(Graphics g) {
+                        Graphics2D g2 = (Graphics2D) g.create();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setColor(new Color(60, 60, 60));
+                        int[] xPoints = {getWidth() / 2 - 5, getWidth() / 2 + 5, getWidth() / 2};
+                        int[] yPoints = {getHeight() / 2 - 2, getHeight() / 2 - 2, getHeight() / 2 + 3};
+                        g2.fillPolygon(xPoints, yPoints, 3);
+                        g2.dispose();
+                    }
+                };
+                btn.setContentAreaFilled(false);
+                btn.setBorder(BorderFactory.createEmptyBorder());
+                btn.setPreferredSize(new Dimension(25, 25));
+                return btn;
+            }
+        });
+
+        return combo;
+    }
+
+    private JScrollPane crearAreaTexto(Color fondo) {
+        txtAreaMensaje = new JTextArea(6, 20) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(fondo);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+
+        txtAreaMensaje.setOpaque(false);
+        txtAreaMensaje.setFont(new Font("Arial", Font.PLAIN, 14));
+        txtAreaMensaje.setLineWrap(true);
+        txtAreaMensaje.setWrapStyleWord(true);
+        txtAreaMensaje.setBorder(BorderFactory.createEmptyBorder(12, 15, 12, 15));
+
+        String placeholder = "Escriba el mensaje que desea enviar...";
+        txtAreaMensaje.setText(placeholder);
+        txtAreaMensaje.setForeground(new Color(110, 110, 110));
+
+        txtAreaMensaje.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent evt) {
+                if (txtAreaMensaje.getText().equals(placeholder)) {
+                    txtAreaMensaje.setText("");
+                    txtAreaMensaje.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent evt) {
+                if (txtAreaMensaje.getText().isEmpty()) {
+                    txtAreaMensaje.setText(placeholder);
+                    txtAreaMensaje.setForeground(new Color(110, 110, 110));
+                }
+            }
+        });
+
+        JScrollPane scroll = new JScrollPane(txtAreaMensaje) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(fondo);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.setMaximumSize(new Dimension(350, 130));
+        scroll.setPreferredSize(new Dimension(350, 130));
+
+        scroll.getVerticalScrollBar().setPreferredSize(new Dimension(8, 0));
+        scroll.getVerticalScrollBar().setOpaque(false);
+        scroll.getVerticalScrollBar().setBackground(new Color(0, 0, 0, 0));
+
+        return scroll;
+    }
+
+    private JButton crearBoton(String texto, Color fondo, Color textoColor) {
+        JButton boton = new JButton(texto) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+
+        boton.setBackground(fondo);
+        boton.setForeground(textoColor);
+        boton.setFocusPainted(false);
+        boton.setContentAreaFilled(false);
+        boton.setBorderPainted(false);
+        boton.setFont(new Font("Arial", Font.BOLD, 15));
+        boton.setMaximumSize(new Dimension(240, 42));
+        boton.setPreferredSize(new Dimension(240, 42));
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return boton;
+    }
+
+    private JPanel crearGrupoCampo(String titulo, JComponent control, Color fondoTarjeta) {
+        JPanel grupo = new JPanel();
+        grupo.setLayout(new BoxLayout(grupo, BoxLayout.Y_AXIS));
+        grupo.setBackground(fondoTarjeta);
+        grupo.setOpaque(false);
+        grupo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel label = new JLabel(titulo);
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(new Color(50, 50, 50));
+
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        control.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        int altoControl = control.getMaximumSize().height;
+        grupo.setMaximumSize(new Dimension(350, altoControl + 25));
+        grupo.setPreferredSize(new Dimension(350, altoControl + 25));
+
+        grupo.add(label);
+        grupo.add(Box.createVerticalStrut(6));
+        grupo.add(control);
+
+        return grupo;
     }
 }
