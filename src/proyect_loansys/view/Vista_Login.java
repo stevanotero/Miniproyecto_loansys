@@ -73,6 +73,11 @@ public class Vista_Login extends JFrame {
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //El logo del sena
+       System.out.println(getClass().getName());
+System.out.println(getClass().getClassLoader());
+System.out.println(System.getProperty("user.dir"));
+System.out.println(getClass().getResource(""));
+System.out.println(getClass().getResource("/proyect_loansys/img/sena.png"));
         Image imgSena = new ImageIcon(getClass().getResource("/proyect_loansys/img/sena.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new JLabel(new ImageIcon(imgSena));
         //AlignmentX permite que este en el centro horizontalmente en el fondo

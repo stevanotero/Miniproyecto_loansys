@@ -14,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import javax.swing.BorderFactory;
@@ -41,11 +42,12 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     private JPanel panel1, panel2, panel5;
     private JLabel titulo, logo, nombre;
     private JLabel subtituloBarraLateral1, subtituloBarraLateral2;
-    public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario, notifiaciones, cerrar_sesion;
+    public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario,  cerrar_sesion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
     private String Nombre_Usuario = "Administrador";
+     
 
     public Administrador_Plantilla_Administrador(String nombre_interfaz) {
         super(nombre_interfaz);
@@ -61,6 +63,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         contenedor.add(panel1, BorderLayout.NORTH);
         contenedor.add(panel2, BorderLayout.WEST);
         contenedor.add(panel5, BorderLayout.CENTER);
+      setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     private void crearBarraSuperior() {
@@ -132,7 +135,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         modificar = crearBotonMenu("👤 Modificar / Usuario");
         gestion_roles = crearBotonMenu("👤 Gestion de roles");
         registrar_usuario = crearBotonMenu("👤 Registrar Usuario");
-        notifiaciones = crearBotonMenu("👤 Notifiaciones");
+//        notifiaciones = crearBotonMenu("👤 Notifiaciones");
         int espacioBotones = 12;
         panel2.add(binicio);
         panel2.add(Box.createVerticalStrut(espacioBotones));
@@ -144,7 +147,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         panel2.add(Box.createVerticalStrut(espacioBotones));
         panel2.add(registrar_usuario);
         panel2.add(Box.createVerticalStrut(espacioBotones));
-        panel2.add(notifiaciones);
+//        panel2.add(notifiaciones);
         // Esto empuja el boton de cerrar sesion hasta el fondo, igual que en Vista_Principal
         panel2.add(Box.createVerticalGlue());
 
@@ -221,4 +224,9 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
                     : "¡Bienvenido, " + nombreUsuario + "!");
         }
     }
+    
+    
+
+
+
 }

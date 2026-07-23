@@ -69,13 +69,18 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
     @Override
     public int setAgregar(Usuario_Solicitud sr) {
         int r;
-        String sql = "INSERT INTO solicitudes_usuario (id_usuario, id_elemento, fecha_envio) VALUES (?,?,?)";
+        String sql = "INSERT INTO solicitudes_usuario "
+                + "(id_usuario, nombre, apellido, documento, id_elemento, fecha_envio) "
+                + "VALUES (?,?,?,?,?,?)";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, sr.getId_usuario());
-            ps.setInt(2, sr.getId_elemento());
-            ps.setTimestamp(3, sr.getFecha_envio());
+            ps.setString(2, sr.getNombre());
+            ps.setString(3, sr.getApellido());
+            ps.setInt(4, sr.getDocumento());
+            ps.setInt(5, sr.getId_elemento());
+            ps.setTimestamp(6, sr.getFecha_envio()); // quita por completo el Time.valueOf
             r = ps.executeUpdate();
             return r;
         } catch (Exception e) {
@@ -319,7 +324,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             } catch (Exception e) {
             }
         }
-        return estado; 
+        return estado; // null si el elemento no existe
     }
 
     public List<Usuario_Elemento> listarPorEstado(String estado) {
