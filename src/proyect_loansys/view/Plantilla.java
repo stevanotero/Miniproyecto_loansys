@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import proyect_loansys.controller.Controlador_NotificacionesTecnico;
 import javax.swing.table.DefaultTableModel;
 
 public abstract class Plantilla extends JFrame {
@@ -102,11 +103,6 @@ public abstract class Plantilla extends JFrame {
         cerrar_sesion.setFocusPainted(false);
         cerrar_sesion.setBorderPainted(false);
 
-        Notificaciones.addActionListener(e -> {
-            dispose();
-            //Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            //vistaNo.setVisible(true);
-        });
 
         panel4.add(cerrar_sesion);
         cerrar_sesion.addActionListener(e -> {

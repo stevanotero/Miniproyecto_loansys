@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyect_loansys.view;
 
 import java.awt.BorderLayout;
@@ -34,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Alexis
  */
 
-public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administrador {
+public class Vista_NotificacionesUsuario extends Administrador_Plantilla_Administrador {
 
     // Componentes públicos requeridos por el Controlador
     public JTable tablaNotificaciones;
@@ -45,7 +41,7 @@ public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administr
     public JButton btnEnviarNotificacion;
     private JPanel panel5; 
 
-    public Vista_NotificacionesAdmin() {
+    public Vista_NotificacionesUsuario() {
         // Inicializar la plantilla base pasando el título de la vista
         super("Notificaciones");
 
