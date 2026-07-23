@@ -8,13 +8,13 @@ import proyect_loansys.model.Conexion_Registro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
-import proyect_loansys.model.Crud_Asesor;
+import proyect_loansys.model.Crud;
 
 /**
  *
  * @author Alexis
  */
-public class PersonaDao_nuevaContraseña implements Crud_Asesor<Persona_nuevaContraseña> {
+public class PersonaDao_nuevaContraseña implements Crud<Persona_nuevaContraseña> {
 
     private Conexion_Registro conectar = new Conexion_Registro();
     private Connection con;

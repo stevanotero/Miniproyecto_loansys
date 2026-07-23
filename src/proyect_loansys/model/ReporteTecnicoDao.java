@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author Sants
  */
-public class ReporteTecnicoDao implements Crud_Asesor<ReporteTecnico> {
+public class ReporteTecnicoDao implements Crud_Tecnico<ReporteTecnico> {
     Conexion conectar = new Conexion();
     Connection con;
 

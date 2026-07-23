@@ -27,7 +27,7 @@ public class Inicio_Tecnico extends Plantilla {
         tituloCentral.setFont(new Font("Arial", Font.BOLD, 26));
         tituloCentral.setBounds(120, 100, 740, 70);
 
-        ImageIcon logoGrande = new ImageIcon(getClass().getResource("/viewTecnico/logo_sena.png"));
+        ImageIcon logoGrande = new ImageIcon(getClass().getResource("/proyect_loansys/img/sena.png"));
         Image escalada = logoGrande.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         imagen = new JLabel(new ImageIcon(escalada));
         imagen.setBounds(390, 200, 200, 200);
