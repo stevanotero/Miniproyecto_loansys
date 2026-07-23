@@ -67,7 +67,7 @@ public class Administrador_Modal_registrar_usuario extends JDialog {
         lcorreo = new JLabel("Correo*");
         lcontraseña = new JLabel("Contraseña*");
         lestado = new JLabel("Estado*");
-        lrol = new JLabel("Rol");
+        lrol = new JLabel("Rol*");
         txtNombre = new JTextField(15);
         txtApellido = new JTextField(15);
         txtDocumento = new JTextField(15);

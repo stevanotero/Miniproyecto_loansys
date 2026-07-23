@@ -70,7 +70,12 @@ public class Administrador_ModificarUsuario extends Administrador_Plantilla_Admi
         botonC.setBorder(BorderFactory.createLineBorder(Color.green, 10, true));// Borde redondeado para el botón
         botonC.setBackground(Color.green);
 
-        modelo = new DefaultTableModel();
+              modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda se puede editar
+            }
+        };
         modelo.addColumn("DOCUMENTO");
         modelo.addColumn("NOMBRE");
         modelo.addColumn("APELLIDO");
@@ -78,6 +83,7 @@ public class Administrador_ModificarUsuario extends Administrador_Plantilla_Admi
         modelo.addColumn("ROL");
         modelo.addColumn("ESTADO");
         tabla = new JTable(modelo);
+           tabla.getTableHeader().setReorderingAllowed(false);
         miscroll = new JScrollPane(tabla);
         miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

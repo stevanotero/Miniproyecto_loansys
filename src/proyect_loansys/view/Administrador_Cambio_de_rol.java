@@ -22,7 +22,6 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author juans
  */
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -41,26 +40,25 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class Administrador_Cambio_de_rol extends Administrador_Plantilla_Administrador {
-    
-   private Container contenedor;
-    public JPanel panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, panel13, panel14, panel15,panel16,panel17;
+
+    private Container contenedor;
+    public JPanel panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, panel13, panel14, panel15, panel16, panel17;
     private GridLayout grid4;
     public JButton activacion_usuario, modificar;
-    public  JLabel titulo2,descripcion;
+    public JLabel titulo2, descripcion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
-    public JButton botonC,botonFiltroRol;
+    public JButton botonC, botonFiltroRol;
     public JTextField filtroRol;
-    
+
     public Administrador_Cambio_de_rol() {
         super("Cambio_de_rol");
         contenedor = super.getConteiner();
         panel5 = super.getPanel();
         activacion_usuario = super.getButtonActivacion();
         modificar = super.getButtonModificar();
-        
-        
+
         if (panel5.getComponentCount() > 0) {
             panel5.removeAll();
         }
@@ -71,36 +69,38 @@ public class Administrador_Cambio_de_rol extends Administrador_Plantilla_Adminis
         modificar.setBorder(BorderFactory.createLineBorder(Color.white, 10, true));
         gestion_roles.setBorder(BorderFactory.createLineBorder(Color.gray, 10, true));
         gestion_roles.setBackground(Color.gray);
-        
+
         //---------------------------------------------------------
-        
 // creaccion de la tabla y boton para cambiar estado
-      
         botonC = new JButton(" Cambiar de rol");
         botonC.setBorder(BorderFactory.createLineBorder(Color.green, 10, true));// Borde redondeado para el botón
         botonC.setBackground(Color.green);
-        
-        
-          filtroRol = new JTextField(10);
-          botonFiltroRol = new JButton("Filtrar persona");
-        botonFiltroRol.setBorder(BorderFactory.createLineBorder( new Color(39, 132, 245), 10, true));// Borde redondeado para el botón
-         botonFiltroRol.setBackground( new Color (39, 132, 245));
 
-        modelo = new DefaultTableModel();
-         modelo.addColumn("DOCUMENTO");
+        filtroRol = new JTextField(10);
+        botonFiltroRol = new JButton("Filtrar persona");
+        botonFiltroRol.setBorder(BorderFactory.createLineBorder(new Color(39, 132, 245), 10, true));// Borde redondeado para el botón
+        botonFiltroRol.setBackground(new Color(39, 132, 245));
+
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda se puede editar
+            }
+        };
+        modelo.addColumn("DOCUMENTO");
         modelo.addColumn("NOMBRE");
         modelo.addColumn("APELLIDO");
-         modelo.addColumn("CORREO");
+        modelo.addColumn("CORREO");
         modelo.addColumn("ROL");
         modelo.addColumn("ESTADO");
         tabla = new JTable(modelo);
+        tabla.getTableHeader().setReorderingAllowed(false);
         miscroll = new JScrollPane(tabla);
         miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-      
 
         panel10 = new JPanel();
- 
+
         //distribuccion para los paneles
         panel14 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
         panel15 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 0));
@@ -108,7 +108,7 @@ public class Administrador_Cambio_de_rol extends Administrador_Plantilla_Adminis
         panel17 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 115, 0));
         panel9 = new JPanel(new BorderLayout());
         panel13 = new JPanel(new BorderLayout());
-        
+
         panel8 = new JPanel(new BorderLayout());
         panel7 = new JPanel(new BorderLayout());
         panel6 = new JPanel(new BorderLayout());
@@ -121,26 +121,23 @@ public class Administrador_Cambio_de_rol extends Administrador_Plantilla_Adminis
         panel9 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 3, 3));
         panel9.setBorder(new EmptyBorder(90, 5, 0, 950));
         panel10.setBorder(new EmptyBorder(15, 15, 10, 15));
-        
-           //agregar los capos del filtro
+
+        //agregar los capos del filtro
         panel14.add(titulo2);
         panel15.add(descripcion);
         panel15.add(filtroRol);
         panel15.add(botonFiltroRol);
         panel15.add(botonC);
-        
-        
+
         panel7.setSize(new Dimension(200, 100));
         panel8.setSize(new Dimension(400, 500));
         panel8.setBorder(new EmptyBorder(0, 0, 0, 0));
-        
-        
-     panel9.add(panel14);
+
+        panel9.add(panel14);
         panel9.add(panel16);
         panel9.add(panel17);
         panel9.add(panel15, BorderLayout.EAST);
-        
-        
+
         panel10.add(miscroll);
         panel7.setBorder(
                 BorderFactory.createMatteBorder(
@@ -156,15 +153,14 @@ public class Administrador_Cambio_de_rol extends Administrador_Plantilla_Adminis
         panel7.setBackground(Color.white);
         panel6.setBackground(Color.white);
         panel5.setBackground(Color.white);
-             panel5.setLayout(new BorderLayout());
-                  panel13.add(panel9);
+        panel5.setLayout(new BorderLayout());
+        panel13.add(panel9);
         panel5.add(panel6);
         panel6.add(panel7, BorderLayout.LINE_START);
         panel6.add(panel8, BorderLayout.SOUTH);
         panel7.add(panel9, BorderLayout.LINE_START);
         panel8.add(panel10);
-        
-        
+
     }
-    
+
 }

@@ -74,7 +74,12 @@ public class Administrador_Registro_de_usuario extends Administrador_Plantilla_A
         botonRegistro.setBackground(Color.green);
         registrar_usuario.setBorder(BorderFactory.createLineBorder(Color.gray, 10, true));
         registrar_usuario.setBackground(Color.gray);
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda se puede editar
+            }
+        };
         modelo.addColumn("DOCUMENTO");
         modelo.addColumn("NOMBRE");
         modelo.addColumn("APELLIDO");
@@ -82,6 +87,7 @@ public class Administrador_Registro_de_usuario extends Administrador_Plantilla_A
         modelo.addColumn("ROL");
         modelo.addColumn("ESTADO");
         tabla = new JTable(modelo);
+            tabla.getTableHeader().setReorderingAllowed(false);
         miscroll = new JScrollPane(tabla);
         miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
