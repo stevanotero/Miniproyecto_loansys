@@ -169,32 +169,24 @@ public class Administrador_ControladorUsuarioActivo implements ActionListener {
             } else {
                 auditoria.setAccion("Desactivó un usuario");
             }
-
             auditoriaDao.registrarAccion(auditoria);
             JOptionPane.showMessageDialog(modal,
                     "Estado actualizado correctamente");
-
             modal.dispose();
-
             borrarModal();
-
             limpiarTabla();
-
             getListar(usActivo.tabla);
 
         } else {
 
             JOptionPane.showMessageDialog(modal,
                     "No se pudo actualizar el estado");
-
         }
-
     }
 
     public void getListarFiltro(JTable tabla, String documento) {
         modelo = (DefaultTableModel) tabla.getModel();
         modelo.setRowCount(0); // limpia la tabla antes de volver a llenarla
-
         List<Administrador_Usuario> lista = usuarioDao.listar();
         Object[] object = new Object[6];
 
@@ -215,7 +207,6 @@ public class Administrador_ControladorUsuarioActivo implements ActionListener {
     }
 
     public void borrarModal() {
-
         modal.txtDocumento.setText("");
         modal.txtNombre.setText("");
         modal.txtCorreo.setText("");

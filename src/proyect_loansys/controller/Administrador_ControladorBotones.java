@@ -313,21 +313,21 @@ public class Administrador_ControladorBotones implements ActionListener {
 
         if (e.getSource() == usActivo.notifiaciones) {
             usActivo.setVisible(false);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
             Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             vistaNo.setVisible(true);
         }
 
         if (e.getSource() == modificarUsuario.notifiaciones) {
             modificarUsuario.setVisible(false);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
             Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             vistaNo.setVisible(true);
         }
 
         if (e.getSource() == cambio_de_rol.notifiaciones) {
             cambio_de_rol.setVisible(false);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
             Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             vistaNo.setVisible(true);
         }

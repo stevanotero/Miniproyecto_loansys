@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyect_loansys.model;
 
 import java.sql.Connection;
@@ -14,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Santiago
+ * @author Sants
  */
 public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimiento> {
     Conexion conectar = new Conexion();
@@ -22,11 +18,13 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
 
     PreparedStatement ps;
     ResultSet rs;
-    
+
     @Override
     public List<HistorialMantenimiento> listar() {
         List<HistorialMantenimiento> lista = new ArrayList<HistorialMantenimiento>();
-        String sql = "SELECT * FROM historial_mantenimiento";
+        String sql = "SELECT hm.*, e.codigo_elemento, e.nombre_elemento "
+                + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
@@ -36,8 +34,9 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
                 HistorialMantenimiento h = new HistorialMantenimiento();
                 h.setIdMantenimiento(rs.getInt("id_mantenimiento"));
                 h.setCodigoMantenimiento(rs.getString("codigo_mantenimiento"));
-                h.setNombreElemento(rs.getString("nombre_elemento"));
+                h.setIdElemento(rs.getInt("id_elemento"));
                 h.setCodigoElemento(rs.getInt("codigo_elemento"));
+                h.setNombreElemento(rs.getString("nombre_elemento"));
                 h.setCategoria(rs.getString("categoria"));
                 h.setTipoMantenimiento(rs.getString("tipo_mantenimiento"));
                 h.setEstadoElemento(rs.getString("estado_elemento"));
@@ -70,21 +69,20 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
     public int setAgregar(HistorialMantenimiento h) {
         int r;
         String sql = "INSERT INTO historial_mantenimiento "
-                + "(codigo_mantenimiento, nombre_elemento, codigo_elemento, categoria, "
+                + "(codigo_mantenimiento, id_elemento, categoria, "
                 + "tipo_mantenimiento, estado_elemento, id_usuario, descripcion) "
-                + "VALUES (?,?,?,?,?,?,?,?)";
+                + "VALUES (?,?,?,?,?,?,?)";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
 
             ps.setString(1, h.getCodigoMantenimiento());
-            ps.setString(2, h.getNombreElemento());
-            ps.setInt(3, h.getCodigoElemento());
-            ps.setString(4, h.getCategoria());
-            ps.setString(5, h.getTipoMantenimiento());
-            ps.setString(6, h.getEstadoElemento());
-            ps.setInt(7, h.getIdUsuario());
-            ps.setString(8, h.getDescripcion());
+            ps.setInt(2, h.getIdElemento());
+            ps.setString(3, h.getCategoria());
+            ps.setString(4, h.getTipoMantenimiento());
+            ps.setString(5, h.getEstadoElemento());
+            ps.setInt(6, h.getIdUsuario());
+            ps.setString(7, h.getDescripcion());
 
             r = ps.executeUpdate();
             return r;
@@ -109,8 +107,8 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
 
     @Override
     public int setActualizar(HistorialMantenimiento h) {
-        String sql = "UPDATE historial_mantenimiento SET codigo_mantenimiento=?, nombre_elemento=?, "
-                + "codigo_elemento=?, categoria=?, tipo_mantenimiento=?, estado_elemento=?, "
+        String sql = "UPDATE historial_mantenimiento SET codigo_mantenimiento=?, id_elemento=?, "
+                + "categoria=?, tipo_mantenimiento=?, estado_elemento=?, "
                 + "id_usuario=?, descripcion=? WHERE id_mantenimiento=?";
 
         try {
@@ -118,14 +116,13 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
             ps = con.prepareStatement(sql);
 
             ps.setString(1, h.getCodigoMantenimiento());
-            ps.setString(2, h.getNombreElemento());
-            ps.setInt(3, h.getCodigoElemento());
-            ps.setString(4, h.getCategoria());
-            ps.setString(5, h.getTipoMantenimiento());
-            ps.setString(6, h.getEstadoElemento());
-            ps.setInt(7, h.getIdUsuario());
-            ps.setString(8, h.getDescripcion());
-            ps.setInt(9, h.getIdMantenimiento());
+            ps.setInt(2, h.getIdElemento());
+            ps.setString(3, h.getCategoria());
+            ps.setString(4, h.getTipoMantenimiento());
+            ps.setString(5, h.getEstadoElemento());
+            ps.setInt(6, h.getIdUsuario());
+            ps.setString(7, h.getDescripcion());
+            ps.setInt(8, h.getIdMantenimiento());
             ps.executeUpdate();
 
             return 1;
@@ -218,12 +215,52 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
         return existe;
     }
 
+    /**
+     * Busca un elemento por su codigo_elemento en la tabla elemento.
+     * Devuelve un Object[] {id_elemento, nombre_elemento} o null si no existe.
+     * Este es el metodo clave para el autocompletado.
+     */
+    public Object[] buscarElementoPorCodigo(int codigoElemento) {
+        Object[] resultado = null;
+        //  saca el nombre
+        String sql = "SELECT e.id_elemento, e.nombre_elemento, c.nombre_categoria "
+                + "FROM elemento e "
+                + "INNER JOIN categoria_elemento c ON e.id_categoria = c.id_categoria "
+                + "WHERE e.codigo_elemento = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, codigoElemento);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                resultado = new Object[3]; // Debe decir 3 aquí
+                resultado[0] = rs.getInt("id_elemento");
+                resultado[1] = rs.getString("nombre_elemento");
+                resultado[2] = rs.getString("nombre_categoria"); // La categoría
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error buscando el elemento", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                    ps.close();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.toString());
+                }
+            }
+        }
+        return resultado;
+    }
+
 //metodos de santiago (mantenimientotecnico)
     public List<Object[]> listarPanel() {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT hm.codigo_mantenimiento, hm.nombre_elemento, "
+        String sql = "SELECT hm.codigo_mantenimiento, e.nombre_elemento, "
                 + "CONCAT(u.nombre, ' ', u.apellido) AS tecnico, hm.fecha_realizada "
                 + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
                 + "INNER JOIN usuarios_sena u ON hm.id_usuario = u.id_usuario "
                 + "ORDER BY hm.id_mantenimiento DESC";
         try {
@@ -258,15 +295,14 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
         return lista;
     }
 
-    
-    
     public List<Object[]> buscarPanel(String texto) {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT hm.codigo_mantenimiento, hm.nombre_elemento, "
+        String sql = "SELECT hm.codigo_mantenimiento, e.nombre_elemento, "
                 + "CONCAT(u.nombre, ' ', u.apellido) AS tecnico, hm.fecha_realizada "
                 + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
                 + "INNER JOIN usuarios_sena u ON hm.id_usuario = u.id_usuario "
-                + "WHERE hm.codigo_mantenimiento LIKE ? OR hm.nombre_elemento LIKE ? "
+                + "WHERE hm.codigo_mantenimiento LIKE ? OR e.nombre_elemento LIKE ? "
                 + "OR u.nombre LIKE ? OR u.apellido LIKE ? "
                 + "ORDER BY hm.id_mantenimiento DESC";
         try {
@@ -305,6 +341,7 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
         }
         return lista;
     }
+
     public Object[] buscarTecnicoPorDocumento(String documento) {
         Object[] resultado = null;
         String sql = "SELECT id_usuario, nombre, apellido FROM usuarios_sena WHERE documento = ? AND id_rol = 3";
@@ -341,8 +378,10 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
 //metodos de daniel (historialtecnicoo)
     public List<Object[]> listarHistorial() {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT codigo_mantenimiento, nombre_elemento, categoria, tipo_mantenimiento, estado_elemento "
-                + "FROM historial_mantenimiento ORDER BY id_mantenimiento DESC";
+        String sql = "SELECT hm.codigo_mantenimiento, e.nombre_elemento, hm.categoria, hm.tipo_mantenimiento, hm.estado_elemento "
+                + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
+                + "ORDER BY hm.id_mantenimiento DESC";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
@@ -376,12 +415,12 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
         return lista;
     }
 
-
-    
     public List<Object[]> listarHistorialPorEstado(String estado) {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT codigo_mantenimiento, nombre_elemento, categoria, tipo_mantenimiento, estado_elemento "
-                + "FROM historial_mantenimiento WHERE estado_elemento = ? ORDER BY id_mantenimiento DESC";
+        String sql = "SELECT hm.codigo_mantenimiento, e.nombre_elemento, hm.categoria, hm.tipo_mantenimiento, hm.estado_elemento "
+                + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
+                + "WHERE hm.estado_elemento = ? ORDER BY hm.id_mantenimiento DESC";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
@@ -416,15 +455,14 @@ public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimi
         return lista;
     }
 
-
-    
     public List<Object[]> buscarHistorial(String texto) {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT codigo_mantenimiento, nombre_elemento, categoria, tipo_mantenimiento, estado_elemento "
-                + "FROM historial_mantenimiento "
-                + "WHERE codigo_mantenimiento LIKE ? OR nombre_elemento LIKE ? OR categoria LIKE ? "
-                + "OR tipo_mantenimiento LIKE ? OR estado_elemento LIKE ? "
-                + "ORDER BY id_mantenimiento DESC";
+        String sql = "SELECT hm.codigo_mantenimiento, e.nombre_elemento, hm.categoria, hm.tipo_mantenimiento, hm.estado_elemento "
+                + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
+                + "WHERE hm.codigo_mantenimiento LIKE ? OR e.nombre_elemento LIKE ? OR hm.categoria LIKE ? "
+                + "OR hm.tipo_mantenimiento LIKE ? OR hm.estado_elemento LIKE ? "
+                + "ORDER BY hm.id_mantenimiento DESC";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
