@@ -19,6 +19,8 @@ import proyect_loansys.view.Vista_Login;
 import java.sql.Timestamp;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import proyect_loansys.model.Administrador_Auditoria;
+import proyect_loansys.model.Administrador_AuditoriaDao;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_NotificacionesUsuario;
@@ -556,6 +558,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         int resultado = elementoDao.setAgregar(sr);
         if (resultado > 0) {
             JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+              Administrador_Auditoria auditoria = new Administrador_Auditoria();
+              
+                auditoria.setAccion("Solicitud de prestamo");
+                new Administrador_AuditoriaDao().registrarAccion(auditoria);
         } else {
             JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
         }
