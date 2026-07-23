@@ -35,7 +35,8 @@ public class Inicio_Tecnico_Controller {
         vista.Notificaciones.addActionListener(e -> {
             Vista_NotificacionesTecnico vistaNo = new Vista_NotificacionesTecnico();
             new Controlador_NotificacionesTecnico(vistaNo);
-            vista.dispose();
+            vista.setVisible(false);
+            vistaNo.setVisible(true);
         });
 
     }
