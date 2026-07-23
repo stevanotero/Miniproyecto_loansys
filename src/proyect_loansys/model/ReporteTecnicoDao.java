@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author Santiago
  */
-public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
+public class ReporteTecnicoDao implements Crud_Asesor<ReporteTecnico> {
     Conexion conectar = new Conexion();
     Connection con;
 

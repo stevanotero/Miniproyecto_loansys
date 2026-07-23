@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
-import proyect_loansys.model.Crud;
+import proyect_loansys.model.Crud_Asesor;
 
 /**
  *
  * @author Alexis
  */
 
-public class PersonaDao_Inventario implements Crud<Elemento> {
+public class PersonaDao_Inventario implements Crud_Asesor<Elemento> {
 
     Conexion_Registro conectar = new Conexion_Registro();
     Connection con;

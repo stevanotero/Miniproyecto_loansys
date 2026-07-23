@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author Santiago
  */
-public class HistorialMantenimientoDao implements Crud<HistorialMantenimiento> {
+public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimiento> {
     Conexion conectar = new Conexion();
     Connection con;
 

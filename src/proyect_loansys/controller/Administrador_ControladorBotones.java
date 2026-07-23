@@ -23,6 +23,7 @@ import proyect_loansys.view.Administrador_Registro_de_usuario;
 import proyect_loansys.view.Administrador_Usuarios_activos;
 import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_Notificaciones;
+import proyect_loansys.view.Vista_NotificacionesAdmin;
 
 /**
  *
@@ -305,8 +306,8 @@ public class Administrador_ControladorBotones implements ActionListener {
         // abrir notificaciones 
         if (e.getSource() == inicio.notifiaciones) {
             inicio.setVisible(false);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            Vista_NotificacionesAdmin vistaNo = new Vista_NotificacionesAdmin();
+            Administrador_ControladorNotificaciones controlNo = new Administrador_ControladorNotificaciones(vistaNo);
             vistaNo.setVisible(true);
         }
 
