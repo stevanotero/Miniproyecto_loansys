@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyect_loansys.model;
 
 import java.sql.Connection;
@@ -14,9 +10,9 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Santiago
+ * @author Sants
  */
-public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
+public class ReporteTecnicoDao implements Crud_Asesor<ReporteTecnico> {
     Conexion conectar = new Conexion();
     Connection con;
 
@@ -195,9 +191,6 @@ public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
         return existe;
     }
 
-
-    
-    
     public boolean existeReporteParaMantenimiento(String codigoMantenimiento) {
         boolean existe = false;
         String sql = "SELECT COUNT(*) FROM historial_mantenimiento hm "
@@ -231,14 +224,45 @@ public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
         return existe;
     }
 
-  
-    
+    public boolean existeMantenimientoPorCodigo(String codigoMantenimiento) {
+        boolean existe = false;
+        String sql = "SELECT COUNT(*) FROM historial_mantenimiento WHERE codigo_mantenimiento = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, codigoMantenimiento);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    e.toString(),
+                    "Error validando el código de mantenimiento" + e.getMessage(),
+                    JOptionPane.ERROR_MESSAGE
+            );
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                    ps.close();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.toString());
+                }
+            }
+        }
+        return existe;
+    }
+
+    // CORREGIDO: agrega JOIN con elemento para traer nombre_elemento
     public Object[] buscarDatosPorCodigoMantenimiento(String codigoMantenimiento) {
         Object[] resultado = null;
-        String sql = "SELECT hm.id_mantenimiento, hm.nombre_elemento, "
+        String sql = "SELECT hm.id_mantenimiento, e.nombre_elemento, "
                 + "CONCAT(u.nombre, ' ', u.apellido) AS tecnico, u.documento, "
                 + "hm.tipo_mantenimiento, hm.estado_elemento, hm.descripcion "
                 + "FROM historial_mantenimiento hm "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
                 + "INNER JOIN usuarios_sena u ON hm.id_usuario = u.id_usuario "
                 + "WHERE hm.codigo_mantenimiento = ? "
                 + "AND hm.id_mantenimiento NOT IN (SELECT id_mantenimiento FROM reportes_tecnico)";
@@ -277,17 +301,15 @@ public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
         return resultado;
     }
 
-  
-    
-    
     public Object[] buscarDatosParaPDF(String codigoReporte) {
         Object[] datos = null;
-        String sql = "SELECT hm.codigo_mantenimiento, hm.nombre_elemento, hm.codigo_elemento, "
+        String sql = "SELECT hm.codigo_mantenimiento, e.nombre_elemento, e.codigo_elemento, "
                 + "hm.categoria, hm.tipo_mantenimiento, hm.estado_elemento, hm.fecha_realizada, "
                 + "u.nombre, u.apellido, u.documento, hm.descripcion, "
                 + "rt.fecha_realizado, rt.codigo_reporte "
                 + "FROM reportes_tecnico rt "
                 + "INNER JOIN historial_mantenimiento hm ON rt.id_mantenimiento = hm.id_mantenimiento "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
                 + "INNER JOIN usuarios_sena u ON hm.id_usuario = u.id_usuario "
                 + "WHERE rt.codigo_reporte = ?";
         try {
@@ -396,9 +418,10 @@ public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
 
     public List<Object[]> listarTabla() {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT rt.codigo_reporte, hm.nombre_elemento, rt.fecha_realizado, hm.estado_elemento "
+        String sql = "SELECT rt.codigo_reporte, e.nombre_elemento, rt.fecha_realizado, hm.estado_elemento "
                 + "FROM reportes_tecnico rt "
                 + "INNER JOIN historial_mantenimiento hm ON rt.id_mantenimiento = hm.id_mantenimiento "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
                 + "ORDER BY rt.id_reporte_tecnico DESC";
         try {
             con = conectar.getConection();
@@ -434,10 +457,11 @@ public class ReporteTecnicoDao implements Crud<ReporteTecnico> {
 
     public List<Object[]> buscarTabla(String texto) {
         List<Object[]> lista = new ArrayList<Object[]>();
-        String sql = "SELECT rt.codigo_reporte, hm.nombre_elemento, rt.fecha_realizado, hm.estado_elemento "
+        String sql = "SELECT rt.codigo_reporte, e.nombre_elemento, rt.fecha_realizado, hm.estado_elemento "
                 + "FROM reportes_tecnico rt "
                 + "INNER JOIN historial_mantenimiento hm ON rt.id_mantenimiento = hm.id_mantenimiento "
-                + "WHERE hm.nombre_elemento LIKE ? OR rt.codigo_reporte LIKE ? "
+                + "INNER JOIN elemento e ON hm.id_elemento = e.id_elemento "
+                + "WHERE e.nombre_elemento LIKE ? OR rt.codigo_reporte LIKE ? "
                 + "ORDER BY rt.id_reporte_tecnico DESC";
         try {
             con = conectar.getConection();

@@ -41,11 +41,11 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     private JPanel panel1, panel2, panel5;
     private JLabel titulo, logo, nombre;
     private JLabel subtituloBarraLateral1, subtituloBarraLateral2;
-    public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario, cerrar_sesion;
+    public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario, notifiaciones, cerrar_sesion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
-    private String Nombre_Usuario = "";
+    private String Nombre_Usuario = "Administrador";
 
     public Administrador_Plantilla_Administrador(String nombre_interfaz) {
         super(nombre_interfaz);
@@ -53,7 +53,6 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         contenedor = getContentPane();
         contenedor.setLayout(new BorderLayout());
 
-     
         panel5 = new JPanel();
 
         crearBarraSuperior();
@@ -63,7 +62,6 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         contenedor.add(panel2, BorderLayout.WEST);
         contenedor.add(panel5, BorderLayout.CENTER);
     }
-
 
     private void crearBarraSuperior() {
         panel1 = new JPanel();
@@ -75,21 +73,17 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         String textoBienvenida = (Nombre_Usuario == null || Nombre_Usuario.isEmpty())
                 ? "¡Bienvenido!"
                 : "¡Bienvenido, " + Nombre_Usuario + "!";
-        
+
         nombre = new JLabel(textoBienvenida);
         nombre.setFont(nombre.getFont().deriveFont(Font.BOLD, 22f));
-
-
 
         panel1.add(nombre);
         panel1.add(Box.createVerticalStrut(5));
 
     }
 
-
     // botones de menu en columna y boton de cerrar sesion redondeado
     // pegado abajo.
-
     private void crearBarraLateral() {
         panel2 = new JPanel();
         panel2.setPreferredSize(new Dimension(260, 1000));
@@ -104,7 +98,6 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         panelEncabezado.setMaximumSize(new Dimension(260, 90));
         panelEncabezado.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-  
         ImageIcon imagen_portada = new ImageIcon(getClass().getResource("/proyect_loansys/img/logo_sena.png"));
         Image imagen_ajustada = imagen_portada.getImage().getScaledInstance(50, 52, Image.SCALE_SMOOTH);
         Icon portada = new ImageIcon(imagen_ajustada);
@@ -139,7 +132,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         modificar = crearBotonMenu("👤 Modificar / Usuario");
         gestion_roles = crearBotonMenu("👤 Gestion de roles");
         registrar_usuario = crearBotonMenu("👤 Registrar Usuario");
-
+        notifiaciones = crearBotonMenu("👤 Notifiaciones");
         int espacioBotones = 12;
         panel2.add(binicio);
         panel2.add(Box.createVerticalStrut(espacioBotones));
@@ -150,7 +143,8 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         panel2.add(gestion_roles);
         panel2.add(Box.createVerticalStrut(espacioBotones));
         panel2.add(registrar_usuario);
-
+        panel2.add(Box.createVerticalStrut(espacioBotones));
+        panel2.add(notifiaciones);
         // Esto empuja el boton de cerrar sesion hasta el fondo, igual que en Vista_Principal
         panel2.add(Box.createVerticalGlue());
 
@@ -203,8 +197,6 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         return boton;
     }
 
-
-
     public Container getConteiner() {
         return this.contenedor;
     }
@@ -220,7 +212,6 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     public JButton getButtonModificar() {
         return this.modificar;
     }
-
 
     public void setNombreUsuario(String nombreUsuario) {
         this.Nombre_Usuario = nombreUsuario;

@@ -21,8 +21,8 @@ import javax.swing.table.DefaultTableModel;
 public abstract class Plantilla extends JFrame {
 
     private Container contenedor;
-    private JPanel panel1, panel2, panel3, panel4, panel5;
-    private JLabel logo, lblBienvenida;
+    private JPanel panel1, panel2, panel3, panel4, panel5, panelTextos;
+    private JLabel logo, lblTitulo, lblSubtitulo;
     public JButton historial, Mantenimiento, Reportes, Notificaciones, cerrar_sesion;
     public DefaultTableModel modelo;
     public JTable tabla;
@@ -38,16 +38,27 @@ public abstract class Plantilla extends JFrame {
         panel1.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         panel1.setBackground(new Color(220, 220, 225));
 
-        ImageIcon imagen_portada = new ImageIcon("logo_sena.png");
-        Image imagen_ajustada = imagen_portada.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        ImageIcon imagen_portada = new ImageIcon(getClass().getResource("/viewTecnico/logo_sena.png"));
+        Image imagen_ajustada = imagen_portada.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         logo = new JLabel(new ImageIcon(imagen_ajustada));
-        logo.setPreferredSize(new Dimension(50, 50));
+        logo.setPreferredSize(new Dimension(40, 40));
 
-        lblBienvenida = new JLabel("¡Bienvenido, Técnico!");
-        lblBienvenida.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
+        panelTextos = new JPanel();
+        panelTextos.setLayout(new BoxLayout(panelTextos, BoxLayout.Y_AXIS));
+        panelTextos.setBackground(new Color(220, 220, 225));
+
+        lblTitulo = new JLabel("LoanSys");
+        lblTitulo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+
+        lblSubtitulo = new JLabel("Sistema de inventario y préstamo");
+        lblSubtitulo.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 10));
+        lblSubtitulo.setForeground(Color.GRAY);
+
+        panelTextos.add(lblTitulo);
+        panelTextos.add(lblSubtitulo);
 
         panel1.add(logo);
-        panel1.add(lblBienvenida);
+        panel1.add(panelTextos);
 
         panel2 = new JPanel();
         panel2.setPreferredSize(new Dimension(175, 1000));
@@ -71,6 +82,7 @@ public abstract class Plantilla extends JFrame {
         panel3.add(Reportes);
         panel3.add(Box.createVerticalStrut(8));
         panel3.add(Notificaciones);
+        panel3.add(Box.createVerticalStrut(8));
 
         panel4 = new JPanel();
         panel4.setBackground(new Color(220, 220, 225));
@@ -84,13 +96,22 @@ public abstract class Plantilla extends JFrame {
         cerrar_sesion.setFocusPainted(false);
         cerrar_sesion.setBorderPainted(false);
 
+        Notificaciones.addActionListener(e -> {
+            dispose();
+            //Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            //vistaNo.setVisible(true);
+        });
+
         panel4.add(cerrar_sesion);
+        cerrar_sesion.addActionListener(e -> {
+            System.exit(0);
+        });
 
         panel2.add(panel3, BorderLayout.NORTH);
         panel2.add(panel4, BorderLayout.SOUTH);
 
         panel5 = new JPanel();
-        panel5.setBackground(new Color(245, 245, 245));
+        panel5.setBackground(Color.WHITE);
 
         contenedor.add(panel1, BorderLayout.NORTH);
         contenedor.add(panel2, BorderLayout.WEST);

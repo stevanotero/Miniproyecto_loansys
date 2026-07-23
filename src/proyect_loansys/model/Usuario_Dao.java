@@ -69,18 +69,13 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
     @Override
     public int setAgregar(Usuario_Solicitud sr) {
         int r;
-        String sql = "INSERT INTO solicitudes_usuario "
-                + "(id_usuario, nombre, apellido, documento, id_elemento, fecha_envio) "
-                + "VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO solicitudes_usuario (id_usuario, id_elemento, fecha_envio) VALUES (?,?,?)";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, sr.getId_usuario());
-            ps.setString(2, sr.getNombre());
-            ps.setString(3, sr.getApellido());
-            ps.setInt(4, sr.getDocumento());
-            ps.setInt(5, sr.getId_elemento());
-            ps.setTimestamp(6, sr.getFecha_envio()); // quita por completo el Time.valueOf
+            ps.setInt(2, sr.getId_elemento());
+            ps.setTimestamp(3, sr.getFecha_envio());
             r = ps.executeUpdate();
             return r;
         } catch (Exception e) {
@@ -325,55 +320,6 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             }
         }
         return estado; // null si el elemento no existe
-    }
-
-    public List<Usuario_Elemento> listarPorEstado(String estado) {
-
-        List<Usuario_Elemento> lista = new ArrayList<>();
-
-        String sql = "SELECT e.id_elemento, e.codigo_elemento, e.nombre_elemento, "
-                + "e.id_categoria, e.descripcion, e.imagen, "
-                + "e.id_estado_elemento, "
-                + "ee.nombre_estado AS estado_nombre, "
-                + "c.nombre_categoria AS categoria_nombre "
-                + "FROM elemento e "
-                + "INNER JOIN estado_elemento ee "
-                + "ON e.id_estado_elemento = ee.id_estado_elemento "
-                + "INNER JOIN categoria_elemento c "
-                + "ON e.id_categoria = c.id_categoria "
-                + "WHERE ee.nombre_estado = ?";
-
-        try {
-
-            Connection con = conectar.getConection();
-            PreparedStatement ps = con.prepareStatement(sql);
-
-            ps.setString(1, estado);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                Usuario_Elemento u = new Usuario_Elemento();
-
-                u.setId_elemento(rs.getInt("id_elemento"));
-                u.setCodigo_elemento(rs.getInt("codigo_elemento"));
-                u.setNombre_elemento(rs.getString("nombre_elemento"));
-                u.setId_categoria(rs.getInt("id_categoria"));
-                u.setDescripcion(rs.getString("descripcion"));
-                u.setImagen(rs.getString("imagen"));
-                u.setId_estado_elemento(rs.getInt("id_estado_elemento"));
-                u.setEstado_nombre(rs.getString("estado_nombre"));
-                u.setCategoria_nombre(rs.getString("categoria_nombre"));
-
-                lista.add(u);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.toString());
-        }
-
-        return lista;
     }
 
 }

@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Historial_Tecnico extends Plantilla {
 
@@ -20,6 +21,7 @@ public class Historial_Tecnico extends Plantilla {
     private JTextField txtBuscar;
     private JButton btnRealizados;
     private JButton btnRevision;
+    private JButton btnBorrarFiltros;
     private JLabel lblNumeroRealizados;
     private JLabel lblNumeroRevision;
     public JTable tabla;
@@ -32,7 +34,8 @@ public class Historial_Tecnico extends Plantilla {
         JPanel panel5 = super.getPanel();
         panel5.setBackground(new Color(245, 245, 245));
         panel5.setLayout(null);
-
+        
+        //el btn de br filtros 
         panelFiltros = new JPanel();
         panelFiltros.setLayout(null);
         panelFiltros.setBounds(20,20,900,50);
@@ -59,6 +62,12 @@ public class Historial_Tecnico extends Plantilla {
                 }
             }
         });
+        //br filtros
+        btnBorrarFiltros = new JButton("Borrar filtros");
+        btnBorrarFiltros.setBounds(460, 10, 160, 30);
+        btnBorrarFiltros.setBackground(new Color(209, 209, 214));
+        btnBorrarFiltros.setFocusPainted(false);
+        panelFiltros.add(btnBorrarFiltros);
 
         panelFiltros.add(txtBuscar);
         panel5.add(panelFiltros);
@@ -93,8 +102,9 @@ public class Historial_Tecnico extends Plantilla {
         btnRevision.setFocusPainted(false);
         btnRevision.setBounds(350, 10, 220, 90);
 
-        JLabel lblTituloRevision = new JLabel("Revisión", SwingConstants.CENTER);
-        lblTituloRevision.setBounds(50, 5, 120, 20);
+        JLabel lblTituloRevision = new JLabel("En mantenimiento", SwingConstants.CENTER);
+        lblTituloRevision.setFont(new Font("Arial", Font.PLAIN, 11));
+        lblTituloRevision.setBounds(10, 5, 200, 20);
         lblNumeroRevision = new JLabel("0", SwingConstants.CENTER);
         lblNumeroRevision.setFont(new Font("Arial", Font.BOLD, 30));
         lblNumeroRevision.setBounds(90, 25, 40, 30);
@@ -131,6 +141,10 @@ public class Historial_Tecnico extends Plantilla {
 
     public JButton getBtnRevision() {
         return btnRevision;
+    }
+
+    public JButton getBtnBorrarFiltros() {
+        return btnBorrarFiltros;
     }
 
     public JTextField getTxtBuscar() {

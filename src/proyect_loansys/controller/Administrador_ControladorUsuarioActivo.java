@@ -32,6 +32,7 @@ public class Administrador_ControladorUsuarioActivo implements ActionListener {
     Administrador_Usuario usuario = new Administrador_Usuario();
     Administrador_UsuarioDao usuarioDao = new Administrador_UsuarioDao();
     private boolean veri = false;
+
     DefaultTableModel modelo = new DefaultTableModel();
     Administrador_Auditoria auditoria = new Administrador_Auditoria();
     Administrador_AuditoriaDao auditoriaDao = new Administrador_AuditoriaDao();
@@ -42,6 +43,7 @@ public class Administrador_ControladorUsuarioActivo implements ActionListener {
         this.usActivo.botonA.addActionListener(this);
         this.modal.cancelar.addActionListener(this);
         this.modal.guardar.addActionListener(this);
+        this.usActivo.botonFiltroAct.addActionListener(this);
         limpiarTabla();
         getListar(usActivo.tabla);
     }
@@ -68,7 +70,21 @@ public class Administrador_ControladorUsuarioActivo implements ActionListener {
             setActualizarEstado();
 
         }
+        if (e.getSource() == usActivo.botonFiltroAct) {
+            String docuemnto = usActivo.filtroAct.getText().trim();
+            if (usActivo.tabla.isEditing()) {
+                usActivo.tabla.getCellEditor().cancelCellEditing();
+            }
 
+            modelo = (DefaultTableModel) usActivo.tabla.getModel();
+            modelo.setRowCount(0);
+            if (docuemnto.isEmpty() || docuemnto.matches("[0-9]+")) {
+                getListarFiltro(usActivo.tabla, docuemnto);
+            } else {
+                JOptionPane.showMessageDialog(usActivo, "Solo se permiten números enteros, sin puntos ni guiones.");
+            }
+
+        }
     }
 
     public void CargarModal(Administrador_Modal_Usuarios_Activos modal) {
@@ -153,30 +169,44 @@ public class Administrador_ControladorUsuarioActivo implements ActionListener {
             } else {
                 auditoria.setAccion("Desactivó un usuario");
             }
-
             auditoriaDao.registrarAccion(auditoria);
             JOptionPane.showMessageDialog(modal,
                     "Estado actualizado correctamente");
-
             modal.dispose();
-
             borrarModal();
-
             limpiarTabla();
-
             getListar(usActivo.tabla);
 
         } else {
 
             JOptionPane.showMessageDialog(modal,
                     "No se pudo actualizar el estado");
-
         }
+    }
 
+    public void getListarFiltro(JTable tabla, String documento) {
+        modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0); // limpia la tabla antes de volver a llenarla
+        List<Administrador_Usuario> lista = usuarioDao.listar();
+        Object[] object = new Object[6];
+
+        for (int indice = 0; indice < lista.size(); indice++) {
+            String docActual = String.valueOf(lista.get(indice).getDocumento());
+
+            if (documento.isEmpty() || docActual.contains(documento)) {
+                object[0] = lista.get(indice).getDocumento();
+                object[1] = lista.get(indice).getNombre();
+                object[2] = lista.get(indice).getApellido();
+                object[3] = lista.get(indice).getCorreo();
+                object[5] = lista.get(indice).getNombreEstado();
+                object[4] = lista.get(indice).getNombreRol();
+                modelo.addRow(object);
+            }
+        }
+        usActivo.tabla.setModel(modelo);
     }
 
     public void borrarModal() {
-
         modal.txtDocumento.setText("");
         modal.txtNombre.setText("");
         modal.txtCorreo.setText("");

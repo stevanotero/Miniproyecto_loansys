@@ -19,7 +19,6 @@ import proyect_loansys.view.Vista_GestionUsuarios;
 import proyect_loansys.view.Vista_Inventario;
 import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_Inicio;
-import proyect_loansys.view.Vista_Reportes_Asesor;
 import proyect_loansys.view.Vista_Solicitudes;
 import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_Prestamo;
@@ -35,13 +34,14 @@ public class Controlador_Notificaciones implements ActionListener {
     private PersonaDao_Login loginDao;
     private DefaultTableModel modeloTabla;
     private List<Notificaciones> listaNotificaciones; 
-    private List<TipoNotificacion> listaTiposCombo;    
+    private List<TipoNotificacion> listaTiposCombo;   
 
     public Controlador_Notificaciones(Vista_Notificaciones vista) {
         this.vista = vista;
         this.modelo = new NotificacionesDAO();
         this.loginDao = new PersonaDao_Login();
-        // Activar los botones
+
+        // Escuchadores de eventos
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonInventario.addActionListener(this);
         this.vista.botonPrestamos.addActionListener(this);
@@ -52,19 +52,18 @@ public class Controlador_Notificaciones implements ActionListener {
         this.vista.botonUsuarios.addActionListener(this);
         this.vista.botonSolicitudes.addActionListener(this);
         this.vista.botonCerrarSesion.addActionListener(this);
-        // Cargar datos al iniciar
+
+        // Inicialización de la vista
         listarNotificacionesTabla();
         cargarComboTipos(); 
     }
-    
 
     public void cargarComboTipos() {
         vista.comboTipoNotificacion.removeAllItems();
-        int idRolActual = Sesion.getIdRol(); //Obtiene el rol activo
         
-        // Guarda los objetos en la nueva lista
+        int idRolActual = Sesion.getIdRol(); 
         listaTiposCombo = modelo.listarTiposPorRol(idRolActual);
-        // Agregamos solo el nombre (String) al ComboBox
+ 
         for (TipoNotificacion t : listaTiposCombo) {
             vista.comboTipoNotificacion.addItem(t.getNombreTipoNotificacion());
         }
@@ -74,7 +73,7 @@ public class Controlador_Notificaciones implements ActionListener {
         modeloTabla = (DefaultTableModel) vista.tablaNotificaciones.getModel();
         modeloTabla.setRowCount(0);
 
-        // Trae las notificaciones del usuario en sesión
+        // Notificaciones destinadas al usuario en sesión
         int idUsuarioActual = Sesion.getIdLogin();
         listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
         Object[] fila = new Object[2];
@@ -85,14 +84,13 @@ public class Controlador_Notificaciones implements ActionListener {
             modeloTabla.addRow(fila);
         }
     }
-    
 
     private void registrarNuevaNotificacion() {
         String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();
         String mensaje = vista.txtAreaMensaje.getText().trim();
         String placeholder = "Escriba el mensaje que desea enviar...";
 
-        // Validación de campos vacíos
+        // Validaciones de formulario
         if (correoDestinatario.isEmpty() || mensaje.isEmpty() || mensaje.equals(placeholder)) {
             JOptionPane.showMessageDialog(vista,
                     "Todos los campos son obligatorios (Correo del destinatario y Mensaje).",
@@ -100,7 +98,6 @@ public class Controlador_Notificaciones implements ActionListener {
             return;
         }
         
-        // Validación de mínimo de caracteres
         if (mensaje.length() < 10) {
             JOptionPane.showMessageDialog(vista,
                     "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
@@ -108,7 +105,6 @@ public class Controlador_Notificaciones implements ActionListener {
             return;
         }
 
-        // Validación de máximo de caracteres
         if (mensaje.length() > 60) {
             JOptionPane.showMessageDialog(vista,
                     "El mensaje excede el límite permitido de 60 caracteres. \n(Llevas: " + mensaje.length() + ")",
@@ -117,7 +113,7 @@ public class Controlador_Notificaciones implements ActionListener {
         }
 
         try {
-            // Verificar si el correo existe
+            // Validar correo existente
             if (!loginDao.existeCorreo(correoDestinatario)) {
                 JOptionPane.showMessageDialog(vista,
                         "El correo electrónico ingresado no se encuentra registrado en el sistema.",
@@ -125,15 +121,13 @@ public class Controlador_Notificaciones implements ActionListener {
                 return;
             }
 
-            // Obtener el id_login del destinatario
             int idLoginDestino = loginDao.obtenerIdLoginPorCorreo(correoDestinatario);
-
             if (idLoginDestino == -1) {
                 JOptionPane.showMessageDialog(vista, "Error al procesar la cuenta de destino.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // obtener el id según la opción seleccionada
+            // Obtener el id_tipo_notificacion real según la posición seleccionada en el ComboBox
             int indexSeleccionado = vista.comboTipoNotificacion.getSelectedIndex();
 
             if (indexSeleccionado < 0 || listaTiposCombo == null || listaTiposCombo.isEmpty()) {
@@ -143,19 +137,17 @@ public class Controlador_Notificaciones implements ActionListener {
 
             int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
 
-            // Registrar notificación
+            // Guardar notificación
             Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idLoginDestino);
             int resultado = modelo.setAgregar(nuevaNotif);
 
             if (resultado > 0) {
                 JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-                // Limpieza de campos
                 vista.txtDocumentoDestinatario.setText("");
                 vista.txtAreaMensaje.setText(placeholder);
                 vista.txtAreaMensaje.setForeground(new java.awt.Color(110, 110, 110));
 
-                // Refrescar tabla
                 listarNotificacionesTabla();
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -164,9 +156,7 @@ public class Controlador_Notificaciones implements ActionListener {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(vista, "Ocurrió un error al procesar la solicitud: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -174,14 +164,13 @@ public class Controlador_Notificaciones implements ActionListener {
             registrarNuevaNotificacion();
         }
         
-        //Modulo inicio
         if (e.getSource() == vista.botonInicio) {
             vista.dispose();
             Vista_Inicio vistaIni = new Vista_Inicio();
             Controlador_inicio controlador = new Controlador_inicio(vistaIni);
             vistaIni.setVisible(true);
         }
-        //Modulo del login
+        
         if (e.getSource() == vista.botonCerrarSesion) {
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
@@ -189,7 +178,6 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaLogin.setVisible(true);
         }
         
-        //Modulo de inventario
         if (e.getSource() == vista.botonInventario) {
             vista.dispose();
             Vista_Inventario vistaInventario = new Vista_Inventario();
@@ -197,7 +185,6 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaInventario.setVisible(true);
         }
         
-        //Modulo de gestion de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
@@ -205,7 +192,6 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaSolicitud.setVisible(true);
         }
         
-        //Modulo de prestamo
         if (e.getSource() == vista.botonPrestamos) {
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
@@ -213,7 +199,6 @@ public class Controlador_Notificaciones implements ActionListener {
             vistap.setVisible(true);
         }
         
-        //Modulo de devoluciones
         if (e.getSource() == vista.botonDevoluciones) {
             vista.dispose();
             Vista_Devoluciones vistaDev = new Vista_Devoluciones();
@@ -221,19 +206,11 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaDev.setVisible(true);
         }
         
-        //Modulo de gestión de usuarios
         if (e.getSource() == vista.botonUsuarios) {
             vista.dispose();
             Vista_GestionUsuarios vistaUsers = new Vista_GestionUsuarios();
             Controlador_GestionUsuarios controlUsers = new Controlador_GestionUsuarios(vistaUsers);
             vistaUsers.setVisible(true);
-        }
-        //Modulo de reportes
-        if (e.getSource()== vista.botonReportes){
-        vista.dispose();
-        Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();
-        Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor(vistaRep);
-        vistaRep.setVisible(true);
         }
     }
 }

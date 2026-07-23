@@ -36,6 +36,7 @@ public class Administrador_Inicio_Loansys_Administrador extends Administrador_Pl
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
+    public JButton exportar;
 
     public Administrador_Inicio_Loansys_Administrador() {
 
@@ -60,8 +61,8 @@ public class Administrador_Inicio_Loansys_Administrador extends Administrador_Pl
 
         //distribuccion para los paneles
         panel14 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-        panel15 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 0));
-        panel16 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+        panel15 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 650, 0));
+        panel16 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 200, 0));
         panel17 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 115, 0));
         panel9 = new JPanel(new BorderLayout());
         panel13 = new JPanel(new BorderLayout());
@@ -71,18 +72,26 @@ public class Administrador_Inicio_Loansys_Administrador extends Administrador_Pl
         panel6 = new JPanel(new BorderLayout());
 
         grid4 = new GridLayout(2, 1, 1, 1);
-
+        exportar = new JButton("Exporta pdf");
+        
+        exportar.setBorder(BorderFactory.createLineBorder(Color.green, 10, true));// Borde redondeado para el botón
+        exportar.setBackground(Color.green);
+        
         titulo2 = new JLabel("Tabla de  movimientos de Usuarios");
         titulo2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
         panel9 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 3, 3));
         panel9.setBorder(new EmptyBorder(90, 5, 0, 950));
         panel10.setBorder(new EmptyBorder(15, 15, 10, 15));
-
+        
+        
+      
+        
         panel7.setSize(new Dimension(200, 100));
         panel8.setSize(new Dimension(400, 500));
         panel8.setBorder(new EmptyBorder(0, 0, 0, 0));
 
         panel14.add(titulo2);
+        panel15.add(exportar);
          panel9.add(panel14);
            panel9.add(panel15, BorderLayout.EAST);
         panel10.add(miscroll);

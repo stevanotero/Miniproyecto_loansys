@@ -22,6 +22,8 @@ import proyect_loansys.view.Administrador_Plantilla_Administrador;
 import proyect_loansys.view.Administrador_Registro_de_usuario;
 import proyect_loansys.view.Administrador_Usuarios_activos;
 import proyect_loansys.view.Vista_Login;
+import proyect_loansys.view.Vista_Notificaciones;
+import proyect_loansys.view.Vista_NotificacionesAdmin;
 
 /**
  *
@@ -52,12 +54,15 @@ public class Administrador_ControladorBotones implements ActionListener {
 
     // para cerrar sesion 
     Vista_Login login = new Vista_Login();
+    //modulo de notificaciones
+    Vista_Notificaciones vistaNo = new Vista_Notificaciones();
 
     //controladores                 
     Administrador_ControladorUsuarioActivo controladorUsuarioActivo;
     Administrador_ControladorModificarUsuario controladorModificarUsuario;
     Administrador_ControladorCambio_de_rol controladorCambio_de_rol;
     Administrador_Controlador_registro_usuario controlador_registro_usuario;
+    Controlador_Notificaciones controlador_Notificaciones;
 
     public Administrador_ControladorBotones(Administrador_Inicio_Loansys_Administrador inicio) {
         this.inicio = inicio;
@@ -68,6 +73,7 @@ public class Administrador_ControladorBotones implements ActionListener {
         this.inicio.gestion_roles.addActionListener(this);
         this.inicio.registrar_usuario.addActionListener(this);
         this.inicio.cerrar_sesion.addActionListener(this);
+        this.inicio.notifiaciones.addActionListener(this);
 
         //----fin inicio_---------------//
         //-------activar boton usuarioActivos ---------//
@@ -76,7 +82,7 @@ public class Administrador_ControladorBotones implements ActionListener {
         this.usActivo.gestion_roles.addActionListener(this);
         this.usActivo.registrar_usuario.addActionListener(this);
         this.usActivo.cerrar_sesion.addActionListener(this);
-
+        this.usActivo.notifiaciones.addActionListener(this);
         //------fin usaActivo
         //------modificra usuario-----------//
         this.modificarUsuario.binicio.addActionListener(this);
@@ -84,27 +90,27 @@ public class Administrador_ControladorBotones implements ActionListener {
         this.modificarUsuario.gestion_roles.addActionListener(this);
         this.modificarUsuario.registrar_usuario.addActionListener(this);
         this.modificarUsuario.cerrar_sesion.addActionListener(this);
-
+        this.modificarUsuario.notifiaciones.addActionListener(this);
         //--------cambio de rol ---------------//
         this.cambio_de_rol.binicio.addActionListener(this);
         this.cambio_de_rol.activacion_usuario.addActionListener(this);
         this.cambio_de_rol.registrar_usuario.addActionListener(this);
         this.cambio_de_rol.modificar.addActionListener(this);
         this.cambio_de_rol.cerrar_sesion.addActionListener(this);
-
+        this.cambio_de_rol.notifiaciones.addActionListener(this);
         //------registrar usuario------------//
         this.registro_de_usuario.binicio.addActionListener(this);
         this.registro_de_usuario.activacion_usuario.addActionListener(this);
         this.registro_de_usuario.gestion_roles.addActionListener(this);
         this.registro_de_usuario.modificar.addActionListener(this);
         this.registro_de_usuario.cerrar_sesion.addActionListener(this);
-
+        this.registro_de_usuario.notifiaciones.addActionListener(this);
         //-------fin mdificar usuario--------//
         controladorUsuarioActivo = new Administrador_ControladorUsuarioActivo(usActivo, modalUsu);
         controladorModificarUsuario = new Administrador_ControladorModificarUsuario(modal_modifi, modificarUsuario);
         controladorCambio_de_rol = new Administrador_ControladorCambio_de_rol(cambio_de_rol, modalRol);
         controlador_registro_usuario = new Administrador_Controlador_registro_usuario(registro_de_usuario, modalRigistrar);
-
+        controlador_Notificaciones = new Controlador_Notificaciones(vistaNo);
     }
 
     @Override
@@ -296,6 +302,43 @@ public class Administrador_ControladorBotones implements ActionListener {
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
             vistaLogin.setVisible(true);
         }
+
+        // abrir notificaciones 
+        if (e.getSource() == inicio.notifiaciones) {
+            inicio.setVisible(false);
+            Vista_NotificacionesAdmin vistaNo = new Vista_NotificacionesAdmin();
+            Administrador_ControladorNotificaciones controlNo = new Administrador_ControladorNotificaciones(vistaNo);
+            vistaNo.setVisible(true);
+        }
+
+        if (e.getSource() == usActivo.notifiaciones) {
+            usActivo.setVisible(false);
+           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            vistaNo.setVisible(true);
+        }
+
+        if (e.getSource() == modificarUsuario.notifiaciones) {
+            modificarUsuario.setVisible(false);
+           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            vistaNo.setVisible(true);
+        }
+
+        if (e.getSource() == cambio_de_rol.notifiaciones) {
+            cambio_de_rol.setVisible(false);
+           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            vistaNo.setVisible(true);
+        }
+
+        if (e.getSource() == registro_de_usuario.notifiaciones) {
+            registro_de_usuario.setVisible(false);
+            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            vistaNo.setVisible(true);
+        }
+
     }
 
     //------Metodos para cargar las view----------//

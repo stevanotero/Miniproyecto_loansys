@@ -61,12 +61,12 @@ public class Administrador_Modal_registrar_usuario extends JDialog {
         grid = new GridLayout(7, 2, 10, 10);
         datos.setLayout(grid);
 
-        lnombre = new JLabel("Nombre");
-        lapellido = new JLabel("Apellido");
-        ldocumento = new JLabel("Documento");
-        lcorreo = new JLabel("Correo");
-        lcontraseña = new JLabel("Contraseña");
-        lestado = new JLabel("Estado");
+        lnombre = new JLabel("Nombre*");
+        lapellido = new JLabel("Apellido*");
+        ldocumento = new JLabel("Documento*");
+        lcorreo = new JLabel("Correo*");
+        lcontraseña = new JLabel("Contraseña*");
+        lestado = new JLabel("Estado*");
         lrol = new JLabel("Rol");
         txtNombre = new JTextField(15);
         txtApellido = new JTextField(15);

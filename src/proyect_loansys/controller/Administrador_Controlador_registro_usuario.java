@@ -54,91 +54,120 @@ public class Administrador_Controlador_registro_usuario implements ActionListene
             JOptionPane.showMessageDialog(null, "No se registro ningun usuario", "", JOptionPane.WARNING_MESSAGE);
         }
         if (e.getSource() == modal.guardar) {
+
             String nombre = modal.txtNombre.getText().trim();
+            String apellido = modal.txtApellido.getText().trim();
+            String documento = modal.txtDocumento.getText().trim();
+            String correo = modal.txtCorreo.getText().trim();
+            String contraseña = modal.txtContraseña.getText().trim();
 
-            if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
-                JOptionPane.showMessageDialog(
-                        modal,
-                        "El nombre solo puede contener letras.",
-                        "Nombre inválido",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
+            if (nombre.isEmpty() || apellido.isEmpty() || documento.isEmpty()
+                    || correo.isEmpty() || contraseña.isEmpty()) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "Debe completar todos los campos.",
+                        "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+
+                // ---- NOMBRE desglosado ----
+            } else if (nombre.length() < 3) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El nombre debe tener al menos 3 caracteres.",
+                        "Nombre inválido", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El nombre solo puede contener letras, sin números ni símbolos.",
+                        "Nombre inválido", JOptionPane.WARNING_MESSAGE);
+
+                // ---- APELLIDO desglosado ----
+            } else if (apellido.length() < 3) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El apellido debe tener al menos 3 caracteres.",
+                        "Apellido inválido", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El apellido solo puede contener letras, sin números ni símbolos.",
+                        "Apellido inválido", JOptionPane.WARNING_MESSAGE);
+
+                // ---- DOCUMENTO desglosado ----
+            } else if (!documento.matches("\\d+")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El documento solo puede contener números, sin puntos, espacios ni letras.",
+                        "Documento inválido", JOptionPane.WARNING_MESSAGE);
+
+            } else if (documento.length() < 6 || documento.length() > 10) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El documento debe tener entre 6 y 10 dígitos.",
+                        "Documento inválido", JOptionPane.WARNING_MESSAGE);
+
+            } else if (documento.matches("(\\d)\\1+")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "El documento no puede tener todos los dígitos iguales (ej: 0000000).",
+                        "Documento inválido", JOptionPane.WARNING_MESSAGE);
+
+                // ---- CORREO ----
+            } else if (!correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "Ingrese un correo válido. Ejemplo: usuario@gmail.com",
+                        "Correo inválido", JOptionPane.WARNING_MESSAGE);
+
+                // ---- CONTRASEÑA desglosada ----
+            } else if (contraseña.length() < 8) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "La contraseña debe tener mínimo 8 caracteres.",
+                        "Contraseña inválida", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!contraseña.matches(".*[a-z].*")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "La contraseña debe contener al menos una letra minúscula.",
+                        "Contraseña inválida", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!contraseña.matches(".*[A-Z].*")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "La contraseña debe contener al menos una letra mayúscula.",
+                        "Contraseña inválida", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!contraseña.matches(".*\\d.*")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "La contraseña debe contener al menos un número.",
+                        "Contraseña inválida", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!contraseña.matches(".*[@#$%^&+=!.*_?-].*")) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "La contraseña debe contener al menos un carácter especial (@#$%^&+=!.*_?-).",
+                        "Contraseña inválida", JOptionPane.WARNING_MESSAGE);
+
+                // ---- ROL / ESTADO ----
+            } else if (modal.rol.getSelectedIndex() == 0) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "Seleccione un rol.",
+                        "Rol obligatorio", JOptionPane.WARNING_MESSAGE);
+
+            } else if (modal.estado.getSelectedIndex() == 0) {
+
+                JOptionPane.showMessageDialog(modal,
+                        "Seleccione un estado.",
+                        "Estado obligatorio", JOptionPane.WARNING_MESSAGE);
+
             } else {
-                String apellido = modal.txtApellido.getText().trim();
 
-                if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
-                    JOptionPane.showMessageDialog(
-                            modal,
-                            "El apellido solo puede contener letras.",
-                            "Apellido inválido",
-                            JOptionPane.WARNING_MESSAGE);
-                    return;
-                } else {
-                    String documento = modal.txtDocumento.getText().trim();
+                registrarUsuario();
 
-                    if (!documento.matches("\\d{6,10}")) {
-                        JOptionPane.showMessageDialog(
-                                modal,
-                                "El documento debe tener entre 6 y 10 dígitos.",
-                                "Documento inválido",
-                                JOptionPane.WARNING_MESSAGE);
-                        return;
-                    } else {
-                        String correo = modal.txtCorreo.getText().trim();
-
-                        if (!correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-                            JOptionPane.showMessageDialog(
-                                    modal,
-                                    "Ingrese un correo válido. Ejemplo: usuario@gmail.com",
-                                    "Correo inválido",
-                                    JOptionPane.WARNING_MESSAGE);
-                            return;
-                        } else {
-                            String contraseña = modal.txtContraseña.getText().trim();
-
-                            if (!contraseña.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!.*_?-]).{8,}$")) {
-                                JOptionPane.showMessageDialog(
-                                        modal,
-                                        "La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.",
-                                        "Contraseña inválida",
-                                        JOptionPane.WARNING_MESSAGE);
-                                return;
-                            } else {
-                                if (modal.rol.getSelectedIndex() == 0) {
-                                    JOptionPane.showMessageDialog(
-                                            modal,
-                                            "Seleccione un rol.",
-                                            "Rol obligatorio",
-                                            JOptionPane.WARNING_MESSAGE);
-                                    return;
-                                } else {
-                                    if (modal.estado.getSelectedIndex() == 0) {
-                                        JOptionPane.showMessageDialog(
-                                                modal,
-                                                "Seleccione un estado.",
-                                                "Estado obligatorio",
-                                                JOptionPane.WARNING_MESSAGE);
-                                        return;
-                                    } else {
-                                        if (nombre.isEmpty() || apellido.isEmpty() || documento.isEmpty()
-                                                || correo.isEmpty() || contraseña.isEmpty()) {
-
-                                            JOptionPane.showMessageDialog(
-                                                    modal,
-                                                    "Debe completar todos los campos.",
-                                                    "Campos vacíos",
-                                                    JOptionPane.WARNING_MESSAGE);
-                                            return;
-                                        } else {
-                                            registrarUsuario();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
             }
         }
     }

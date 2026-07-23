@@ -38,6 +38,7 @@ public class Administrador_ControladorCambio_de_rol implements ActionListener {
         this.cambio_de_rol.botonC.addActionListener(this);
         this.modal.cancelar.addActionListener(this);
         this.modal.guardar.addActionListener(this);
+        this.cambio_de_rol.botonFiltroRol.addActionListener(this);
         limpiarTabla();
         getListar(cambio_de_rol.tabla);
     }
@@ -61,6 +62,21 @@ public class Administrador_ControladorCambio_de_rol implements ActionListener {
         }
         if (e.getSource() == modal.guardar) {
             setActualizarRol();
+        }
+                if (e.getSource() == cambio_de_rol.botonFiltroRol) {
+            String docuemnto = cambio_de_rol.filtroRol.getText().trim();
+            if (cambio_de_rol.tabla.isEditing()) {
+                cambio_de_rol.tabla.getCellEditor().cancelCellEditing();
+            }
+
+            modelo = (DefaultTableModel) cambio_de_rol.tabla.getModel();
+            modelo.setRowCount(0);
+            if (docuemnto.isEmpty() || docuemnto.matches("[0-9]+")) {
+                getListarFiltro(cambio_de_rol.tabla, docuemnto);
+            } else {
+                JOptionPane.showMessageDialog(cambio_de_rol, "Solo se permiten números enteros, sin puntos ni guiones.");
+            }
+
         }
     }
 
@@ -131,6 +147,30 @@ public class Administrador_ControladorCambio_de_rol implements ActionListener {
         modal.rol.setSelectedIndex(0);
 
     }
+    
+      public void getListarFiltro(JTable tabla, String documento) {
+        modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0); // limpia la tabla antes de volver a llenarla
+
+        List<Administrador_Usuario> lista = usuarioDao.listar();
+        Object[] object = new Object[6];
+
+        for (int indice = 0; indice < lista.size(); indice++) {
+            String docActual = String.valueOf(lista.get(indice).getDocumento());
+
+            if (documento.isEmpty() || docActual.contains(documento)) {
+                object[0] = lista.get(indice).getDocumento();
+                object[1] = lista.get(indice).getNombre();
+                object[2] = lista.get(indice).getApellido();
+                object[3] = lista.get(indice).getCorreo();
+                object[5] = lista.get(indice).getNombreEstado();
+                object[4] = lista.get(indice).getNombreRol();
+                modelo.addRow(object);
+            }
+        }
+        cambio_de_rol.tabla.setModel(modelo);
+    }
+
 
     public void setActualizarRol() {
 

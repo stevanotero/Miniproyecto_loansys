@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyect_loansys.view;
-
 /**
  *
  * @author Sants
@@ -17,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
 public class Mantenimiento extends Plantilla {
@@ -34,7 +34,7 @@ public class Mantenimiento extends Plantilla {
         super.Mantenimiento.setBackground(new Color(90, 91, 92));
         super.Mantenimiento.setForeground(Color.WHITE);
         vistaP();
-        setSize(1400, 800);
+        setSize(1200, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);

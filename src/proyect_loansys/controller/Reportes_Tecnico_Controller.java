@@ -10,6 +10,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import proyect_loansys.view.Mantenimiento;
+
 
 public class Reportes_Tecnico_Controller {
 
@@ -26,6 +28,12 @@ public class Reportes_Tecnico_Controller {
         vista.historial.addActionListener(e -> {
             Historial_Tecnico vistaHistorial = new Historial_Tecnico();
             new Historial_Tecnico_Controller(vistaHistorial);
+            vista.dispose();
+        });
+
+        vista.Mantenimiento.addActionListener(e -> {
+            Mantenimiento vistaMantenimiento = new Mantenimiento();
+            new ControllerMantenimiento(vistaMantenimiento);
             vista.dispose();
         });
 
@@ -46,13 +54,19 @@ public class Reportes_Tecnico_Controller {
 //buscador en tiempo real
         vista.txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { buscar(); }
+            public void insertUpdate(DocumentEvent e) {
+                buscar();
+            }
 
             @Override
-            public void removeUpdate(DocumentEvent e) { buscar(); }
+            public void removeUpdate(DocumentEvent e) {
+                buscar();
+            }
 
             @Override
-            public void changedUpdate(DocumentEvent e) { buscar(); }
+            public void changedUpdate(DocumentEvent e) {
+                buscar();
+            }
         });
     }
 
