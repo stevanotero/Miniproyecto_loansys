@@ -27,7 +27,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     public Usuario_Dao elementoDao = new Usuario_Dao();
     Usuario_Elemento ele = new Usuario_Elemento();
     Usuario_Solicitud solicitud = new Usuario_Solicitud();
-    private boolean vali = false;
     Usuario_Dao prus = new Usuario_Dao();
     PersonaDao_Login vistaLo = new PersonaDao_Login();
 
@@ -41,8 +40,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     private String rolUsuario;
     public Usuario_Model usuario;
     private int idElementoSeleccionado;
-    private Usuario_Dao apellidoUsuarioActual;
-    private Usuario_Dao documentoUsuarioActual;
 
     Usuario_ControladorDatos controladorDatos;
 
@@ -51,7 +48,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inicio = inicio;
         this.nombreUsuario = nombreUsuario;
         this.rolUsuario = rolUsuario;
-        
 
         // 2º: AHORA sí creo las demás vistas, ya con los valores reales
         this.inven = new Usuario_Inventario(rolUsuario, "", "");
@@ -85,6 +81,17 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.inven.prueba13.addActionListener(this);
         this.inven.cerrarS.addActionListener(this);
         this.inven.buscador.addActionListener(this);
+        this.inven.listaEstado.addActionListener(this);
+
+        inven.computadores.setActionCommand("Computadores");
+        inven.perifericos.setActionCommand("Perifericos");
+        inven.herramientas.setActionCommand("Herramientas");
+        inven.maquinas.setActionCommand("Maquinas");
+
+        inven.computadores.addActionListener(this);
+        inven.perifericos.addActionListener(this);
+        inven.herramientas.addActionListener(this);
+        inven.maquinas.addActionListener(this);
 
         /////////////////////////////////////////////////////
         this.pres.iniciod.addActionListener(this);
@@ -105,7 +112,12 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.soli.notificacion.addActionListener(this);
         this.soli.prestamo.addActionListener(this);
         this.soli.cerrarS.addActionListener(this);
-
+        
+        this.sesion.botonLogin.addActionListener(this);
+        this.sesion.botonOlvidar.addActionListener(this);
+        this.sesion.botonRegistrar.addActionListener(this);
+        this.sesion.textoDeLaContraseña.addActionListener(this);
+        this.sesion.textoDelDocumento.addActionListener(this);
         //aver
         controladorDatos = new Usuario_ControladorDatos(inven, soli);
     }
@@ -147,9 +159,13 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {
-            CargarInicioS(sesion);
-            inicio.dispose();
+            inicio.setVisible(false);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+             vistaLogin.setVisible(true);
         }
+        
+       
 
         ////////////////////////////////////////////
         if (e.getSource() == inven.iniciod) {
@@ -166,8 +182,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             inven.dispose();
         }
         if (e.getSource() == inven.cerrarS) {
-            CargarInicioS(sesion);
-            inven.dispose();
+            inven.setVisible(false);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+             vistaLogin.setVisible(true);
         }
         //Para que muestre los datos y la tabla
         if (e.getSource() == inven.prueba) {
@@ -329,9 +347,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             pres.dispose();
         }
         if (e.getSource() == pres.cerrarS) {
-            limpiarHistorial(pres.tabla);
-            CargarInicioS(sesion);
-            pres.dispose();
+           pres.setVisible(false);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+             vistaLogin.setVisible(true);
         }
 
         ///////////////////////////////////////////
@@ -363,8 +382,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             noti.dispose();
         }
         if (e.getSource() == noti.cerrarS) {
-            CargarInicioS(sesion);
-            noti.dispose();
+            noti.setVisible(false);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+             vistaLogin.setVisible(true);
         }
 
         //////////////////////////////////////
@@ -411,12 +432,26 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
 
         if (e.getSource() == soli.cerrarS) {
-            CargarInicioS(sesion);
-            soli.dispose();
+            soli.setVisible(false);
+            Vista_Login vistaLogin = new Vista_Login();
+            Controlador_Login controlador = new Controlador_Login(vistaLogin);
+             vistaLogin.setVisible(true);
         }
-        if (e.getSource()== inven.buscador){
-            filtroEstado();
+
+        if (e.getSource() == inven.buscador) {
+            filtrarPorCodigo();
         }
+
+        if (e.getSource() == inven.listaEstado) {
+            filtrarEstado();
+
+        }
+        if (e.getSource() == inven.computadores || e.getSource() == inven.perifericos
+                || e.getSource() == inven.herramientas || e.getSource() == inven.maquinas) {
+            filtrarCategoria(e.getActionCommand());
+        }
+        
+        
 
     }
 
@@ -525,6 +560,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
      */
     public void filtroEstado() {
+
         int idUsuario = Administrador_Sesion.getIdUsuario();
 
         Usuario_Model usuarioActual = elementoDao.consultarPorId(idUsuario);
@@ -535,6 +571,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
         // Consulta el estado real desde la BD, no desde el label de la pantalla
         String estado = elementoDao.consultarEstadoElemento(idElementoSeleccionado);
+
         if (estado == null) {
             JOptionPane.showMessageDialog(soli, "No se pudo verificar el estado del elemento", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -580,4 +617,127 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public void filtrarEstado() {
+        String estadoSeleccionado = inven.listaEstado.getSelectedItem().toString();
+
+        javax.swing.JPanel[] paneles = {
+            inven.panel043, inven.panel042, inven.panel041, inven.panel040,
+            inven.panel039, inven.panel038, inven.panel037, inven.panel036,
+            inven.panel035, inven.panel034, inven.panel033, inven.panel032,
+            inven.panel031, inven.panel030
+        };
+
+        JLabel[] estados = {
+            inven.estado13, inven.estado12, inven.estado11, inven.estado10,
+            inven.estado9, inven.estado8, inven.estado7, inven.estado6,
+            inven.estado5, inven.estado4, inven.estado3, inven.estado2,
+            inven.estado1, inven.estado
+        };
+
+        // Quita todos los paneles del contenedor
+        inven.panel029.removeAll();
+
+        // Vuelve a agregar en orden solo los que coinciden con el filtro
+        for (int i = 0; i < paneles.length; i++) {
+            boolean coincide = estadoSeleccionado.equalsIgnoreCase("Todos")
+                    || estados[i].getText().equalsIgnoreCase(estadoSeleccionado);
+            if (coincide) {
+                inven.panel029.add(paneles[i]);
+            }
+        }
+
+        inven.panel029.revalidate();
+        inven.panel029.repaint();
+    }
+
+    //perifericos, computadores, herramientas, maquinas
+    public void filtrarCategoria(String categoriaSeleccionada) {
+        javax.swing.JPanel[] perifericos = {
+            inven.panel041
+        };
+        javax.swing.JPanel[] computadores = {
+            inven.panel043, inven.panel042, inven.panel032
+        };
+        javax.swing.JPanel[] herramientas = {
+            inven.panel035, inven.panel034, inven.panel031, inven.panel030
+        };
+        javax.swing.JPanel[] maquinas = {
+            inven.panel040, inven.panel039, inven.panel038, inven.panel037, inven.panel036, inven.panel033
+        };
+
+        javax.swing.JPanel[] seleccionados;
+        switch (categoriaSeleccionada) {
+            case "Perifericos":
+                seleccionados = perifericos;
+                break;
+            case "Computadores":
+                seleccionados = computadores;
+                break;
+            case "Herramientas":
+                seleccionados = herramientas;
+                break;
+            case "Maquinas":
+                seleccionados = maquinas;
+                break;
+            default:
+                seleccionados = new javax.swing.JPanel[0]; // categoría desconocida, no muestra nada
+                break;
+        }
+
+        inven.panel029.removeAll();
+
+        for (javax.swing.JPanel panel : seleccionados) {
+            inven.panel029.add(panel);
+        }
+
+        inven.panel029.revalidate();
+        inven.panel029.repaint();
+    }
+
+    public void filtrarPorCodigo() {
+        String textoBuscado = inven.lcodigo.getText().trim();
+
+        javax.swing.JPanel[] paneles = {
+            inven.panel043, inven.panel042, inven.panel041, inven.panel040,
+            inven.panel039, inven.panel038, inven.panel037, inven.panel036,
+            inven.panel035, inven.panel034, inven.panel033, inven.panel032,
+            inven.panel031, inven.panel030
+        };
+
+        // ids en el mismo orden que los paneles (14 -> 1)
+        int[] ids = {14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+
+        inven.panel029.removeAll();
+
+        if (textoBuscado.isEmpty()) {
+            // Si no hay texto, muestra todos
+            for (javax.swing.JPanel panel : paneles) {
+                inven.panel029.add(panel);
+            }
+        } else {
+            boolean encontrado = false;
+
+            for (int i = 0; i < paneles.length; i++) {
+                Usuario_Elemento el = elementoDao.mostrarFila(ids[i]);
+                if (el != null) {
+                    String codigo = String.valueOf(el.getCodigo_elemento());
+                    if (codigo.contains(textoBuscado)) {
+                        inven.panel029.add(paneles[i]);
+                        encontrado = true;
+                    }
+                }
+            }
+
+            if (!encontrado) {
+                JOptionPane.showMessageDialog(inven,
+                        "Elemento no encontrado, por favor vuelve a buscar",
+                        "Sin resultados", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+        inven.panel029.revalidate();
+        inven.panel029.repaint();
+    }
+
 }

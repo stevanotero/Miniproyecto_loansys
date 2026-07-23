@@ -35,7 +35,8 @@ public class Usuario_Inventario extends Usuario_Plantilla {
     private Usuario_Dao elementoDao = new Usuario_Dao();
 
     private Container contenedor;
-    private JPanel panel4, panel5, panel6, panel7, panel8, panel9, panel010, panel011,
+    
+    public JPanel panel4, panel5, panel6, panel7, panel8, panel9, panel010, panel011,
             panel012, panel013, panel014, panel015, panel016, panel017, panel018,
             panel019, panel020, panel021, panel022, panel023, panel024, panel025,
             panel026, panel027, panel028, panel029, panel030, panel031, panel032,
@@ -45,13 +46,15 @@ public class Usuario_Inventario extends Usuario_Plantilla {
     public JLabel inventario, fEstado, codigo, estado1, estado2, estado3, estado4, estado5,
             estado6, estado7, estado8, estado9, estado10, estado11, estado, estado12, estado13, text1, text2, text3, text4;
     public JTextField lcodigo;
-    public String lista[] = {"", "Disponible", "Mantenimiento", "Ocupado", "Dañado", "No Disponible"};
+    public String lista[] = {"Todos", "Disponible", "Prestado", "En Mantenimiento", "Dañado", "Dado de Baja"};
     public JComboBox listaEstado;
     public JButton buscador, perifericos, computadores, herramientas, maquinas, prueba,
             prueba1, prueba2, prueba3, prueba4, prueba5, prueba6, prueba7, prueba8, prueba9, prueba10,
             prueba11, prueba12, prueba13;
     private GridLayout grid, grid2, grid3, grid4, grid5, grid6, grid7;
     private JScrollPane miscroll;
+    
+    
     
 
     public Usuario_Inventario(String titulo, String rol, String nombre) {

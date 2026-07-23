@@ -102,7 +102,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         ////////////////////////////////////////////////////////////////////////
         // Panel 3 sobre los botones        
         panel011 = new JPanel();
-        solicitar = crearBoton("Solocitar", new Color(34, 139, 34),Color.WHITE);
+        solicitar = crearBoton("Solicitar", new Color(34, 139, 34),Color.WHITE);
         panel011.setPreferredSize(new Dimension(80, 30));
         panel011.setBackground(Color.white);
         panel011.add(solicitar);
