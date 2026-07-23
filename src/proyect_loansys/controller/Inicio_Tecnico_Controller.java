@@ -4,6 +4,7 @@ import proyect_loansys.view.Inicio_Tecnico;
 import proyect_loansys.view.Historial_Tecnico;
 import proyect_loansys.view.Mantenimiento;
 import proyect_loansys.view.Reportes_Tecnico;
+import proyect_loansys.view.Vista_NotificacionesTecnico;
 
 
 public class Inicio_Tecnico_Controller {
@@ -28,6 +29,12 @@ public class Inicio_Tecnico_Controller {
         vista.Mantenimiento.addActionListener(e -> {
             Mantenimiento vistaMantenimiento = new Mantenimiento();
             new ControllerMantenimiento(vistaMantenimiento);
+            vista.dispose();
+        });
+        
+        vista.Notificaciones.addActionListener(e -> {
+            Vista_NotificacionesTecnico vistaNo = new Vista_NotificacionesTecnico();
+            new Controlador_NotificacionesTecnico(vistaNo);
             vista.dispose();
         });
 

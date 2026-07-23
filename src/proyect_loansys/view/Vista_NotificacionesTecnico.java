@@ -29,14 +29,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Alexis
  */
-
-public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administrador {
-
-    // Componentes públicos requeridos por el Controlador
+public class Vista_NotificacionesTecnico extends Plantilla {
+     // Componentes públicos requeridos por el Controlador
     public JTable tablaNotificaciones;
     public DefaultTableModel modeloTabla;
     public JComboBox<String> comboTipoNotificacion;
@@ -45,7 +44,7 @@ public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administr
     public JButton btnEnviarNotificacion;
     private JPanel panel5; 
 
-    public Vista_NotificacionesAdmin() {
+    public Vista_NotificacionesTecnico() {
         // Inicializar la plantilla base pasando el título de la vista
         super("Notificaciones");
 
@@ -372,3 +371,4 @@ public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administr
         return grupo;
     }
 }
+
