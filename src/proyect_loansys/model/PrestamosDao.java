@@ -30,8 +30,8 @@ public class PrestamosDao {
         String sqlUpdateMora = "UPDATE login_de_usuarios SET id_estado_mora = 2 WHERE id_usuario = ?";
 
         // Guardar en el historial del usuario
-        String sqlHistorial = "INSERT INTO historial_prestamo (nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria, id_login) "
-                + "VALUES (?, NOW(), ?, 2, ?, (SELECT id_login FROM login_de_usuarios WHERE id_usuario = ?))";
+        String sqlHistorial = "INSERT INTO historial_prestamo (id_usuario, id_elemento, nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria, id_login) "
+                + "VALUES (?, ?, ?, NOW(), ?, 2, ?, (SELECT id_login FROM login_de_usuarios WHERE id_usuario = ?))";
 
         // Eliminar la solicitud que esta pediente
         String sqlEliminarSolicitud = "DELETE FROM solicitudes_usuario WHERE id_solicitud = ?";
@@ -55,10 +55,12 @@ public class PrestamosDao {
 
             //Insertar en el historial de prestamo
             ps = con.prepareStatement(sqlHistorial);
-            ps.setString(1, solicitud.getNombreElemento());
-            ps.setString(2, fechaLimite);
-            ps.setInt(3, idCategoria);
-            ps.setInt(4, solicitud.getIdUsuario()); 
+            ps.setInt(1, solicitud.getIdUsuario());
+            ps.setInt(2, solicitud.getIdElemento());
+            ps.setString(3, solicitud.getNombreElemento());
+            ps.setString(4, fechaLimite);
+            ps.setInt(5, idCategoria);
+            ps.setInt(6, solicitud.getIdUsuario()); 
             ps.executeUpdate();
             ps.close();
 

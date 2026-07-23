@@ -100,8 +100,8 @@ public class PrestamosActivosDao {
         String sqlUpdateMora = "UPDATE login_de_usuarios SET id_estado_mora = 1 WHERE id_usuario = ?";
 
         //Insertar al historial de prestamo
-        String sqlHistorial = "INSERT INTO historial_prestamo (nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria, id_login) "
-                + "VALUES (?, ?, ?, ?, 1, (SELECT id_login FROM login_de_usuarios WHERE id_usuario = ?))";
+        String sqlHistorial = "INSERT INTO historial_prestamo (id_usuario, id_elemento, nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria, id_login) "
+                + "VALUES (?, ?, ?, ?, ?, ?, 1, (SELECT id_login FROM login_de_usuarios WHERE id_usuario = ?))";
 
         //Eliminar el registro del préstamo activo
         String sqlDeletePrestamo = "DELETE FROM prestamo WHERE id_prestamo = ?";
@@ -128,11 +128,13 @@ public class PrestamosActivosDao {
 
             //Insertar en historial_prestamo
             psHist = con.prepareStatement(sqlHistorial);
-            psHist.setString(1, prestamo.getNombreElemento());
-            psHist.setTimestamp(2, prestamo.getFechaInicioPrestamo());
-            psHist.setTimestamp(3, prestamo.getFechaFinDevolucion());
-            psHist.setInt(4, prestamo.getIdEstadoElemento());
-            psHist.setInt(5, prestamo.getIdUsuario());
+            psHist.setInt(1, prestamo.getIdUsuario());
+            psHist.setInt(2, prestamo.getIdElemento());
+            psHist.setString(3, prestamo.getNombreElemento());
+            psHist.setTimestamp(4, prestamo.getFechaInicioPrestamo());
+            psHist.setTimestamp(5, prestamo.getFechaFinDevolucion());
+            psHist.setInt(6, prestamo.getIdEstadoElemento());
+            psHist.setInt(7, prestamo.getIdUsuario());
             psHist.executeUpdate();
 
             //Eliminar de prestamo activo

@@ -69,18 +69,13 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
     @Override
     public int setAgregar(Usuario_Solicitud sr) {
         int r;
-        String sql = "INSERT INTO solicitudes_usuario "
-                + "(id_usuario, nombre, apellido, documento, id_elemento, fecha_envio) "
-                + "VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO solicitudes_usuario (id_usuario, id_elemento, fecha_envio) VALUES (?,?,?)";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, sr.getId_usuario());
-            ps.setString(2, sr.getNombre());
-            ps.setString(3, sr.getApellido());
-            ps.setInt(4, sr.getDocumento());
-            ps.setInt(5, sr.getId_elemento());
-            ps.setTimestamp(6, sr.getFecha_envio()); // quita por completo el Time.valueOf
+            ps.setInt(2, sr.getId_elemento());
+            ps.setTimestamp(3, sr.getFecha_envio());
             r = ps.executeUpdate();
             return r;
         } catch (Exception e) {
@@ -291,33 +286,40 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         }
         return lista;
     }
+
     public String consultarEstadoElemento(int id_elemento) {
-    String estado = null;
-    String sql = """
+        String estado = null;
+        String sql = """
              SELECT ee.nombre_estado_elemento
              FROM elemento e
              INNER JOIN estado_elemento ee ON e.id_estado_elemento = ee.id_estado_elemento
              WHERE e.id_elemento = ?
              """;
-    try {
-        con = conectar.getConection();
-        ps = con.prepareStatement(sql);
-        ps.setInt(1, id_elemento);
-        rs = ps.executeQuery();
-        if (rs.next()) {
-            estado = rs.getString("nombre_estado_elemento");
-        }
-    } catch (Exception a) {
-        a.printStackTrace();
-    } finally {
         try {
-            if (rs != null) rs.close();
-            if (ps != null) ps.close();
-            if (con != null) con.close();
-        } catch (Exception e) {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id_elemento);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                estado = rs.getString("nombre_estado_elemento");
+            }
+        } catch (Exception a) {
+            a.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
         }
+        return estado; // null si el elemento no existe
     }
-    return estado; // null si el elemento no existe
-}
 
 }
