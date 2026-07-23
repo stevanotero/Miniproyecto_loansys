@@ -43,7 +43,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         this.vista.btnFrecuenciaUso.addActionListener(this);
         this.vista.btnAlertasMantenimiento.addActionListener(this);
         this.vista.btnExportarPDF.addActionListener(this);
-        this.vista.btnLimpiar.addActionListener(this);
+   
 
         // Carga inicial
         limpiarTabla();
@@ -72,9 +72,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
             exportarReportePDF();
         }
 
-        if (e.getSource() == vista.btnLimpiar) {
-            limpiarTabla();
-        }
+       
         //dar clic a cerrar sesion 
         if (e.getSource() == vista.botonCerrarSesion) {
             vista.dispose();

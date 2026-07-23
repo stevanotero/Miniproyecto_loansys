@@ -32,7 +32,7 @@ public class Administrador_Usuarios_activos extends Administrador_Plantilla_Admi
     private GridLayout grid4;
     public JButton activacion_usuario;
     private JLabel titulo2, descripcion;
-    private JTextField filtroAct;
+    public  JTextField filtroAct;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;

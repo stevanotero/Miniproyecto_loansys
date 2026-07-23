@@ -32,7 +32,7 @@ public class Administrador_ModificarUsuario extends Administrador_Plantilla_Admi
     public JPanel panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, panel14, panel15, panel16, panel17, panel13;
     private GridLayout grid4;
     public JButton activacion_usuario, modificar;
-    private JLabel titulo2, descripcion;
+    public  JLabel titulo2, descripcion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
@@ -95,7 +95,7 @@ public class Administrador_ModificarUsuario extends Administrador_Plantilla_Admi
 
         //distribuccion para los paneles
          panel14 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-        panel15 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 0));
+       panel15 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 0));
         panel16 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
         panel17 = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 95, 0));
         panel9 = new JPanel(new BorderLayout());

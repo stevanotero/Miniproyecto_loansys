@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Conexion_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Registro.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/Persona_Registro.java</file>
@@ -57,6 +58,12 @@
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/ReporteTecnicoDao.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/model/ReporteInventarioDao.java</file>
             <file>file:/C:/Users/Hewlett-Packard/OneDrive/Escritorio/mini%20proyecto/Miniproyecto_loansys/src/proyect_loansys/Index.java</file>
+=======
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/Index.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/view/Vista_Notificaciones.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/view/Usuario_Notificacion.java</file>
+            <file>file:/C:/Users/Miguel/OneDrive%20-%20Ie%20ramonarcila/Escritorio/Loansys/Miniproyecto_loansys/src/proyect_loansys/controller/Controlador_inicio.java</file>
+>>>>>>> 41599d87458a92d443328a8a02514263bb6d951e
         </group>
     </open-files>
 </project-private>

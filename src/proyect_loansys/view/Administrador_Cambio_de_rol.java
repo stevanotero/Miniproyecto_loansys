@@ -46,12 +46,12 @@ public class Administrador_Cambio_de_rol extends Administrador_Plantilla_Adminis
     public JPanel panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, panel13, panel14, panel15,panel16,panel17;
     private GridLayout grid4;
     public JButton activacion_usuario, modificar;
-    private JLabel titulo2,descripcion;
+    public  JLabel titulo2,descripcion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
     public JButton botonC,botonFiltroRol;
-    private JTextField filtroRol;
+    public JTextField filtroRol;
     
     public Administrador_Cambio_de_rol() {
         super("Cambio_de_rol");
