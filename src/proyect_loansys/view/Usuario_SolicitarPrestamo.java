@@ -171,4 +171,3 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         return boton;
     }
 }
-

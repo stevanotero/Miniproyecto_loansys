@@ -14,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import javax.swing.BorderFactory;
@@ -46,6 +47,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     private JScrollPane miscroll;
     public JTable tabla;
     private String Nombre_Usuario = "Administrador";
+     
 
     public Administrador_Plantilla_Administrador(String nombre_interfaz) {
         super(nombre_interfaz);
@@ -61,6 +63,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         contenedor.add(panel1, BorderLayout.NORTH);
         contenedor.add(panel2, BorderLayout.WEST);
         contenedor.add(panel5, BorderLayout.CENTER);
+      
     }
 
     private void crearBarraSuperior() {
@@ -221,4 +224,9 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
                     : "¡Bienvenido, " + nombreUsuario + "!");
         }
     }
+    
+    
+
+
+
 }

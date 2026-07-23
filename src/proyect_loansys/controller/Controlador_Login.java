@@ -95,19 +95,12 @@ public class Controlador_Login implements ActionListener {
         try {
             int documento = Integer.parseInt(documentoTexto);
 
-            // Validar si el documento existe
             if (!pdao.existeDocumento(documento)) {
                 JOptionPane.showMessageDialog(vista, "El número de documento ingresado no se encuentra registrado", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
 
-            // Validar si la cuenta está activa 
-            if (!pdao.estaCuentaActiva(documento)) {
-                JOptionPane.showMessageDialog(vista, "La cuenta de usuario se encuentra inactiva. Contacte al administrador.", "Cuenta Inactiva", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-
-            // Trae el objeto completo del usuario
+            // Trae el objeto completo: nombre, rol, id_usuario
             Usuario_Model usuarioLogueado = pdaos.validarLogin2(documento, contraseña);
 
             if (usuarioLogueado != null) {
@@ -123,25 +116,20 @@ public class Controlador_Login implements ActionListener {
                 auditoria.setAccion("Inicio de sesion");
                 new Administrador_AuditoriaDao().registrarAccion(auditoria);
 
-                // guardar el id  y el rol 
-                int idLoginSesion = pdao.obtenerIdLogin(documento);
-                proyect_loansys.model.Sesion.setIdLogin(idLoginSesion);
-                proyect_loansys.model.Sesion.setIdRol(idRol);
-
                 JOptionPane.showMessageDialog(vista, "Bienvenido al Sistema de Préstamos del SENA", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
                 borrador();
                 vista.dispose();
 
-                // Se evalúa el rol y lo lleva a una vista en específico
+                // Se evalua el rol y lo lleva a una vista en especifico
                 switch (idRol) {
                     case 1: // aprendiz
-                        Usuario_Inicio aprendiz = new Usuario_Inicio(rolUsuario, documentoTexto, nombreUsuario);
+                        Usuario_Inicio aprendiz = new Usuario_Inicio( rolUsuario, rolUsuario, nombreUsuario);
                         Usuario_ControladorNavedagor aprendizC = new Usuario_ControladorNavedagor(aprendiz, nombreUsuario, rolUsuario);
                         aprendiz.setVisible(true);
                         break;
 
                     case 2: // instructor
-                        Usuario_Inicio instructor = new Usuario_Inicio(rolUsuario, documentoTexto, nombreUsuario);
+                        Usuario_Inicio instructor = new Usuario_Inicio( rolUsuario, rolUsuario, nombreUsuario);
                         Usuario_ControladorNavedagor instructorC = new Usuario_ControladorNavedagor(instructor, nombreUsuario, rolUsuario);
                         instructor.setVisible(true);
                         break;
