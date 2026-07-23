@@ -72,8 +72,14 @@ public class Vista_Reportes_Asesor extends Vista_Principal {
     
 
         // Tabla
-        modelo = new DefaultTableModel();
+           modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda se puede editar
+            }
+        };
         tablaReportes = new JTable(modelo);
+           tablaReportes.getTableHeader().setReorderingAllowed(false);
         JScrollPane scroll = new JScrollPane(tablaReportes);
 
         JPanel panelTabla = new JPanel(new BorderLayout());

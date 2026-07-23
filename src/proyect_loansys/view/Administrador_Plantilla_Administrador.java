@@ -42,7 +42,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
     private JPanel panel1, panel2, panel5;
     private JLabel titulo, logo, nombre;
     private JLabel subtituloBarraLateral1, subtituloBarraLateral2;
-    public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario,  cerrar_sesion;
+    public JButton binicio, activacion_usuario, modificar, gestion_roles, registrar_usuario, notifiaciones,  cerrar_sesion;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
@@ -135,7 +135,7 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         modificar = crearBotonMenu("👤 Modificar / Usuario");
         gestion_roles = crearBotonMenu("👤 Gestion de roles");
         registrar_usuario = crearBotonMenu("👤 Registrar Usuario");
-//        notifiaciones = crearBotonMenu("👤 Notifiaciones");
+        notifiaciones = crearBotonMenu("👤 Notifiaciones");
         int espacioBotones = 12;
         panel2.add(binicio);
         panel2.add(Box.createVerticalStrut(espacioBotones));
@@ -147,8 +147,8 @@ public abstract class Administrador_Plantilla_Administrador extends JFrame {
         panel2.add(Box.createVerticalStrut(espacioBotones));
         panel2.add(registrar_usuario);
         panel2.add(Box.createVerticalStrut(espacioBotones));
-//        panel2.add(notifiaciones);
-        // Esto empuja el boton de cerrar sesion hasta el fondo, igual que en Vista_Principal
+        panel2.add(notifiaciones);
+//         Esto empuja el boton de cerrar sesion hasta el fondo, igual que en Vista_Principal
         panel2.add(Box.createVerticalGlue());
 
         cerrar_sesion = new JButton("Cerrar sesión") {
