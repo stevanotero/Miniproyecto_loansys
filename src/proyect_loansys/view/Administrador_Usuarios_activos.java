@@ -32,7 +32,7 @@ public class Administrador_Usuarios_activos extends Administrador_Plantilla_Admi
     private GridLayout grid4;
     public JButton activacion_usuario;
     private JLabel titulo2, descripcion;
-    public  JTextField filtroAct;
+    public JTextField filtroAct;
     public DefaultTableModel modelo;
     private JScrollPane miscroll;
     public JTable tabla;
@@ -66,7 +66,12 @@ public class Administrador_Usuarios_activos extends Administrador_Plantilla_Admi
         botonFiltroAct.setBorder(BorderFactory.createLineBorder(new Color(39, 132, 245), 10, true));// Borde redondeado para el botón
         botonFiltroAct.setBackground(new Color(39, 132, 245));
 
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // ninguna celda se puede editar
+            }
+        };
         modelo.addColumn("DOCUMENTO");
         modelo.addColumn("NOMBRE");
         modelo.addColumn("APELLIDO");
@@ -74,6 +79,7 @@ public class Administrador_Usuarios_activos extends Administrador_Plantilla_Admi
         modelo.addColumn("ROL");
         modelo.addColumn("ESTADO");
         tabla = new JTable(modelo);
+        tabla.getTableHeader().setReorderingAllowed(false);
         miscroll = new JScrollPane(tabla);
         miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
