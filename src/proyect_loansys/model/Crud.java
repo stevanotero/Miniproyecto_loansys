@@ -8,7 +8,7 @@ package proyect_loansys.model;
  *
  * @author Alexis
  */
-public interface Crud_Asesor<T> {
+public interface Crud<T> {
     default boolean setAgregar(T tr) {
         return false;
     }

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author Sants
  */
-public class HistorialMantenimientoDao implements Crud_Asesor<HistorialMantenimiento> {
+public class HistorialMantenimientoDao implements Crud_Tecnico<HistorialMantenimiento> {
     Conexion conectar = new Conexion();
     Connection con;
 

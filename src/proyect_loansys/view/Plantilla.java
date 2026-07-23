@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.net.URL;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -38,9 +39,14 @@ public abstract class Plantilla extends JFrame {
         panel1.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         panel1.setBackground(new Color(220, 220, 225));
 
-        ImageIcon imagen_portada = new ImageIcon(getClass().getResource("/viewTecnico/logo_sena.png"));
-        Image imagen_ajustada = imagen_portada.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        logo = new JLabel(new ImageIcon(imagen_ajustada));
+        URL rutaImagen = getClass().getResource("/proyect_loansys/img/sena.png");
+        if (rutaImagen != null) {
+            ImageIcon imagen_portada = new ImageIcon(rutaImagen);
+            Image imagen_ajustada = imagen_portada.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            logo = new JLabel(new ImageIcon(imagen_ajustada));
+        } else {
+            logo = new JLabel();
+        }
         logo.setPreferredSize(new Dimension(40, 40));
 
         panelTextos = new JPanel();

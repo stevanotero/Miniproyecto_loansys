@@ -9,12 +9,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import proyect_loansys.model.Crud_Asesor;
+import proyect_loansys.model.Crud;
 
 /**
  * @author Alexis
  */
-public class PersonaDao_Registro implements Crud_Asesor<Persona_Registro> {
+public class PersonaDao_Registro implements Crud<Persona_Registro> {
 
     Conexion_Registro conectar = new Conexion_Registro();
     Connection con;
