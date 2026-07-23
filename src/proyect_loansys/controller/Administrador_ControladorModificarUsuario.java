@@ -42,6 +42,7 @@ public class Administrador_ControladorModificarUsuario implements ActionListener
         this.modi.botonC.addActionListener(this);
         this.modal.cancelar.addActionListener(this);
         this.modal.guardar.addActionListener(this);
+        this.modi.botonFiltroMoficar.addActionListener(this);
         limpiarTabla();
         getListar(modi.tabla);
     }
@@ -77,6 +78,24 @@ public class Administrador_ControladorModificarUsuario implements ActionListener
 
                 setActualizarCorreo();
             }
+        }
+
+        if (e.getSource() == modi.botonFiltroMoficar) {
+            String docuemnto = modi.filtroModifiacr.getText().trim();
+            if (modi.tabla.isEditing()) {
+                modi.tabla.getCellEditor().cancelCellEditing();
+            }
+
+            modelo = (DefaultTableModel) modi.tabla.getModel();
+            modelo.setRowCount(0);
+            
+            
+            if (docuemnto.isEmpty() || docuemnto.matches("[0-9]+")) {
+                getListarFiltro(modi.tabla, docuemnto);
+            } else {
+                JOptionPane.showMessageDialog(modi, "Solo se permiten números enteros, sin puntos ni guiones.");
+            }
+
         }
     }
 
@@ -149,6 +168,29 @@ public class Administrador_ControladorModificarUsuario implements ActionListener
         modal.txtApellido.setText("");
         modal.txtCorreo.setText("");
 
+    }
+
+    public void getListarFiltro(JTable tabla, String documento) {
+        modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0); // limpia la tabla antes de volver a llenarla
+
+        List<Administrador_Usuario> lista = usuarioDao.listar();
+        Object[] object = new Object[6];
+
+        for (int indice = 0; indice < lista.size(); indice++) {
+            String docActual = String.valueOf(lista.get(indice).getDocumento());
+
+            if (documento.isEmpty() || docActual.contains(documento)) {
+                object[0] = lista.get(indice).getDocumento();
+                object[1] = lista.get(indice).getNombre();
+                object[2] = lista.get(indice).getApellido();
+                object[3] = lista.get(indice).getCorreo();
+                object[5] = lista.get(indice).getNombreEstado();
+                object[4] = lista.get(indice).getNombreRol();
+                modelo.addRow(object);
+            }
+        }
+        modi.tabla.setModel(modelo);
     }
 
     public void setActualizarCorreo() {

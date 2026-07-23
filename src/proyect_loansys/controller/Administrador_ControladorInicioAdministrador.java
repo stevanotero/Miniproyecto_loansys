@@ -4,6 +4,8 @@
  */
 package proyect_loansys.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Administrador_Auditoria;
@@ -11,12 +13,13 @@ import proyect_loansys.model.Administrador_AuditoriaDao;
 import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author juans
  */
-public class Administrador_ControladorInicioAdministrador {
+public class Administrador_ControladorInicioAdministrador implements ActionListener {
 
     private Administrador_Inicio_Loansys_Administrador inicio;
 
@@ -30,6 +33,7 @@ public class Administrador_ControladorInicioAdministrador {
     public Administrador_ControladorInicioAdministrador(Administrador_Inicio_Loansys_Administrador inicio) {
 
         this.inicio = inicio;
+        this.inicio.exportar.addActionListener(this);
 
         limpiarTabla();
         getListar(inicio.tabla);
@@ -58,7 +62,7 @@ public void getListar(JTable tabla) {
 
     }
 
-    //================ LIMPIAR TABLA =================//
+
     public void limpiarTabla() {
 
         modelo = (DefaultTableModel) inicio.tabla.getModel();
@@ -69,6 +73,22 @@ public void getListar(JTable tabla) {
 
         }
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       if(e.getSource()==inicio.exportar){
+                     boolean exito = PDFExporter.generarPDFConSelector(
+        inicio.tabla,
+"Reporte de Movimientos de Usuario",
+        "reporte_movimientos_usuario",
+        inicio
+    );
+
+    if (exito) {
+        JOptionPane.showMessageDialog(null, "Reporte PDF guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }
+       }
     }
 
 }
