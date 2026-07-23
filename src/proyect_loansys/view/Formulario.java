@@ -23,7 +23,7 @@ public class Formulario extends JPanel {
 
     private JTextField txtNombreElemento;
     private JTextField txtCodigoElemento;
-    private JComboBox<String> cCategoria;
+    private JTextField cCategoria;
     private JComboBox<String> cTipoMantenimiento;//el // del tipo mantimiento
     private JComboBox<String> cEstadoMantenimiento; //el desplegable del estado del manteniimiento
     private JTextField txtDocumento;
@@ -51,7 +51,7 @@ public class Formulario extends JPanel {
         formulario.add(titulo);
 
         //f1
-        JLabel lblNombreElem = new JLabel("Nombre de Elemento *");
+        JLabel lblNombreElem = new JLabel("Nombre de Elemento ");
         lblNombreElem.setBounds(30, 60, 150, 20);
         formulario.add(lblNombreElem);
 
@@ -68,12 +68,17 @@ public class Formulario extends JPanel {
         formulario.add(txtCodigoElemento);
 
         //f2
-        JLabel lblCategoria = new JLabel("Categoría *");
+        JLabel lblCategoria = new JLabel("Categoría ");
         lblCategoria.setBounds(30, 115, 150, 20);
         formulario.add(lblCategoria);
-        //m desplegable
-        cCategoria = new JComboBox<>(new String[]{"Seleccione", "Herramientas", "Portatiles", "Tecnologia", "Maquinas"});
+        cCategoria = new JTextField("Sin categoría");
         cCategoria.setBounds(30, 135, 150, 25);
+        cCategoria.setEditable(false);
+        cCategoria.setFocusable(false);
+        cCategoria.setEnabled(true);
+        cCategoria.setForeground(Color.BLACK);
+        cCategoria.setBackground(new Color(230, 230, 230));
+        cCategoria.setDisabledTextColor(Color.BLACK);
         formulario.add(cCategoria);
         
         JLabel lblTipoMant = new JLabel("Tipo de Mantenimiento *");
@@ -111,7 +116,7 @@ public class Formulario extends JPanel {
         txtTecnico.setBounds(30, 245, 150, 25);
         formulario.add(txtTecnico);
 
-        JLabel lblDescripcion = new JLabel("Descripción");
+        JLabel lblDescripcion = new JLabel("Descripción *");
         lblDescripcion.setBounds(220, 225, 150, 20);
         formulario.add(lblDescripcion);
         
@@ -119,7 +124,7 @@ public class Formulario extends JPanel {
         txtDescripcion.setLineWrap(true);
         txtDescripcion.setWrapStyleWord(true);
         JScrollPane scrollDescripcion = new JScrollPane(txtDescripcion);
-        scrollDescripcion.setBounds(220, 245, 280, 80); // Se mantiene ancho y alto para texto largo y tmb para desplegar hacia abajo
+        scrollDescripcion.setBounds(220, 245, 280, 80); //see deja ancho y alto para texto largo y tmb para desplegar hacia abajo
         formulario.add(scrollDescripcion);
 
         //botones
@@ -146,7 +151,7 @@ public class Formulario extends JPanel {
         return txtCodigoElemento;
     }
 
-    public JComboBox<String> getCCategoria() {
+    public JTextField getCCategoria() {
         return cCategoria;
     }
 

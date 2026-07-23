@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyect_loansys.model;
 
 /**
@@ -11,25 +7,25 @@ package proyect_loansys.model;
 public class HistorialMantenimiento {
     private int idMantenimiento;
     private String codigoMantenimiento;
-    private String nombreElemento;
-    private int codigoElemento;
-    private String categoria;         
-    private String tipoMantenimiento; 
-    private String estadoElemento;   
-    private String fechaRealizada;    
+    private int idElemento;           // FK real hacia elemento.id_elemento
+    private int codigoElemento;       // solo lectura (viene del JOIN con elemento)
+    private String nombreElemento;    // solo lectura (viene del JOIN con elemento)
+    private String categoria;
+    private String tipoMantenimiento;
+    private String estadoElemento;
+    private String fechaRealizada;
     private int idUsuario;
     private String descripcion;
 
     public HistorialMantenimiento() {
     }
 
-    public HistorialMantenimiento(int idMantenimiento, String codigoMantenimiento, String nombreElemento,
-            int codigoElemento, String categoria, String tipoMantenimiento, String estadoElemento,
+    public HistorialMantenimiento(int idMantenimiento, String codigoMantenimiento, int idElemento,
+            String categoria, String tipoMantenimiento, String estadoElemento,
             String fechaRealizada, int idUsuario, String descripcion) {
         this.idMantenimiento = idMantenimiento;
         this.codigoMantenimiento = codigoMantenimiento;
-        this.nombreElemento = nombreElemento;
-        this.codigoElemento = codigoElemento;
+        this.idElemento = idElemento;
         this.categoria = categoria;
         this.tipoMantenimiento = tipoMantenimiento;
         this.estadoElemento = estadoElemento;
@@ -41,7 +37,6 @@ public class HistorialMantenimiento {
     public int getIdMantenimiento() {
         return idMantenimiento;
     }
-
     public void setIdMantenimiento(int idMantenimiento) {
         this.idMantenimiento = idMantenimiento;
     }
@@ -49,31 +44,34 @@ public class HistorialMantenimiento {
     public String getCodigoMantenimiento() {
         return codigoMantenimiento;
     }
-
     public void setCodigoMantenimiento(String codigoMantenimiento) {
         this.codigoMantenimiento = codigoMantenimiento;
     }
 
-    public String getNombreElemento() {
-        return nombreElemento;
+    public int getIdElemento() {
+        return idElemento;
     }
-
-    public void setNombreElemento(String nombreElemento) {
-        this.nombreElemento = nombreElemento;
+    public void setIdElemento(int idElemento) {
+        this.idElemento = idElemento;
     }
 
     public int getCodigoElemento() {
         return codigoElemento;
     }
-
     public void setCodigoElemento(int codigoElemento) {
         this.codigoElemento = codigoElemento;
+    }
+
+    public String getNombreElemento() {
+        return nombreElemento;
+    }
+    public void setNombreElemento(String nombreElemento) {
+        this.nombreElemento = nombreElemento;
     }
 
     public String getCategoria() {
         return categoria;
     }
-
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
@@ -81,7 +79,6 @@ public class HistorialMantenimiento {
     public String getTipoMantenimiento() {
         return tipoMantenimiento;
     }
-
     public void setTipoMantenimiento(String tipoMantenimiento) {
         this.tipoMantenimiento = tipoMantenimiento;
     }
@@ -89,7 +86,6 @@ public class HistorialMantenimiento {
     public String getEstadoElemento() {
         return estadoElemento;
     }
-
     public void setEstadoElemento(String estadoElemento) {
         this.estadoElemento = estadoElemento;
     }
@@ -97,7 +93,6 @@ public class HistorialMantenimiento {
     public String getFechaRealizada() {
         return fechaRealizada;
     }
-
     public void setFechaRealizada(String fechaRealizada) {
         this.fechaRealizada = fechaRealizada;
     }
@@ -105,7 +100,6 @@ public class HistorialMantenimiento {
     public int getIdUsuario() {
         return idUsuario;
     }
-
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
@@ -113,7 +107,6 @@ public class HistorialMantenimiento {
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -122,8 +115,9 @@ public class HistorialMantenimiento {
     public String toString() {
         return "HistorialMantenimiento{" + "idMantenimiento=" + idMantenimiento
                 + ", codigoMantenimiento=" + codigoMantenimiento
-                + ", nombreElemento=" + nombreElemento
+                + ", idElemento=" + idElemento
                 + ", codigoElemento=" + codigoElemento
+                + ", nombreElemento=" + nombreElemento
                 + ", categoria=" + categoria
                 + ", tipoMantenimiento=" + tipoMantenimiento
                 + ", estadoElemento=" + estadoElemento

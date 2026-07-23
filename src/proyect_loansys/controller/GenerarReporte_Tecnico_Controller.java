@@ -5,11 +5,10 @@ import proyect_loansys.view.Historial_Tecnico;
 import proyect_loansys.view.Reportes_Tecnico;
 import proyect_loansys.model.ReporteTecnico;
 import proyect_loansys.model.ReporteTecnicoDao;
-
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
+import proyect_loansys.view.Mantenimiento;
 public class GenerarReporte_Tecnico_Controller {
 
     private GenerarReporte_Tecnico vista;
@@ -23,6 +22,12 @@ public class GenerarReporte_Tecnico_Controller {
         vista.historial.addActionListener(e -> {
             Historial_Tecnico vistaHistorial = new Historial_Tecnico();
             new Historial_Tecnico_Controller(vistaHistorial);
+            vista.dispose();
+        });
+        
+        vista.Mantenimiento.addActionListener(e -> {
+            Mantenimiento vistaMantenimiento = new Mantenimiento();
+            new ControllerMantenimiento(vistaMantenimiento);
             vista.dispose();
         });
 
