@@ -15,6 +15,7 @@ import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.view.Vista_RestablecerContraseña;
 import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.model.PersonaDao_Login;
+import proyect_loansys.model.Sesion;
 import proyect_loansys.model.Usuario_Dao;
 import proyect_loansys.model.Usuario_Model;
 import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
@@ -109,8 +110,10 @@ public class Controlador_Login implements ActionListener {
                 int idRol = usuarioLogueado.getId_rol();
                 int idUsuario = usuarioLogueado.getId_usuario();
 
-                // Auditoría de inicio de sesión
                 Administrador_Sesion.setIdUsuario(idUsuario);
+                Sesion.setIdRol(idRol);
+                Sesion.setIdLogin(idUsuario); 
+
                 Administrador_Auditoria auditoria = new Administrador_Auditoria();
                 auditoria.setIdUsuario(idUsuario);
                 auditoria.setAccion("Inicio de sesion");
@@ -123,13 +126,13 @@ public class Controlador_Login implements ActionListener {
                 // Se evalua el rol y lo lleva a una vista en especifico
                 switch (idRol) {
                     case 1: // aprendiz
-                        Usuario_Inicio aprendiz = new Usuario_Inicio( rolUsuario, rolUsuario, nombreUsuario);
+                        Usuario_Inicio aprendiz = new Usuario_Inicio(rolUsuario, rolUsuario, nombreUsuario);
                         Usuario_ControladorNavedagor aprendizC = new Usuario_ControladorNavedagor(aprendiz, nombreUsuario, rolUsuario);
                         aprendiz.setVisible(true);
                         break;
 
                     case 2: // instructor
-                        Usuario_Inicio instructor = new Usuario_Inicio( rolUsuario, rolUsuario, nombreUsuario);
+                        Usuario_Inicio instructor = new Usuario_Inicio(rolUsuario, rolUsuario, nombreUsuario);
                         Usuario_ControladorNavedagor instructorC = new Usuario_ControladorNavedagor(instructor, nombreUsuario, rolUsuario);
                         instructor.setVisible(true);
                         break;
