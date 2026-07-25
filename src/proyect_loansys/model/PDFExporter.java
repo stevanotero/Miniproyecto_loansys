@@ -1,4 +1,4 @@
-package proyect_loansys.controller;
+package proyect_loansys.model;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;

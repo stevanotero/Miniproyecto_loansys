@@ -20,7 +20,6 @@ public class NotificacionesDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    // MÉTODO NECESARIO: Obtiene los tipos de notificación según el rol del usuario en sesión
     public List<TipoNotificacion> listarTiposPorRol(int idRol) {
         List<TipoNotificacion> lista = new ArrayList<>();
         String sql = "";

@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
+import proyect_loansys.model.Administrador_Auditoria;
+import proyect_loansys.model.Administrador_AuditoriaDao;
 import proyect_loansys.model.PrestamosDao; 
 import proyect_loansys.model.Solicitudes;
 import proyect_loansys.view.VentanaAsignarFechas;
@@ -92,6 +94,11 @@ public class Controlador_AsignarFechas implements ActionListener {
                     JOptionPane.showMessageDialog(null, "¡Préstamo aprobado y registrado correctamente!");
                     if (controladorPadre != null) {
                         controladorPadre.listarSolicitudesTabla();
+                        Administrador_Auditoria auditoria = new Administrador_Auditoria();
+              
+                auditoria.setAccion("Prestamo aprobado");
+                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+
                     }
                     
                     vistaModal.dispose(); 

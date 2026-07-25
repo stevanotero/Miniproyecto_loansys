@@ -329,10 +329,6 @@ this.vistaNotiAdmin.cerrar_sesion.addActionListener(this);
             Vista_NotificacionesAdmin vistaNo = new Vista_NotificacionesAdmin();
             Administrador_ControladorNotificaciones controlNo = new Administrador_ControladorNotificaciones(vistaNo);
             vistaNo.setVisible(true);
-             Vista_Login vistaLogin = new Vista_Login();
-            Controlador_Login controlador = new Controlador_Login(vistaLogin);
-         
-            
         }
 
         if (e.getSource() == usActivo.notifiaciones) {

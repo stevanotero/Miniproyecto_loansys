@@ -57,8 +57,13 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla {
         panel7.setPreferredSize(new Dimension(1100, 600));
         panel7.setBackground(Color.white);
 
-        modelo = new DefaultTableModel();
-        modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            } //para no poder editar los campos de la tabla
+        };
+
         modelo.addColumn("Codigo Elemento");
         modelo.addColumn("Nombre Elemento");
         modelo.addColumn("Categoría");

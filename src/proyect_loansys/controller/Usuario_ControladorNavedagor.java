@@ -19,7 +19,12 @@ import proyect_loansys.view.Vista_Login;
 import java.sql.Timestamp;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import proyect_loansys.model.Administrador_Auditoria;
+import proyect_loansys.model.Administrador_AuditoriaDao;
 import proyect_loansys.model.PersonaDao_Login;
+import proyect_loansys.model.UsuarioLoginDao;
+import proyect_loansys.view.Vista_Notificaciones;
+import proyect_loansys.view.Vista_NotificacionesUsuario;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
 
@@ -29,12 +34,14 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     Usuario_Solicitud solicitud = new Usuario_Solicitud();
     Usuario_Dao prus = new Usuario_Dao();
     PersonaDao_Login vistaLo = new PersonaDao_Login();
+    UsuarioLoginDao loginDao = new UsuarioLoginDao();
 
     Usuario_Inicio inicio;
     Usuario_Inventario inven;
     Usuario_HistorialPrestamo pres;
     Usuario_Notificacion noti;
     Usuario_SolicitarPrestamo soli;
+    Controlador_NotificacionesUsuario notificaciones;
     Vista_Login sesion = new Vista_Login();
     private String nombreUsuario;
     private String rolUsuario;
@@ -103,6 +110,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.noti.prestamo.addActionListener(this);
         this.noti.inventario.addActionListener(this);
         this.noti.cerrarS.addActionListener(this);
+        //this.notificaciones
 
         ////////////////////////////////////////////////////
         this.soli.volver.addActionListener(this);
@@ -156,6 +164,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == inicio.notificacion) {
             CargarNotificacion(noti);
+            Vista_NotificacionesUsuario vistaNo = new Vista_NotificacionesUsuario();
+            Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo);
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {
@@ -179,6 +189,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == inven.notificacion) {
             CargarNotificacion(noti);
+            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             inven.dispose();
         }
         if (e.getSource() == inven.cerrarS) {
@@ -344,6 +356,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (e.getSource() == pres.notificacion) {
             limpiarHistorial(pres.tabla);
             CargarNotificacion(noti);
+            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             pres.dispose();
         }
         if (e.getSource() == pres.cerrarS) {
@@ -387,6 +401,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
              vistaLogin.setVisible(true);
         }
+        
+        
 
         //////////////////////////////////////
         
@@ -419,6 +435,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
         if (e.getSource() == soli.notificacion) {
             CargarNotificacion(noti);
+            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
             soli.dispose();
         }
 
@@ -502,6 +520,16 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             JOptionPane.showMessageDialog(soli, "No se pudo cargar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        if (loginDao.estaEnMora(idUsuario)) { 
+        JOptionPane.showMessageDialog(
+            null,
+            "EN MORA.\nNo estás habilitado para realizar nuevas solicitudes hasta ponerte al día.",
+            "Acceso Denegado",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return; 
+    }
 
         // Validar estado del elemento — cortar la ejecución si no está disponible
         String estado = soli.texto1.getText();
@@ -542,6 +570,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         int resultado = elementoDao.setAgregar(sr);
         if (resultado > 0) {
             JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+              Administrador_Auditoria auditoria = new Administrador_Auditoria();
+              
+                auditoria.setAccion("Solicitud de prestamo");
+                new Administrador_AuditoriaDao().registrarAccion(auditoria);
         } else {
             JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
         }

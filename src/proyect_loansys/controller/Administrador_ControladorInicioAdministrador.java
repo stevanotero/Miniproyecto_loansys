@@ -14,6 +14,7 @@ import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import proyect_loansys.model.PDFExporter;
 
 /**
  *

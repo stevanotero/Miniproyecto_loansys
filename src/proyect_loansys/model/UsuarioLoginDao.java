@@ -108,4 +108,41 @@ public class UsuarioLoginDao {
             }
         }
     }
+
+    public boolean estaEnMora(int idUsuarioOSesion) {
+        String sql = "SELECT id_estado_mora FROM login_de_usuarios WHERE id_usuario = ? OR id_login = ?";
+
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idUsuarioOSesion);
+            ps.setInt(2, idUsuarioOSesion);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int estadoMora = rs.getInt("id_estado_mora");
+                System.out.println("Usuario encontrado con id_estado_mora = " + estadoMora);
+                return estadoMora == 2; // 2 significa 'En mora' según tu tabla
+            } else {
+                System.out.println("NO se encontró el usuario con ID: " + idUsuarioOSesion + " en login_de_usuarios");
+            }
+        } catch (Exception e) {
+            System.out.println("Error SQL en estaEnMora: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error cerrando conexión: " + e.getMessage());
+            }
+        }
+        return false;
+    }
 }
