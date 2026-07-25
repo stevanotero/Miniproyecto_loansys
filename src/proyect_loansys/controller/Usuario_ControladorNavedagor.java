@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
 import proyect_loansys.model.PersonaDao_Login;
+import proyect_loansys.model.UsuarioLoginDao;
 import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_NotificacionesUsuario;
 
@@ -33,6 +34,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     Usuario_Solicitud solicitud = new Usuario_Solicitud();
     Usuario_Dao prus = new Usuario_Dao();
     PersonaDao_Login vistaLo = new PersonaDao_Login();
+    UsuarioLoginDao loginDao = new UsuarioLoginDao();
 
     Usuario_Inicio inicio;
     Usuario_Inventario inven;
@@ -518,6 +520,16 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             JOptionPane.showMessageDialog(soli, "No se pudo cargar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        if (loginDao.estaEnMora(idUsuario)) { 
+        JOptionPane.showMessageDialog(
+            null,
+            "EN MORA.\nNo estás habilitado para realizar nuevas solicitudes hasta ponerte al día.",
+            "Acceso Denegado",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return; 
+    }
 
         // Validar estado del elemento — cortar la ejecución si no está disponible
         String estado = soli.texto1.getText();
