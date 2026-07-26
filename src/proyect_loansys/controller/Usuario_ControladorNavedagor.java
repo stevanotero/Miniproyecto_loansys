@@ -163,9 +163,9 @@ public class Usuario_ControladorNavedagor implements ActionListener {
              */
         }
         if (e.getSource() == inicio.notificacion) {
+            CargarNotificacion(noti);
             Vista_NotificacionesUsuario vistaNo = new Vista_NotificacionesUsuario();
             Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo);
-            vistaNo.setVisible(true);
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {
@@ -401,7 +401,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
 
         //////////////////////////////////////
-        
         if (e.getSource() == soli.iniciod) {
             CargarInicio(inicio);
             soli.dispose();
@@ -565,7 +564,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         if (resultado > 0) {
             JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             Administrador_Auditoria auditoria = new Administrador_Auditoria();
-
+            auditoria.setIdUsuario(idUsuario);
             auditoria.setAccion("Solicitud de prestamo");
             new Administrador_AuditoriaDao().registrarAccion(auditoria);
         } else {
