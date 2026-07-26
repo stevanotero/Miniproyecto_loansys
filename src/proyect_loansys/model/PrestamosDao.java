@@ -7,6 +7,7 @@ package proyect_loansys.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,27 +20,55 @@ public class PrestamosDao {
     Connection con;
     PreparedStatement ps;
 
+    
+    //Verifica si el usuario ya cuenta con al menos un préstamo activo en la tabla prestamo
+    public boolean usuarioTienePrestamoActivo(int idUsuario) {
+        String sql = "SELECT COUNT(*) FROM prestamo WHERE id_usuario = ?";
+        try (Connection cn = conectar.getConection(); PreparedStatement pst = cn.prepareStatement(sql)) {
+            pst.setInt(1, idUsuario);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Retorna true si ya tiene 1 o más préstamos activos
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar préstamos activos del usuario: " + e.getMessage());
+        }
+        return false;
+    }
+
     // Recibe el objeto Solicitudes completo, la fecha límite digitada y el id de la categoría del elemento
     public boolean registrarPrestamoAprobado(Solicitudes solicitud, String fechaLimite, int idCategoria) {
 
-        //Insertar en la tabla de prestamos
+        // Doble validación de seguridad a nivel de DAO
+        if (usuarioTienePrestamoActivo(solicitud.getIdUsuario())) {
+            JOptionPane.showMessageDialog(null,
+                    "El usuario ya posee un préstamo activo. No es posible aprobar otra solicitud.",
+                    "Acción Denegada",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        // Consultas SQL
         String sqlPrestamo = "INSERT INTO prestamo (id_usuario, id_elemento, fecha_inicio_prestamo, fecha_fin_devolucion, id_estado_elemento) "
                 + "VALUES (?, ?, NOW(), ?, 2)";
 
-        //Actualizar el id del usuario
         String sqlUpdateMora = "UPDATE login_de_usuarios SET id_estado_mora = 2 WHERE id_usuario = ?";
 
-        // Guardar en el historial del usuario
         String sqlHistorial = "INSERT INTO historial_prestamo (id_usuario, id_elemento, nombre_elemento, fecha_prestamo, fecha_limite, id_estado_entrega, id_categoria, id_login) "
                 + "VALUES (?, ?, ?, NOW(), ?, 2, ?, (SELECT id_login FROM login_de_usuarios WHERE id_usuario = ?))";
 
-        // Eliminar la solicitud que esta pediente
+        String sqlUpdateElemento = "UPDATE elemento SET id_estado_elemento = 2 "
+                + "WHERE id_elemento = (SELECT id_elemento FROM solicitudes_usuario WHERE id_solicitud = ?) "
+                + "OR (id_elemento = ? AND ? > 0)";
+
         String sqlEliminarSolicitud = "DELETE FROM solicitudes_usuario WHERE id_solicitud = ?";
 
         try {
             con = conectar.getConection();
             con.setAutoCommit(false);
-            // Insertar en la tabla de prestamos
+
+            // Insertar en prestamos
             ps = con.prepareStatement(sqlPrestamo);
             ps.setInt(1, solicitud.getIdUsuario());
             ps.setInt(2, solicitud.getIdElemento());
@@ -47,20 +76,28 @@ public class PrestamosDao {
             ps.executeUpdate();
             ps.close();
 
-            // Actualizar el estado de la mora
+            // Actualizar estado de mora
             ps = con.prepareStatement(sqlUpdateMora);
             ps.setInt(1, solicitud.getIdUsuario());
             ps.executeUpdate();
             ps.close();
 
-            //Insertar en el historial de prestamo
+            // Insertar en historial
             ps = con.prepareStatement(sqlHistorial);
             ps.setInt(1, solicitud.getIdUsuario());
             ps.setInt(2, solicitud.getIdElemento());
             ps.setString(3, solicitud.getNombreElemento());
             ps.setString(4, fechaLimite);
             ps.setInt(5, idCategoria);
-            ps.setInt(6, solicitud.getIdUsuario()); 
+            ps.setInt(6, solicitud.getIdUsuario());
+            ps.executeUpdate();
+            ps.close();
+
+            // Actualizar el estado del elemento a Prestado 
+            ps = con.prepareStatement(sqlUpdateElemento);
+            ps.setInt(1, solicitud.getIdSolicitud());
+            ps.setInt(2, solicitud.getIdElemento());
+            ps.setInt(3, solicitud.getIdElemento());
             ps.executeUpdate();
             ps.close();
 
@@ -68,18 +105,20 @@ public class PrestamosDao {
             ps = con.prepareStatement(sqlEliminarSolicitud);
             ps.setInt(1, solicitud.getIdSolicitud());
             ps.executeUpdate();
-            con.commit(); // Confirmar las 4 operaciones en la BD
+            ps.close();
+
+            con.commit();
             return true;
 
         } catch (SQLException e) {
             if (con != null) {
                 try {
-                    con.rollback(); // Si falla alguna de las 4 operaciones, deshace todo
+                    con.rollback();
                 } catch (SQLException ex) {
                     System.out.println("Error en Rollback: " + ex.getMessage());
                 }
             }
-            JOptionPane.showMessageDialog(null, "Error crítico al procesar la aprobación: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al procesar la aprobación: " + e.getMessage());
             return false;
         } finally {
             try {

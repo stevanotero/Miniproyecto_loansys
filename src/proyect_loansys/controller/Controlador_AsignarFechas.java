@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
-import proyect_loansys.model.PrestamosDao; 
+import proyect_loansys.model.PrestamosDao;
 import proyect_loansys.model.Solicitudes;
 import proyect_loansys.view.VentanaAsignarFechas;
 
@@ -31,17 +31,29 @@ public class Controlador_AsignarFechas implements ActionListener {
         this.vistaModal = vistaModal;
         this.solicitud = solicitud;
         this.controladorPadre = controladorPadre;
-        this.prestamosDao = new PrestamosDao(); 
+        this.prestamosDao = new PrestamosDao();
 
-        this.vistaModal.botonConfirmar.addActionListener(this); 
+        this.vistaModal.botonConfirmar.addActionListener(this);
         this.vistaModal.botonCancelar.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == vistaModal.botonConfirmar) {
-            String fechaTexto = vistaModal.textoFechaDevolucion.getText().trim(); 
+
+            //Comprobar si el usuario ya tiene un préstamo activo
+            if (prestamosDao.usuarioTienePrestamoActivo(solicitud.getIdUsuario())) {
+                JOptionPane.showMessageDialog(vistaModal,
+                        "El usuario ya cuenta con un préstamo activo en el sistema.\n"
+                        + "No se le puede aprobar otro elemento hasta que devuelva el que tiene actualmente.",
+                        "Préstamo Denegado",
+                        JOptionPane.WARNING_MESSAGE);
+                vistaModal.dispose();
+                return;
+            }
+
+            String fechaTexto = vistaModal.textoFechaDevolucion.getText().trim();
 
             if (fechaTexto.isEmpty()) {
                 JOptionPane.showMessageDialog(vistaModal, "Por favor, ingrese la fecha límite de devolución.");
@@ -63,54 +75,46 @@ public class Controlador_AsignarFechas implements ActionListener {
                 if (solicitud != null && solicitud.getNombreRol() != null) {
                     rolUsuario = solicitud.getNombreRol().toUpperCase().trim();
                 } else {
-                    rolUsuario = "OTROS"; 
+                    rolUsuario = "OTROS";
                 }
 
-                //Condicion de que el aprendiz solo se puede el mismo dia
+                //El aprendiz solo puede solicitar para el mismo día
                 if (rolUsuario.contains("APRENDIZ")) {
                     if (diasDePrestamo != 0) {
                         JOptionPane.showMessageDialog(vistaModal,
-                            "Los usuarios con rol APRENDIZ solo pueden solicitar elementos para el MISMO DÍA.\n" +
-                            "Por favor, asigne la fecha de hoy: " + hoy);
-                        return; 
+                                "Los usuarios con rol APRENDIZ solo pueden solicitar elementos para el MISMO DÍA.\n"
+                                + "Por favor, asigne la fecha de hoy: " + hoy);
+                        return;
                     }
-                } 
-                
-                //Condicion de que el instructor puede tener un maximo de 2 dia
+                } //El instructor puede tener un máximo de 2 días
                 else if (rolUsuario.contains("INSTRUCTOR")) {
                     if (diasDePrestamo > 2) {
-                        JOptionPane.showMessageDialog(vistaModal, 
-                            "Los INSTRUCTORES pueden tener el elemento un máximo de 2 días.\n" +
-                            "La fecha máxima permitida para este préstamo es: " + hoy.plusDays(2));
-                        return; 
+                        JOptionPane.showMessageDialog(vistaModal,
+                                "Los INSTRUCTORES pueden tener el elemento un máximo de 2 días.\n"
+                                + "La fecha máxima permitida para este préstamo es: " + hoy.plusDays(2));
+                        return;
                     }
                 }
 
                 String fechaHoraFinal = fechaTexto + " 17:00:00";
-                int idCategoriaProvicional = 1; 
+                int idCategoriaProvicional = 1;
                 boolean exito = prestamosDao.registrarPrestamoAprobado(solicitud, fechaHoraFinal, idCategoriaProvicional);
 
                 if (exito) {
                     JOptionPane.showMessageDialog(null, "¡Préstamo aprobado y registrado correctamente!");
                     if (controladorPadre != null) {
                         controladorPadre.listarSolicitudesTabla();
-                        Administrador_Auditoria auditoria = new Administrador_Auditoria();
-              
-                auditoria.setAccion("Prestamo aprobado");
-                new Administrador_AuditoriaDao().registrarAccion(auditoria);
 
+                        Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                        auditoria.setAccion("Prestamo aprobado");
+                        new Administrador_AuditoriaDao().registrarAccion(auditoria);
                     }
-                    
-                    vistaModal.dispose(); 
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error interno en el DAO al procesar la aprobación.");
+
+                    vistaModal.dispose();
                 }
 
             } catch (DateTimeParseException ex) {
-                JOptionPane.showMessageDialog(vistaModal, "Formato de fecha inválido. Por favor use: YYYY-MM-DD (Ejemplo: 2026-07-07)");
-            } catch (NullPointerException ex) {
-                JOptionPane.showMessageDialog(vistaModal, "Error: Hay un dato de la solicitud o elemento que llega en NULL.");
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(vistaModal, "Formato de fecha inválido. Por favor use: YYYY-MM-DD (Ejemplo: 2026-07-26)");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(vistaModal, "Error inesperado en el sistema:\n" + ex.getMessage());
                 ex.printStackTrace();
