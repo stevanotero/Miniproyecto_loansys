@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Alexis
  */
 
-public class Vista_NotificacionesUsuario extends Administrador_Plantilla_Administrador {
+public class Vista_NotificacionesUsuario extends Plantilla {
 
     // Componentes públicos requeridos por el Controlador
     public JTable tablaNotificaciones;

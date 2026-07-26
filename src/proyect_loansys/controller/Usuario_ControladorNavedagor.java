@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
 import proyect_loansys.model.PersonaDao_Login;
+import proyect_loansys.model.UsuarioLoginDao;
 import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_NotificacionesUsuario;
 
@@ -33,6 +34,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     Usuario_Solicitud solicitud = new Usuario_Solicitud();
     Usuario_Dao prus = new Usuario_Dao();
     PersonaDao_Login vistaLo = new PersonaDao_Login();
+    UsuarioLoginDao loginDao = new UsuarioLoginDao();
 
     Usuario_Inicio inicio;
     Usuario_Inventario inven;
@@ -118,7 +120,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.soli.notificacion.addActionListener(this);
         this.soli.prestamo.addActionListener(this);
         this.soli.cerrarS.addActionListener(this);
-        
+
         this.sesion.botonLogin.addActionListener(this);
         this.sesion.botonOlvidar.addActionListener(this);
         this.sesion.botonRegistrar.addActionListener(this);
@@ -161,19 +163,17 @@ public class Usuario_ControladorNavedagor implements ActionListener {
              */
         }
         if (e.getSource() == inicio.notificacion) {
-            CargarNotificacion(noti);
             Vista_NotificacionesUsuario vistaNo = new Vista_NotificacionesUsuario();
             Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo);
+            vistaNo.setVisible(true);
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {
             inicio.setVisible(false);
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
-             vistaLogin.setVisible(true);
+            vistaLogin.setVisible(true);
         }
-        
-       
 
         ////////////////////////////////////////////
         if (e.getSource() == inven.iniciod) {
@@ -195,7 +195,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             inven.setVisible(false);
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
-             vistaLogin.setVisible(true);
+            vistaLogin.setVisible(true);
         }
         //Para que muestre los datos y la tabla
         if (e.getSource() == inven.prueba) {
@@ -359,10 +359,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             pres.dispose();
         }
         if (e.getSource() == pres.cerrarS) {
-           pres.setVisible(false);
+            pres.setVisible(false);
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
-             vistaLogin.setVisible(true);
+            vistaLogin.setVisible(true);
         }
 
         ///////////////////////////////////////////
@@ -397,10 +397,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             noti.setVisible(false);
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
-             vistaLogin.setVisible(true);
+            vistaLogin.setVisible(true);
         }
-        
-        
 
         //////////////////////////////////////
         
@@ -451,7 +449,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             soli.setVisible(false);
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
-             vistaLogin.setVisible(true);
+            vistaLogin.setVisible(true);
         }
 
         if (e.getSource() == inven.buscador) {
@@ -466,8 +464,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
                 || e.getSource() == inven.herramientas || e.getSource() == inven.maquinas) {
             filtrarCategoria(e.getActionCommand());
         }
-        
-        
 
     }
 
@@ -519,6 +515,16 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             return;
         }
 
+        if (loginDao.estaEnMora(idUsuario)) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "EN MORA.\nNo estás habilitado para realizar nuevas solicitudes hasta ponerte al día.",
+                    "Acceso Denegado",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
         // Validar estado del elemento — cortar la ejecución si no está disponible
         String estado = soli.texto1.getText();
         switch (estado) {
@@ -558,10 +564,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         int resultado = elementoDao.setAgregar(sr);
         if (resultado > 0) {
             JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-              Administrador_Auditoria auditoria = new Administrador_Auditoria();
-              
-                auditoria.setAccion("Solicitud de prestamo");
-                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+            Administrador_Auditoria auditoria = new Administrador_Auditoria();
+
+            auditoria.setAccion("Solicitud de prestamo");
+            new Administrador_AuditoriaDao().registrarAccion(auditoria);
         } else {
             JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
         }
