@@ -39,7 +39,8 @@ public class Controlador_AsignarFechas implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        
+        // Dar clic al boton de confirmar fecha para el prestamo
         if (e.getSource() == vistaModal.botonConfirmar) {
 
             //Comprobar si el usuario ya tiene un préstamo activo
@@ -54,7 +55,8 @@ public class Controlador_AsignarFechas implements ActionListener {
             }
 
             String fechaTexto = vistaModal.textoFechaDevolucion.getText().trim();
-
+            
+            //Validacion de campos vacios 
             if (fechaTexto.isEmpty()) {
                 JOptionPane.showMessageDialog(vistaModal, "Por favor, ingrese la fecha límite de devolución.");
                 return;
@@ -65,7 +67,8 @@ public class Controlador_AsignarFechas implements ActionListener {
                 LocalDate hoy = LocalDate.now();
 
                 long diasDePrestamo = ChronoUnit.DAYS.between(hoy, fechaLimite);
-
+                
+                //Validacion sobre fecha antes de la actual
                 if (diasDePrestamo < 0) {
                     JOptionPane.showMessageDialog(vistaModal, "Error: La fecha límite no puede ser un día anterior a hoy.");
                     return;
@@ -95,11 +98,13 @@ public class Controlador_AsignarFechas implements ActionListener {
                         return;
                     }
                 }
-
+                
+                //Hora del prestamo definida siempre hasta las 5
                 String fechaHoraFinal = fechaTexto + " 17:00:00";
                 int idCategoriaProvicional = 1;
                 boolean exito = prestamosDao.registrarPrestamoAprobado(solicitud, fechaHoraFinal, idCategoriaProvicional);
-
+                
+                //Mensaje de exito 
                 if (exito) {
                     JOptionPane.showMessageDialog(null, "¡Préstamo aprobado y registrado correctamente!");
                     if (controladorPadre != null) {
@@ -112,7 +117,8 @@ public class Controlador_AsignarFechas implements ActionListener {
 
                     vistaModal.dispose();
                 }
-
+                
+                //Validacion sobre el formato incorrecto y  errores inesperados
             } catch (DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(vistaModal, "Formato de fecha inválido. Por favor use: YYYY-MM-DD (Ejemplo: 2026-07-26)");
             } catch (Exception ex) {
@@ -120,7 +126,8 @@ public class Controlador_AsignarFechas implements ActionListener {
                 ex.printStackTrace();
             }
         }
-
+        
+        //Clic al boton cancelar
         if (e.getSource() == vistaModal.botonCancelar) {
             vistaModal.dispose();
         }
