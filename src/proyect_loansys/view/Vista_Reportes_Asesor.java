@@ -31,7 +31,7 @@ public class Vista_Reportes_Asesor extends Vista_Principal {
     public Vista_Reportes_Asesor() {
         super();
 
-        setTextoBienvenida("¡Bienvenido, Asesor!");
+        setTextoBienvenida("");
         setTextoModulo("Reportes e Historial");
     }
 

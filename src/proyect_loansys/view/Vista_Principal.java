@@ -48,7 +48,7 @@ public abstract class Vista_Principal extends JFrame {
     private JLabel textoDelPanelPrincipal;
 
     public Vista_Principal() {
-        super("Panel principal");
+        super("Asesor");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
