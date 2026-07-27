@@ -25,12 +25,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Alexis
  */
 
-public class Vista_NotificacionesUsuario extends Plantilla {
+public class Vista_NotificacionesUsuario extends Usuario_Plantilla {
 
     // Componentes públicos requeridos por el Controlador
     public JTable tablaNotificaciones;
@@ -39,18 +40,13 @@ public class Vista_NotificacionesUsuario extends Plantilla {
     public JTextField txtDocumentoDestinatario;
     public JTextArea txtAreaMensaje;
     public JButton btnEnviarNotificacion;
-    private JPanel panel5; 
+    private JPanel panel5;
 
-    public Vista_NotificacionesUsuario() {
-        // Inicializar la plantilla base pasando el título de la vista
-        super("Notificaciones");
-
-        // Obtener el panel donde se renderiza el contenido central
+    public Vista_NotificacionesUsuario() { 
+        super("Notificaciones", "", "");
         panel5 = super.getPanel();
         panel5.setLayout(new BorderLayout());
         panel5.setBackground(Color.WHITE);
-
-        // Insertar el contenido completo del módulo de notificaciones
         panel5.add(crearPanelCentro(), BorderLayout.CENTER);
     }
 
