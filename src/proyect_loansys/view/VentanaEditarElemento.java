@@ -58,6 +58,7 @@ public class VentanaEditarElemento extends JDialog {
 
         // texto del nombre
         textoNombre = crearCampoFormulario(panelRaiz, "Nombre del Elemento:");
+        textoNombre.setEnabled(false);
 
         //texto de  la categoría    
         textoCategoria = crearCampoFormulario(panelRaiz, "Categoría:"); 
