@@ -47,6 +47,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     private String rolUsuario;
     public Usuario_Model usuario;
     private int idElementoSeleccionado;
+    private boolean procesandoSolicitud = false;
 
     Usuario_ControladorDatos controladorDatos;
 
@@ -440,8 +441,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             soli.dispose();
         }
         if (e.getSource() == soli.solicitar) {
-            setAdd(); // toda la validación ya vive adentro (estado + duplicado + carga real de datos)
-
+            setAdd();
         }
 
         if (e.getSource() == soli.cerrarS) {
@@ -505,72 +505,79 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     }
 
     public void setAdd() {
-        int idUsuario = Administrador_Sesion.getIdUsuario();
-
-        // Traer datos reales del usuario logueado desde la BD
-        Usuario_Model usuarioActual = elementoDao.consultarPorId(idUsuario);
-        if (usuarioActual == null) {
-            JOptionPane.showMessageDialog(soli, "No se pudo cargar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+        if (procesandoSolicitud) {
             return;
         }
+        procesandoSolicitud = true;
+        try {
+            int idUsuario = Administrador_Sesion.getIdUsuario();
 
-        if (loginDao.estaEnMora(idUsuario)) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "EN MORA.\nNo estás habilitado para realizar nuevas solicitudes hasta ponerte al día.",
-                    "Acceso Denegado",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
+            Usuario_Model usuarioActual = elementoDao.consultarPorId(idUsuario);
+            if (usuarioActual == null) {
+                JOptionPane.showMessageDialog(soli, "No se pudo cargar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Validar estado del elemento — cortar la ejecución si no está disponible
-        String estado = soli.texto1.getText();
-        switch (estado) {
-            case "Disponible":
-                break; // sigue con el flujo normal
-            case "Prestado":
-                JOptionPane.showMessageDialog(soli, "Elemento no disponible por préstamo", "Prestado", JOptionPane.INFORMATION_MESSAGE);
+            if (loginDao.estaEnMora(idUsuario)) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "EN MORA.\nNo estás habilitado para realizar nuevas solicitudes hasta ponerte al día.",
+                        "Acceso Denegado",
+                        JOptionPane.WARNING_MESSAGE
+                );
                 return;
-            case "En Mantenimiento":
-                JOptionPane.showMessageDialog(soli, "Elemento no disponible por mantenimiento", "Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            case "Dañado":
-                JOptionPane.showMessageDialog(soli, "Elemento no disponible por estado dañado", "Daño", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            case "Dado de Baja":
-                JOptionPane.showMessageDialog(soli, "Elemento no se encuentra disponible en el almacén", "Robo", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            default:
-                JOptionPane.showMessageDialog(soli, "Estado del elemento desconocido", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-        }
+            }
 
-        // Validar que no exista ya una solicitud de este usuario para este elemento
-        if (elementoDao.existeSolicitud(idUsuario, idElementoSeleccionado)) {
-            JOptionPane.showMessageDialog(soli, "Ya tienes una solicitud registrada para este elemento",
-                    "Solicitud duplicada", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+            String estado = soli.texto1.getText();
+            switch (estado) {
+                case "Disponible":
+                    break; // sigue con el flujo normal
+                case "Prestado":
+                    JOptionPane.showMessageDialog(soli, "Elemento no disponible por préstamo", "Prestado", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                case "En Mantenimiento":
+                    JOptionPane.showMessageDialog(soli, "Elemento no disponible por mantenimiento", "Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                case "Dañado":
+                    JOptionPane.showMessageDialog(soli, "Elemento no disponible por estado dañado", "Daño", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                case "Dado de Baja":
+                    JOptionPane.showMessageDialog(soli, "Elemento no se encuentra disponible en el almacén", "Robo", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                default:
+                    JOptionPane.showMessageDialog(soli, "Estado del elemento desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+            }
 
-        sr.setId_usuario(idUsuario);
-        sr.setNombre(usuarioActual.getNombre());
-        sr.setApellido(usuarioActual.getApellido());
-        sr.setDocumento(usuarioActual.getDocumento());
-        sr.setId_elemento(idElementoSeleccionado);
-        sr.setFecha_envio(new Timestamp(System.currentTimeMillis()));
+            if (elementoDao.existeSolicitud(idUsuario, idElementoSeleccionado)) {
+                JOptionPane.showMessageDialog(soli, "Ya tienes una solicitud registrada para este elemento",
+                        "Solicitud duplicada", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-        int resultado = elementoDao.setAgregar(sr);
-        if (resultado > 0) {
-            JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            Administrador_Auditoria auditoria = new Administrador_Auditoria();
-            auditoria.setIdUsuario(idUsuario);
-            auditoria.setAccion("Solicitud de prestamo");
-            new Administrador_AuditoriaDao().registrarAccion(auditoria);
-        } else {
-            JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            sr.setId_usuario(idUsuario);
+            sr.setNombre(usuarioActual.getNombre());
+            sr.setApellido(usuarioActual.getApellido());
+            sr.setDocumento(usuarioActual.getDocumento());
+            sr.setId_elemento(idElementoSeleccionado);
+            sr.setFecha_envio(new Timestamp(System.currentTimeMillis()));
+
+            int resultado = elementoDao.setAgregar(sr);
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(soli, "Solicitud enviada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                auditoria.setIdUsuario(idUsuario);
+                auditoria.setAccion("Solicitud de prestamo");
+                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+            } else {
+                JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }finally{
+        procesandoSolicitud = false;
     }
+}
+
+    
 
     private void limpiarHistorial(JTable tabla) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
