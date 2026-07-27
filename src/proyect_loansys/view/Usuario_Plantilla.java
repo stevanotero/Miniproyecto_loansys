@@ -48,7 +48,8 @@ public abstract class Usuario_Plantilla extends JFrame {
         this.titulo = titulo;
         this.rol = rol;
         this.nombre = nombre;
-
+        
+        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -164,7 +165,7 @@ public abstract class Usuario_Plantilla extends JFrame {
         textoDeBienvenida = new JLabel("" + rol + " " + nombre + "");
         textoDeBienvenida.setFont(textoDeBienvenida.getFont().deriveFont(Font.BOLD, 22f));
 
-        textoDelPanelPrincipal = new JLabel("Panel principal");
+        textoDelPanelPrincipal = new JLabel("");
         textoDelPanelPrincipal.setFont(textoDelPanelPrincipal.getFont().deriveFont(Font.PLAIN, 12f));
         textoDelPanelPrincipal.setForeground(new Color(120, 120, 120));
 

@@ -71,7 +71,8 @@ public class Controlador_Login implements ActionListener {
                 JOptionPane.showMessageDialog(vista, "Faltan datos por llenar", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
             }
         }
-
+        
+        //Apartado de registro
         if (e.getSource() == vista.botonRegistrar) {
             vista.dispose();
             Vista_Registro vistaRegistro = new Vista_Registro();
@@ -80,7 +81,8 @@ public class Controlador_Login implements ActionListener {
             Controlador_Registro controladorReg = new Controlador_Registro(vistaRegistro);
             vistaRegistro.setVisible(true);
         }
-
+        
+        //Apartado para restablecer la contraseña
         if (e.getSource() == vista.botonOlvidar) {
             vista.dispose();
             Vista_RestablecerContraseña vistaRestablecer = new Vista_RestablecerContraseña();
@@ -91,7 +93,8 @@ public class Controlador_Login implements ActionListener {
         }
 
     }
-
+    
+    //Metodo para validar el login
     public boolean procesarLogin(String documentoTexto, String contraseña) {
         try {
             int documento = Integer.parseInt(documentoTexto);

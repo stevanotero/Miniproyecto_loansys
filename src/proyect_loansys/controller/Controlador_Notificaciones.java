@@ -22,6 +22,7 @@ import proyect_loansys.view.Vista_Inicio;
 import proyect_loansys.view.Vista_Solicitudes;
 import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_Prestamo;
+import proyect_loansys.view.Vista_Reportes_Asesor;
 
 /**
  *
@@ -33,8 +34,8 @@ public class Controlador_Notificaciones implements ActionListener {
     private NotificacionesDAO modelo;
     private PersonaDao_Login loginDao;
     private DefaultTableModel modeloTabla;
-    private List<Notificaciones> listaNotificaciones; 
-    private List<TipoNotificacion> listaTiposCombo;   
+    private List<Notificaciones> listaNotificaciones;
+    private List<TipoNotificacion> listaTiposCombo;
 
     public Controlador_Notificaciones(Vista_Notificaciones vista) {
         this.vista = vista;
@@ -55,15 +56,15 @@ public class Controlador_Notificaciones implements ActionListener {
 
         // Inicialización de la vista
         listarNotificacionesTabla();
-        cargarComboTipos(); 
+        cargarComboTipos();
     }
 
     public void cargarComboTipos() {
         vista.comboTipoNotificacion.removeAllItems();
-        
-        int idRolActual = Sesion.getIdRol(); 
+
+        int idRolActual = Sesion.getIdRol();
         listaTiposCombo = modelo.listarTiposPorRol(idRolActual);
- 
+
         for (TipoNotificacion t : listaTiposCombo) {
             vista.comboTipoNotificacion.addItem(t.getNombreTipoNotificacion());
         }
@@ -97,7 +98,7 @@ public class Controlador_Notificaciones implements ActionListener {
                     "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         if (mensaje.length() < 10) {
             JOptionPane.showMessageDialog(vista,
                     "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
@@ -160,10 +161,13 @@ public class Controlador_Notificaciones implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        //Clic al boton de enviar
         if (e.getSource() == vista.btnEnviarNotificacion) {
             registrarNuevaNotificacion();
         }
         
+        //Modulo del inicio del sistema
         if (e.getSource() == vista.botonInicio) {
             vista.dispose();
             Vista_Inicio vistaIni = new Vista_Inicio();
@@ -171,6 +175,7 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaIni.setVisible(true);
         }
         
+        // Cerrar sesión en el sistema y ir al login
         if (e.getSource() == vista.botonCerrarSesion) {
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
@@ -178,6 +183,7 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaLogin.setVisible(true);
         }
         
+        //Modulo del inventario
         if (e.getSource() == vista.botonInventario) {
             vista.dispose();
             Vista_Inventario vistaInventario = new Vista_Inventario();
@@ -185,6 +191,7 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaInventario.setVisible(true);
         }
         
+        //Modulo de gestión de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
@@ -192,6 +199,7 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaSolicitud.setVisible(true);
         }
         
+        //Modulo de prestamos
         if (e.getSource() == vista.botonPrestamos) {
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
@@ -199,6 +207,7 @@ public class Controlador_Notificaciones implements ActionListener {
             vistap.setVisible(true);
         }
         
+        //Modulo de devoluciones
         if (e.getSource() == vista.botonDevoluciones) {
             vista.dispose();
             Vista_Devoluciones vistaDev = new Vista_Devoluciones();
@@ -206,11 +215,20 @@ public class Controlador_Notificaciones implements ActionListener {
             vistaDev.setVisible(true);
         }
         
+        //Modulo de gestion de usuarios
         if (e.getSource() == vista.botonUsuarios) {
             vista.dispose();
             Vista_GestionUsuarios vistaUsers = new Vista_GestionUsuarios();
             Controlador_GestionUsuarios controlUsers = new Controlador_GestionUsuarios(vistaUsers);
             vistaUsers.setVisible(true);
+        }
+        
+        //Modulo de reportes
+        if (e.getSource()== vista.botonReportes){
+        vista.dispose();
+        Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();
+        Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor(vistaRep);
+        vistaRep.setVisible(true);
         }
     }
 }

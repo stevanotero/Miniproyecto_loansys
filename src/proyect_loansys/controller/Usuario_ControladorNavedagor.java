@@ -164,9 +164,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
              */
         }
         if (e.getSource() == inicio.notificacion) {
-            CargarNotificacion(noti);
             Vista_NotificacionesUsuario vistaNo = new Vista_NotificacionesUsuario();
             Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo);
+
+            vistaNo.setVisible(true); // <-- ¡Imprescindible para que no se cierre!
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {

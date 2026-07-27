@@ -84,9 +84,12 @@ public class Controlador_GestionUsuarios implements ActionListener {
             modelo.addRow(fila);
         }
     }
-
+    
+    //Metodo para abrirar la modal del estado de los usuarios
     private void abrirModalEstado(UsuarioLogin usuario) {
     VentanaEstadoUsuarioModal modal = new VentanaEstadoUsuarioModal(vista, usuario);
+    
+    //Si le da clic el boton a activar el estado cambia  a al dia
     modal.botonActivar.addActionListener(e -> {
         boolean ok = dao.cambiarEstadoMoraUsuario(usuario.getIdLogin(), 1);
         if (ok) {
@@ -95,6 +98,8 @@ public class Controlador_GestionUsuarios implements ActionListener {
             modal.dispose();
         }
     });
+    
+    //Si le da clic al boton de desactivar el estado cambia a en mora
     modal.botonDesactivar.addActionListener(e -> {
         boolean ok = dao.cambiarEstadoMoraUsuario(usuario.getIdLogin(), 2);
         if (ok) {
@@ -110,55 +115,63 @@ public class Controlador_GestionUsuarios implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Redirecciones del menú lateral estándar
+        //Modulo del inicio del sistema
         if (e.getSource() == vista.botonInicio) {
             vista.dispose();
             Vista_Inicio vistaIni = new Vista_Inicio();
             Controlador_inicio controlador = new Controlador_inicio(vistaIni);
             vistaIni.setVisible(true);
         }
-
+        
+        // Cerrar sesión en el sistema y ir al login
         if (e.getSource() == vista.botonCerrarSesion) {
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
             vistaLogin.setVisible(true);
         }
-
+        
+        //Modulo del inventario
         if (e.getSource() == vista.botonInventario) {
             vista.dispose();
             Vista_Inventario vistaInventario = new Vista_Inventario();
             Controlador_inventario controladorIn = new Controlador_inventario(vistaInventario);
             vistaInventario.setVisible(true);
         }
-
+        
+        //Modulo de gestión de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
             Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
             vistaSolicitud.setVisible(true);
         }
-
+        
+        //Modulo de prestamos
         if (e.getSource() == vista.botonPrestamos) {
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
             Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
             vistap.setVisible(true);
         }
-
+        
+        //Modulo de devoluciones
         if (e.getSource() == vista.botonDevoluciones) {
             vista.dispose();
             Vista_Devoluciones vistaDev = new Vista_Devoluciones();
             Controlador_Devoluciones controlDev = new Controlador_Devoluciones(vistaDev);
             vistaDev.setVisible(true);
         }
-
+        
+        //Modulo de notificaciones
         if (e.getSource() == vista.botonNotificaciones) {
             vista.dispose();
             Vista_Notificaciones vistaNotif = new Vista_Notificaciones();
             Controlador_Notificaciones controlNotif = new Controlador_Notificaciones(vistaNotif);
             vistaNotif.setVisible(true);
         }
+        
+        //Modulo de reportes
         if (e.getSource()== vista.botonReportes){
         vista.dispose();
         Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();

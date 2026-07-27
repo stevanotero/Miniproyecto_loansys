@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
 import javax.swing.BoxLayout;
 import java.awt.Color;
 import java.awt.Font;
