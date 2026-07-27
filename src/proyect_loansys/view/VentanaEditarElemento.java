@@ -28,10 +28,8 @@ import java.awt.RenderingHints;
  *
  * @author Alexis
  */
-
 public class VentanaEditarElemento extends JDialog {
 
-   
     public JTextField textoCodigo;
     public JTextField textoNombre;
     public JTextField textoCategoria;
@@ -61,7 +59,7 @@ public class VentanaEditarElemento extends JDialog {
         textoNombre.setEnabled(false);
 
         //texto de  la categoría    
-        textoCategoria = crearCampoFormulario(panelRaiz, "Categoría:"); 
+        textoCategoria = crearCampoFormulario(panelRaiz, "Categoría:");
         textoCategoria.setEnabled(false);
 
         // lista del estado
@@ -72,7 +70,12 @@ public class VentanaEditarElemento extends JDialog {
         panelRaiz.add(lblEstado);
         panelRaiz.add(Box.createVerticalStrut(5));
 
-        ListaEstado = new JComboBox<>(new String[]{"Disponible", "En Mantenimiento", "Dañado"});
+        ListaEstado = new JComboBox<>(new String[]{
+            "Disponible",
+            "En Mantenimiento",
+            "Dañado",
+            "Dado de Baja"
+        });
         ListaEstado.setMaximumSize(new Dimension(340, 35));
         ListaEstado.setPreferredSize(new Dimension(340, 35));
         ListaEstado.setBackground(Color.WHITE);
