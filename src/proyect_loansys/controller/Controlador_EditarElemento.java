@@ -32,11 +32,11 @@ public class Controlador_EditarElemento implements ActionListener {
         cargarDatosEnCampos();
     }
 
+    //Metodo para cargar datos del campo en la modal para el elemento
     private void cargarDatosEnCampos() {
         vistaEditar.textoCodigo.setText(String.valueOf(elemento.getCodigoElemento()));
         vistaEditar.textoNombre.setText(elemento.getNombreElemento());
         vistaEditar.textoDescripcion.setText(elemento.getDescripcion());
-
         vistaEditar.textoCategoria.setText(elemento.getCategoria());
         vistaEditar.ListaEstado.setSelectedItem(elemento.getEstado());
     }
