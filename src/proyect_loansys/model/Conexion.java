@@ -24,7 +24,6 @@ public class Conexion {
        try{
            Class.forName("com.mysql.cj.jdbc.Driver");
            con = DriverManager.getConnection(url, user, pass);
-           System.out.println("conexion exitosa");
        }catch(Exception e){
            JOptionPane.showMessageDialog(null, e.toString(),"Bases de datos apagada"+ e.getMessage(),JOptionPane.ERROR_MESSAGE);
        }
