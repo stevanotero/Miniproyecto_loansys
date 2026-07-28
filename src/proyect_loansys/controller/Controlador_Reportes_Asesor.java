@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.controller.Controlador_Login;
 import proyect_loansys.controller.Controlador_Prestamos;
@@ -40,7 +41,9 @@ public class Controlador_Reportes_Asesor implements ActionListener {
     public Vista_Reportes_Asesor vista;
     private ReporteInventarioDao reporteDao = new ReporteInventarioDao();
     DefaultTableModel modelo = new DefaultTableModel();
+private int reporteActual = 0;
 
+    private Timer timerRefresco;
     public Controlador_Reportes_Asesor(Vista_Reportes_Asesor vista) {
         this.vista = vista;
 
@@ -61,6 +64,26 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         // Carga inicial
         limpiarTabla();
         getListarEstadoGeneral(vista.tablaReportes);
+        
+timerRefresco = new Timer(5000, new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        refrescarReporteActual();
+    }
+});
+        timerRefresco.start();
+        
+    }
+    
+        private void refrescarReporteActual() {
+        limpiarTabla();
+        if (reporteActual == 0) {
+            getListarEstadoGeneral(vista.tablaReportes);
+        } else if (reporteActual == 1) {
+            getListarFrecuenciaUso(vista.tablaReportes);
+        } else if (reporteActual == 2) {
+            getListarAlertasMantenimiento(vista.tablaReportes);
+        }
     }
 
     @Override
@@ -69,16 +92,19 @@ public class Controlador_Reportes_Asesor implements ActionListener {
         if (e.getSource() == vista.btnEstadoGeneral) {
             limpiarTabla();
             getListarEstadoGeneral(vista.tablaReportes);
+            reporteActual = 0;
         }
 
         if (e.getSource() == vista.btnFrecuenciaUso) {
             limpiarTabla();
             getListarFrecuenciaUso(vista.tablaReportes);
+            reporteActual = 1;
         }
 
         if (e.getSource() == vista.btnAlertasMantenimiento) {
             limpiarTabla();
             getListarAlertasMantenimiento(vista.tablaReportes);
+            reporteActual = 2;
         }
 
         if (e.getSource() == vista.btnExportarPDF) {
@@ -88,6 +114,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
        
        // Cerrar sesión en el sistema y ir al login
         if (e.getSource() == vista.botonCerrarSesion) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
@@ -96,6 +123,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
 
         //Modulo del inventario
         if (e.getSource() == vista.botonInventario) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_Inventario vistaInventario = new Vista_Inventario();
             Controlador_inventario controladorIn = new Controlador_inventario(vistaInventario);
@@ -104,6 +132,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
 
         //Modulo de gestión de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
             Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
@@ -112,6 +141,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
 
         //Modulo de Prestamo
         if (e.getSource() == vista.botonPrestamos) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
             Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
@@ -120,6 +150,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
 
         //Modulo de Notificaciones
         if (e.getSource() == vista.botonNotificaciones) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_Notificaciones vistaNo = new Vista_Notificaciones();
             Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
@@ -128,6 +159,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
 
         //Modulo de devoluciones
         if (e.getSource() == vista.botonDevoluciones) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_Devoluciones vistaDev = new Vista_Devoluciones();
             Controlador_Devoluciones controlDev = new Controlador_Devoluciones(vistaDev);
@@ -136,6 +168,7 @@ public class Controlador_Reportes_Asesor implements ActionListener {
 
         // Modulo de gestión de usuarios
         if (e.getSource() == vista.botonUsuarios) {
+            timerRefresco.stop();
             vista.dispose();
             Vista_GestionUsuarios vistaUsers = new Vista_GestionUsuarios();
             Controlador_GestionUsuarios controlUsers = new Controlador_GestionUsuarios(vistaUsers);

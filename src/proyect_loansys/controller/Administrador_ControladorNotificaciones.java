@@ -36,24 +36,12 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
     private List<Notificaciones> listaNotificaciones;
     private List<TipoNotificacion> listaTiposCombo;
 
-    private Administrador_Inicio_Loansys_Administrador inicio = new Administrador_Inicio_Loansys_Administrador();
-    private Administrador_Usuarios_activos usActivo = new Administrador_Usuarios_activos();
-    private Administrador_ModificarUsuario modificarUsuario = new Administrador_ModificarUsuario();
-    private Administrador_Cambio_de_rol cambio_de_rol = new Administrador_Cambio_de_rol();
-    private Administrador_Registro_de_usuario registro_de_usuario = new Administrador_Registro_de_usuario();
 
     public Administrador_ControladorNotificaciones(Vista_NotificacionesAdmin vista) {
         this.vista = vista;
         this.modelo = new NotificacionesDAO();
         this.loginDao = new PersonaDao_Login();
-
         this.vista.btnEnviarNotificacion.addActionListener(this);
-        this.vista.binicio.addActionListener(this);
-        this.vista.activacion_usuario.addActionListener(this);
-        this.vista.modificar.addActionListener(this);
-        this.vista.gestion_roles.addActionListener(this);
-        this.vista.registrar_usuario.addActionListener(this);
-        this.vista.cerrar_sesion.addActionListener(this);
 
         listarNotificacionesTabla();
         cargarComboTipos();
@@ -89,7 +77,7 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         }
     }
 
-    private void registrarNuevaNotificacion() {
+    private  void registrarNuevaNotificacion() {
         String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();
         String mensaje = vista.txtAreaMensaje.getText().trim();
         String placeholder = "Escriba el mensaje que desea enviar...";
@@ -168,76 +156,8 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
             registrarNuevaNotificacion();
         }
 
-        if (e.getSource() == vista.binicio) {
-            CargarInicio(inicio);
-            vista.setVisible(false);
-        }
-
-        if (e.getSource() == vista.activacion_usuario) {
-            CargarActivacionUsuario(usActivo);
-            vista.setVisible(false);
-        }
-
-        if (e.getSource() == vista.modificar) {
-            CargarModificarUsuario(modificarUsuario);
-            vista.setVisible(false);
-        }
-
-        if (e.getSource() == vista.gestion_roles) {
-            CargarCambioDeRol(cambio_de_rol);
-            vista.setVisible(false);
-        }
-
-        if (e.getSource() == vista.registrar_usuario) {
-            CargarRigistroDeUsuario(registro_de_usuario);
-            vista.setVisible(false);
-        }
-
-        if (e.getSource() == vista.cerrar_sesion) {
-            vista.setVisible(false);
-            Vista_Login vistaLogin = new Vista_Login();
-            Controlador_Login controlador = new Controlador_Login(vistaLogin);
-            vistaLogin.setVisible(true);
-        }
+       
     }
 
-    public void CargarInicio(Administrador_Inicio_Loansys_Administrador inicio) {
-        inicio.setVisible(true);
-        inicio.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void CargarActivacionUsuario(Administrador_Usuarios_activos usActivo) {
-        usActivo.setVisible(true);
-        usActivo.binicio.setBackground(Color.white);
-        usActivo.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        usActivo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void CargarModificarUsuario(Administrador_ModificarUsuario modificarUsuario) {
-        modificarUsuario.setVisible(true);
-        modificarUsuario.activacion_usuario.setBackground(Color.white);
-        modificarUsuario.binicio.setBackground(Color.white);
-        modificarUsuario.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        modificarUsuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void CargarCambioDeRol(Administrador_Cambio_de_rol cambio_de_rol) {
-        cambio_de_rol.setVisible(true);
-        cambio_de_rol.activacion_usuario.setBackground(Color.white);
-        cambio_de_rol.binicio.setBackground(Color.white);
-        cambio_de_rol.modificar.setBackground(Color.white);
-        cambio_de_rol.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        cambio_de_rol.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void CargarRigistroDeUsuario(Administrador_Registro_de_usuario registro_de_usuario) {
-        registro_de_usuario.setVisible(true);
-        registro_de_usuario.activacion_usuario.setBackground(Color.white);
-        registro_de_usuario.binicio.setBackground(Color.white);
-        registro_de_usuario.modificar.setBackground(Color.white);
-        registro_de_usuario.gestion_roles.setBackground(Color.white);
-        registro_de_usuario.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        registro_de_usuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+  
 }
