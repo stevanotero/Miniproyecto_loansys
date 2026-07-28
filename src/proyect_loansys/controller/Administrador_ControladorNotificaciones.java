@@ -11,6 +11,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import proyect_loansys.model.Administrador_Auditoria;
+import proyect_loansys.model.Administrador_AuditoriaDao;
+import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.model.Notificaciones;
 import proyect_loansys.model.NotificacionesDAO;
 import proyect_loansys.model.PersonaDao_Login;
@@ -139,9 +142,13 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
             int resultado = modelo.setAgregar(nuevaNotif);
 
             if (resultado > 0) {
+                    Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                    auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
+                    auditoria.setAccion("Envio de notificacion");
+                    new Administrador_AuditoriaDao().registrarAccion(auditoria);
                 JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-                vista.txtDocumentoDestinatario.setText("");
+            
+                    vista.txtDocumentoDestinatario.setText("");
                 vista.txtAreaMensaje.setText(placeholder);
                 vista.txtAreaMensaje.setForeground(new Color(110, 110, 110));
 

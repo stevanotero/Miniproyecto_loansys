@@ -7,6 +7,9 @@ package proyect_loansys.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import proyect_loansys.model.Administrador_Auditoria;
+import proyect_loansys.model.Administrador_AuditoriaDao;
+import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.model.Solicitudes;
 import proyect_loansys.model.PrestamosDao; 
 import proyect_loansys.view.VentanaMotivoRechazo;
@@ -61,6 +64,10 @@ public class Controlador_RechazarSolicitud implements ActionListener {
             boolean exito = prestamosDao.rechazarSolicitudConNotificacion(solicitud.getIdSolicitud(), solicitud.getIdUsuario(), motivo, solicitud.getNombreElemento());
 
             if (exito) {
+           Administrador_Auditoria auditoria = new Administrador_Auditoria();
+            auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
+            auditoria.setAccion("Rechazo de solicitud");
+            new Administrador_AuditoriaDao().registrarAccion(auditoria);
                 JOptionPane.showMessageDialog(null, "La solicitud ha sido rechazada y el usuario notificado.");
                 vistaRechazo.dispose();
                 
