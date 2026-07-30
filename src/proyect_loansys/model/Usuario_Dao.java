@@ -80,7 +80,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             ps.setString(3, sr.getApellido());
             ps.setInt(4, sr.getDocumento());
             ps.setInt(5, sr.getId_elemento());
-            ps.setTimestamp(6, sr.getFecha_envio()); // quita por completo el Time.valueOf
+            ps.setTimestamp(6, sr.getFecha_envio()); 
             r = ps.executeUpdate();
             return r;
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
                 u.setNombre(rs.getString("nombre"));
                 u.setApellido(rs.getString("apellido"));
                 u.setDocumento(rs.getInt("documento"));
-                // agrega los demás campos que tenga tu Usuario_Model
+                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString(), "Error de consulta", JOptionPane.ERROR_MESSAGE);
@@ -144,7 +144,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             return rs.next();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString(), "Error de consulta", JOptionPane.ERROR_MESSAGE);
-            return true; // si falla la consulta, bloqueamos por seguridad
+            return true; 
         } finally {
             try {
                 if (ps != null) {
@@ -197,7 +197,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         } catch (Exception a) {
             a.printStackTrace();
         }
-        return e; // ← retorna el objeto
+        return e; 
     }
 
     public Usuario_Model validarLogin2(int documento, String contraseña) {
@@ -221,7 +221,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
                 u.setNombre_rol(rs.getString("nombre_rol"));
                 return u; // login correcto, con todos los datos
             }
-            return null; // contraseña incorrecta o no existe
+            return null; 
 
         } catch (Exception e) {
             System.out.println("Error en validarLogin: " + e.getMessage());
@@ -248,7 +248,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
                 + "  h.id_historial_prestamo, "
                 + "  h.id_usuario, "
                 + "  h.id_elemento, "
-                + "  e.codigo_elemento, " // ← AGREGAR CÓDIGO DEL ELEMENTO
+                + "  e.codigo_elemento, " 
                 + "  e.nombre_elemento, "
                 + "  h.fecha_prestamo, "
                 + "  h.fecha_limite, "
@@ -273,7 +273,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
                     h.setId_historial_prestamo(rs.getInt("id_historial_prestamo"));
                     h.setId_usuario(rs.getInt("id_usuario"));
                     h.setId_elemento(rs.getInt("id_elemento"));
-                    h.setCodigo_elemento(rs.getString("codigo_elemento"));  // ← ASIGNAR CÓDIGO
+                    h.setCodigo_elemento(rs.getString("codigo_elemento"));
                     h.setNombre_elemento(rs.getString("nombre_elemento"));
                     h.setFecha_prestamo(rs.getTimestamp("fecha_prestamo"));
                     h.setFecha_limite(rs.getTimestamp("fecha_limite"));
@@ -287,7 +287,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al listar historial: " + e.toString(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();  // ← Agregar para ver el error completo
+            e.printStackTrace();  
         }
         return lista;
     }
@@ -324,7 +324,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             } catch (Exception e) {
             }
         }
-        return estado; // null si el elemento no existe
+        return estado; 
     }
 
     public List<Usuario_Elemento> listarPorEstado(String estado) {

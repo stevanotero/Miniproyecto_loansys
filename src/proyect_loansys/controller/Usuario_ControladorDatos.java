@@ -466,7 +466,7 @@ public class Usuario_ControladorDatos implements ActionListener {
     }
 
     public void mostrarH(JTable tabla) {
-        // Limpiar la tabla antes de cargar nuevos datos
+        
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         if (modelo.getRowCount() > 0) {
             modelo.setRowCount(0);

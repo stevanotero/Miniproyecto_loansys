@@ -167,7 +167,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             Vista_NotificacionesUsuario vistaNo = new Vista_NotificacionesUsuario();
             Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo);
 
-            vistaNo.setVisible(true); // <-- ¡Imprescindible para que no se cierre!
+            vistaNo.setVisible(true);
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {
@@ -602,7 +602,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             return;
         }
 
-        // Consulta el estado real desde la BD, no desde el label de la pantalla
         String estado = elementoDao.consultarEstadoElemento(idElementoSeleccionado);
 
         if (estado == null) {
