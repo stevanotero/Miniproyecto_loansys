@@ -90,13 +90,14 @@ public class PrestamosActivosDao {
         PreparedStatement psMora = null;
         PreparedStatement psHist = null;
         PreparedStatement psDel = null;
+        PreparedStatement psElem = null; 
         PreparedStatement psFkOff = null;
         PreparedStatement psFkOn = null;
 
         //Insertar en la tabla de devoluciones
         String sqlDevolucion = "INSERT INTO devolucion (id_prestamo, id_elemento, id_estado_elemento, id_condiciones_elemento, fecha_inicio_prestamo, fecha_devolucion, observaciones) VALUES (?, ?, ?, 1, ?, NOW(), ?)";
 
-        // Restablecer el estado de mora a 1 en login_de_usuarios
+        //Restablecer el estado de mora a 1 en login_de_usuarios
         String sqlUpdateMora = "UPDATE login_de_usuarios SET id_estado_mora = 1 WHERE id_usuario = ?";
 
         //Insertar al historial de prestamo
@@ -106,13 +107,17 @@ public class PrestamosActivosDao {
         //Eliminar el registro del préstamo activo
         String sqlDeletePrestamo = "DELETE FROM prestamo WHERE id_prestamo = ?";
 
+        //Actualizar el estado del elemento a 'Disponible' (ID 1)
+        String sqlUpdateElemento = "UPDATE elemento SET id_estado_elemento = 1 WHERE id_elemento = ?";
+
         try {
             con = conectar.getConection();
             con.setAutoCommit(false);
+
             psFkOff = con.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
             psFkOff.executeUpdate();
 
-            //Insertar en devolucion
+            // Insertar en devolucion
             psDev = con.prepareStatement(sqlDevolucion);
             psDev.setInt(1, prestamo.getIdPrestamo());
             psDev.setInt(2, prestamo.getIdElemento());
@@ -126,7 +131,7 @@ public class PrestamosActivosDao {
             psMora.setInt(1, prestamo.getIdUsuario());
             psMora.executeUpdate();
 
-            //Insertar en historial_prestamo
+            // Insertar en historial_prestamo
             psHist = con.prepareStatement(sqlHistorial);
             psHist.setInt(1, prestamo.getIdUsuario());
             psHist.setInt(2, prestamo.getIdElemento());
@@ -137,14 +142,20 @@ public class PrestamosActivosDao {
             psHist.setInt(7, prestamo.getIdUsuario());
             psHist.executeUpdate();
 
-            //Eliminar de prestamo activo
+            // Eliminar de prestamo activo
             psDel = con.prepareStatement(sqlDeletePrestamo);
             psDel.setInt(1, prestamo.getIdPrestamo());
             psDel.executeUpdate();
 
-            //Reactivar la validación de llaves foráneas
+            // Actualización del estado del elemento
+            psElem = con.prepareStatement(sqlUpdateElemento);
+            psElem.setInt(1, prestamo.getIdElemento());
+            psElem.executeUpdate();
+
+            // Reactivar la validación de llaves foráneas
             psFkOn = con.prepareStatement("SET FOREIGN_KEY_CHECKS = 1");
             psFkOn.executeUpdate();
+
             con.commit();
             return true;
 
@@ -176,6 +187,9 @@ public class PrestamosActivosDao {
                 }
                 if (psDel != null) {
                     psDel.close();
+                }
+                if (psElem != null) {
+                    psElem.close(); 
                 }
                 if (psFkOn != null) {
                     psFkOn.close();
