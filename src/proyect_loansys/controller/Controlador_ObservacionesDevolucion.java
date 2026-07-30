@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
+import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.model.Prestamos;
 import proyect_loansys.model.PrestamosActivosDao;
 import proyect_loansys.view.VentanaObservacionesDevolucion;
@@ -68,10 +69,10 @@ public class Controlador_ObservacionesDevolucion implements ActionListener {
             boolean exito = prestamosDao.registrarDevolucionCompleta(prestamo, observaciones);
 
             if (exito) {
-                  Administrador_Auditoria auditoria = new Administrador_Auditoria();
-              
-                auditoria.setAccion("Devolución registrada");
-                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+            Administrador_Auditoria auditoria = new Administrador_Auditoria();
+          auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario()); 
+          auditoria.setAccion("Devolucion registrado");
+          new Administrador_AuditoriaDao().registrarAccion(auditoria);
                 JOptionPane.showMessageDialog(null, "¡Devolución registrada e historial actualizado con éxito!");
                 
                 if (controladorPadre != null) {

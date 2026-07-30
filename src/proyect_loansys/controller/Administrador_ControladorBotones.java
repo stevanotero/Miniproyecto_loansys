@@ -55,7 +55,7 @@ public class Administrador_ControladorBotones implements ActionListener {
     // para cerrar sesion 
     Vista_Login login = new Vista_Login();
     //modulo de notificaciones
-    Vista_Notificaciones vistaNo = new Vista_Notificaciones();
+ Vista_NotificacionesAdmin notfi = new Vista_NotificacionesAdmin();
     Vista_NotificacionesAdmin vistaNotiAdmin = new Vista_NotificacionesAdmin();
       
 
@@ -64,8 +64,8 @@ public class Administrador_ControladorBotones implements ActionListener {
     Administrador_ControladorModificarUsuario controladorModificarUsuario;
     Administrador_ControladorCambio_de_rol controladorCambio_de_rol;
     Administrador_Controlador_registro_usuario controlador_registro_usuario;
-    Controlador_Notificaciones controlador_Notificaciones;
-
+    
+    Administrador_ControladorNotificaciones administrador_ControladorNotificaciones;
     public Administrador_ControladorBotones(Administrador_Inicio_Loansys_Administrador inicio) {
         this.inicio = inicio;
 
@@ -109,15 +109,15 @@ public class Administrador_ControladorBotones implements ActionListener {
         this.registro_de_usuario.cerrar_sesion.addActionListener(this);
         this.registro_de_usuario.notifiaciones.addActionListener(this);
         
-        // notificaciones admin
-this.vistaNotiAdmin.binicio.addActionListener(this);
-this.vistaNotiAdmin.activacion_usuario.addActionListener(this);
-this.vistaNotiAdmin.modificar.addActionListener(this);
-this.vistaNotiAdmin.gestion_roles.addActionListener(this);
-this.vistaNotiAdmin.registrar_usuario.addActionListener(this);
-this.vistaNotiAdmin.cerrar_sesion.addActionListener(this);
 
 
+// notificaciones admin
+this.notfi.binicio.addActionListener(this);
+this.notfi.activacion_usuario.addActionListener(this);
+this.notfi.modificar.addActionListener(this);
+this.notfi.gestion_roles.addActionListener(this);
+this.notfi.registrar_usuario.addActionListener(this);
+this.notfi.cerrar_sesion.addActionListener(this);
         
         
         //-------fin mdificar usuario--------//
@@ -125,7 +125,7 @@ this.vistaNotiAdmin.cerrar_sesion.addActionListener(this);
         controladorModificarUsuario = new Administrador_ControladorModificarUsuario(modal_modifi, modificarUsuario);
         controladorCambio_de_rol = new Administrador_ControladorCambio_de_rol(cambio_de_rol, modalRol);
         controlador_registro_usuario = new Administrador_Controlador_registro_usuario(registro_de_usuario, modalRigistrar);
-        controlador_Notificaciones = new Controlador_Notificaciones(vistaNo);
+        administrador_ControladorNotificaciones = new Administrador_ControladorNotificaciones(notfi);
     }
 
     @Override
@@ -324,43 +324,77 @@ this.vistaNotiAdmin.cerrar_sesion.addActionListener(this);
         }
 
       //   abrir notificaciones 
-        if (e.getSource() == inicio.notifiaciones) {
-            inicio.setVisible(false);
-            Vista_NotificacionesAdmin vistaNo = new Vista_NotificacionesAdmin();
-            Administrador_ControladorNotificaciones controlNo = new Administrador_ControladorNotificaciones(vistaNo);
-            vistaNo.setVisible(true);
-        }
+if (e.getSource() == inicio.notifiaciones) {
+    CargarNotificaciones(notfi);
+    inicio.setVisible(false);
+}
 
-        if (e.getSource() == usActivo.notifiaciones) {
-            usActivo.setVisible(false);
-           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
-              
-            vistaNo.setVisible(true);
-        }
+if (e.getSource() == usActivo.notifiaciones) {
+    CargarNotificaciones(notfi);
+    usActivo.setVisible(false);
+}
 
-        if (e.getSource() == modificarUsuario.notifiaciones) {
-            modificarUsuario.setVisible(false);
-           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
-            vistaNo.setVisible(true);
-        }
+if (e.getSource() == modificarUsuario.notifiaciones) {
+    CargarNotificaciones(notfi);
+    modificarUsuario.setVisible(false);
+}
 
-        if (e.getSource() == cambio_de_rol.notifiaciones) {
-            cambio_de_rol.setVisible(false);
-           Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
-            vistaNo.setVisible(true);
-        }
+if (e.getSource() == cambio_de_rol.notifiaciones) {
+    CargarNotificaciones(notfi);
+    cambio_de_rol.setVisible(false);
+}
 
-        if (e.getSource() == registro_de_usuario.notifiaciones) {
-            registro_de_usuario.setVisible(false);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
-            
-            vistaNo.setVisible(true);
-        }
+if (e.getSource() == registro_de_usuario.notifiaciones) {
+    CargarNotificaciones(notfi);
+    registro_de_usuario.setVisible(false);
+}
+        
+        //notificaciones
+        //---------notificaciones------------//
+if (e.getSource() == notfi.binicio) {
+    CargarInicio(inicio);
+    notfi.setVisible(false);
+}
 
+if (e.getSource() == notfi.activacion_usuario) {
+    controladorUsuarioActivo.limpiarTabla();
+    controladorUsuarioActivo.getListar(usActivo.tabla);
+
+    CargarActivacionUsuario(usActivo);
+    notfi.setVisible(false);
+}
+
+if (e.getSource() == notfi.modificar) {
+    controladorModificarUsuario.limpiarTabla();
+    controladorModificarUsuario.getListar(modificarUsuario.tabla);
+
+    CargarModificarUsuario(modificarUsuario);
+    notfi.setVisible(false);
+}
+
+if (e.getSource() == notfi.gestion_roles) {
+    controladorCambio_de_rol.limpiarTabla();
+    controladorCambio_de_rol.getListar(cambio_de_rol.tabla);
+
+    CargarCambioDeRol(cambio_de_rol);
+    notfi.setVisible(false);
+}
+
+if (e.getSource() == notfi.registrar_usuario) {
+    controlador_registro_usuario.limpiarTabla();
+    controlador_registro_usuario.getListar(registro_de_usuario.tabla);
+
+    CargarRigistroDeUsuario(registro_de_usuario);
+    notfi.setVisible(false);
+}
+
+if (e.getSource() == notfi.cerrar_sesion) {
+    notfi.setVisible(false);
+    Vista_Login vistaLogin = new Vista_Login();
+    Controlador_Login controlador = new Controlador_Login(vistaLogin);
+    vistaLogin.setVisible(true);
+    vistaLogin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+}
     }
 
     //------Metodos para cargar las view----------//
@@ -404,5 +438,13 @@ this.vistaNotiAdmin.cerrar_sesion.addActionListener(this);
         registro_de_usuario.setExtendedState(JFrame.MAXIMIZED_BOTH);
         registro_de_usuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+public void CargarNotificaciones(Vista_NotificacionesAdmin notificaciones) {
+    administrador_ControladorNotificaciones.listarNotificacionesTabla();
+    administrador_ControladorNotificaciones.cargarComboTipos();
 
+    notificaciones.setVisible(true);
+    notificaciones.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    notificaciones.setLocationRelativeTo(null);
+    notificaciones.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+}
 }
