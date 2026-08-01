@@ -55,7 +55,6 @@ public class Usuario_Inventario extends Usuario_Plantilla {
     private JScrollPane miscroll;
     
     
-    
 
     public Usuario_Inventario(String titulo, String rol, String nombre) {
         super(titulo, rol, nombre);
@@ -448,8 +447,23 @@ public class Usuario_Inventario extends Usuario_Plantilla {
         panel5.add(panel8, BorderLayout.SOUTH);
 
         panel4.add(panel5);
+        
+        lcodigo.addKeyListener(new java.awt.event.KeyAdapter(){
+    @Override
+        public void keyTyped(java.awt.event.KeyEvent e) {
+                char tecla = e.getKeyChar(); // Averigua qué tecla presiono el usuario
+
+                // Si la tecla no es un numero del 0 al 9 se cancela la accion
+                if (!Character.isDigit(tecla)) {
+                    e.consume(); // No permite que se ingrese la letra
+                }
+            }
+    });
     }
 
+    
+    
+    
     private JButton crearBoton(String texto, Icon icono, Color fondo, Color textoColor) {
         JButton boton = new JButton(texto, icono) {
             @Override

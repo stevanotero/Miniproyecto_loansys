@@ -27,7 +27,7 @@ import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_NotificacionesUsuario;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
-
+    String textoBuscado;
     Usuario_Solicitud sr = new Usuario_Solicitud();
     public Usuario_Dao elementoDao = new Usuario_Dao();
     Usuario_Elemento ele = new Usuario_Elemento();
@@ -129,8 +129,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.sesion.textoDelDocumento.addActionListener(this);
         //aver
         controladorDatos = new Usuario_ControladorDatos(inven, soli);
+        
+        
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -179,7 +181,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
         ////////////////////////////////////////////
         ///
-        /*
+        
         if (e.getSource() == inven.iniciod) {
             CargarInicio(inicio);
             inven.dispose();
@@ -329,7 +331,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             controladorDatos.pruebaMostrar13(soli.tabla);
             inven.dispose();
         }
-        */
+        
 
         ////////////////////////////////////////////
         if (e.getSource() == pres.iniciod) {
@@ -731,7 +733,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     }
 
     public void filtrarPorCodigo() {
-        String textoBuscado = inven.lcodigo.getText().trim();
+        textoBuscado = inven.lcodigo.getText().trim();
+        
 
         javax.swing.JPanel[] paneles = {
             inven.panel043, inven.panel042, inven.panel041, inven.panel040,
@@ -763,6 +766,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
                     }
                 }
             }
+            
 
             if (!encontrado) {
                 JOptionPane.showMessageDialog(inven,
@@ -770,6 +774,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
                         "Sin resultados", JOptionPane.WARNING_MESSAGE);
             }
         }
+        
 
         inven.panel029.revalidate();
         inven.panel029.repaint();
