@@ -178,6 +178,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         }
 
         ////////////////////////////////////////////
+        ///
+        /*
         if (e.getSource() == inven.iniciod) {
             CargarInicio(inicio);
             inven.dispose();
@@ -327,6 +329,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             controladorDatos.pruebaMostrar13(soli.tabla);
             inven.dispose();
         }
+        */
 
         ////////////////////////////////////////////
         if (e.getSource() == pres.iniciod) {
