@@ -24,6 +24,7 @@ import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 
 /**
  * 
@@ -103,9 +104,8 @@ public class Vista_Registro extends JFrame {
         //Limitar solo numeros  en el campo de contraseña mediante un metodo
         textoDelDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
-            public void keyTyped(java.awt.event.KeyEvent e) {
+            public void keyTyped(KeyEvent e) {
                 char tecla = e.getKeyChar(); // Averigua qué tecla presiono el usuario
-
                 // Si la tecla no es un numero del 0 al 9 se cancela la accion
                 if (!Character.isDigit(tecla)) {
                     e.consume(); // No permite que se ingrese la letra
