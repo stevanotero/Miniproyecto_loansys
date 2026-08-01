@@ -23,12 +23,12 @@ import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 
 /**
  *
  * @author Alexis
  */
-
 public class Vista_Login extends JFrame {
 
     // Declarar todo lo requerido
@@ -73,11 +73,11 @@ public class Vista_Login extends JFrame {
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //El logo del sena
-       System.out.println(getClass().getName());
-System.out.println(getClass().getClassLoader());
-System.out.println(System.getProperty("user.dir"));
-System.out.println(getClass().getResource(""));
-System.out.println(getClass().getResource("/proyect_loansys/img/sena.png"));
+        System.out.println(getClass().getName());
+        System.out.println(getClass().getClassLoader());
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(getClass().getResource(""));
+        System.out.println(getClass().getResource("/proyect_loansys/img/sena.png"));
         Image imgSena = new ImageIcon(getClass().getResource("/proyect_loansys/img/sena.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new JLabel(new ImageIcon(imgSena));
         //AlignmentX permite que este en el centro horizontalmente en el fondo
@@ -100,7 +100,7 @@ System.out.println(getClass().getResource("/proyect_loansys/img/sena.png"));
         botonLogin = crearBoton("Iniciar sesión", new Color(34, 139, 34), Color.WHITE);
         botonOlvidar = crearBoton("¿Olvidaste tu contraseña?", new Color(169, 173, 177), Color.BLACK);
         botonRegistrar = crearBoton("Regístrate aquí", new Color(112, 117, 113), Color.WHITE);
-        
+
         botonLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botonOlvidar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botonRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -108,7 +108,7 @@ System.out.println(getClass().getResource("/proyect_loansys/img/sena.png"));
         //Limitar solo numeros  en el campo de contraseña mediante un metodo
         textoDelDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
-            public void keyTyped(java.awt.event.KeyEvent e) {
+            public void keyTyped(KeyEvent e) {
                 char tecla = e.getKeyChar(); // Averigua qué tecla presiono el usuario
 
                 // Si la tecla no es un numero del 0 al 9 se cancela la accion
