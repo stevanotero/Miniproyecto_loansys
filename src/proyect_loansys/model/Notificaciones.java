@@ -11,12 +11,20 @@ public class Notificaciones {
     private int idNotificacion;
     private int idTipoNotificacion;
     private String mensaje;
-    private int idLogin; 
+    private int idRemitente;
+    private int idLogin;     
     private String nombreTipoNotificacion; 
 
     public Notificaciones() {
     }
     
+    public Notificaciones(int idTipoNotificacion, String mensaje, int idRemitente, int idLogin) {
+        this.idTipoNotificacion = idTipoNotificacion;
+        this.mensaje = mensaje;
+        this.idRemitente = idRemitente;
+        this.idLogin = idLogin;
+    }
+
     public Notificaciones(int idTipoNotificacion, String mensaje, int idLogin) {
         this.idTipoNotificacion = idTipoNotificacion;
         this.mensaje = mensaje;
@@ -45,6 +53,14 @@ public class Notificaciones {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public int getIdRemitente() {
+        return idRemitente;
+    }
+
+    public void setIdRemitente(int idRemitente) {
+        this.idRemitente = idRemitente;
     }
 
     public int getIdLogin() {

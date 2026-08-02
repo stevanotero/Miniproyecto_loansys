@@ -71,7 +71,7 @@ public class NotificacionesDAO {
     public List<Notificaciones> listarPorUsuario(int idLogin) {
         List<Notificaciones> listarp = new ArrayList<>();
         String sql = "SELECT n.id_notificacion, n.id_tipo_notificacion, "
-                + "t.nombre_tipo_notificacion, n.mensaje, n.id_login "
+                + "t.nombre_tipo_notificacion, n.mensaje, n.id_remitente, n.id_login "
                 + "FROM notificaciones n "
                 + "INNER JOIN tipo_notificacion t ON n.id_tipo_notificacion = t.id_tipo_notificacion "
                 + "WHERE n.id_login = ? ORDER BY n.id_notificacion DESC";
@@ -79,7 +79,7 @@ public class NotificacionesDAO {
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idLogin);
+            ps.setInt(1, idLogin); // Solo requiere 1 parámetro
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -88,7 +88,8 @@ public class NotificacionesDAO {
                 n.setIdTipoNotificacion(rs.getInt(2));
                 n.setNombreTipoNotificacion(rs.getString(3));
                 n.setMensaje(rs.getString(4));
-                n.setIdLogin(rs.getInt(5));
+                n.setIdRemitente(rs.getInt(5));
+                n.setIdLogin(rs.getInt(6)); // id_login (destinatario)
 
                 listarp.add(n);
             }
@@ -103,14 +104,15 @@ public class NotificacionesDAO {
 
     public int setAgregar(Notificaciones n) {
         int r;
-        String sql = "INSERT INTO notificaciones (id_tipo_notificacion, mensaje, id_login) VALUES(?,?,?)";
+        String sql = "INSERT INTO notificaciones (id_tipo_notificacion, mensaje, id_remitente, id_login) VALUES(?,?,?,?)";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
 
             ps.setInt(1, n.getIdTipoNotificacion());
             ps.setString(2, n.getMensaje());
-            ps.setInt(3, n.getIdLogin());
+            ps.setInt(3, n.getIdRemitente());
+            ps.setInt(4, n.getIdLogin());
 
             r = ps.executeUpdate();
             return r;

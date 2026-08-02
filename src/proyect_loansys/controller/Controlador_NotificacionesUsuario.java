@@ -4,6 +4,7 @@
  */
 package proyect_loansys.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -85,8 +86,8 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
 
         if (mensaje.length() < 10) {
             JOptionPane.showMessageDialog(vista,
-                    "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
-                    "Mínimo De Caracteres", JOptionPane.WARNING_MESSAGE);
+                    "El mensaje debe tener minimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
+                    "Longitud Corta", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -112,31 +113,45 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
                 return;
             }
 
+            //Evitar que el usuario se envíe una notificación a sí mismo
+            if (idLoginDestino == Sesion.getIdLogin()) {
+                JOptionPane.showMessageDialog(vista,
+                        "No puedes enviarte una notificación a ti mismo.",
+                        "Destinatario Inválido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             // Obtener el id_tipo_notificacion real según la posición seleccionada en el ComboBox
             int indexSeleccionado = vista.comboTipoNotificacion.getSelectedIndex();
-
             if (indexSeleccionado < 0 || listaTiposCombo == null || listaTiposCombo.isEmpty()) {
                 JOptionPane.showMessageDialog(vista, "Seleccione un tipo de notificación válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
+            int idRemitente = Sesion.getIdLogin();
 
-            // Guardar notificación
-            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idLoginDestino);
+            // Guardar notificación (
+            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idRemitente, idLoginDestino);
             int resultado = modelo.setAgregar(nuevaNotif);
-
             if (resultado > 0) {
-                   Administrador_Auditoria auditoria = new Administrador_Auditoria();
-                    auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
-                    auditoria.setAccion("Envio de notificacion");
+                try {
+                    Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                    auditoria.setIdUsuario(Sesion.getIdLogin());
+                    auditoria.setAccion("Envío de notificación a: " + correoDestinatario);
                     new Administrador_AuditoriaDao().registrarAccion(auditoria);
-                JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
+                } catch (Exception eAuditoria) {
+                    System.err.println("Error al registrar auditoría: " + eAuditoria.getMessage());
+                }
+
+                JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito al destinatario.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                // Limpieza del formulario
                 vista.txtDocumentoDestinatario.setText("");
                 vista.txtAreaMensaje.setText(placeholder);
-                vista.txtAreaMensaje.setForeground(new java.awt.Color(110, 110, 110));
+                vista.txtAreaMensaje.setForeground(new Color(110, 110, 110));
 
+                // Refrescar tabla local (seguirá mostrando solo las notificaciones DIRIGIDAS a este usuario)
                 listarNotificacionesTabla();
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
