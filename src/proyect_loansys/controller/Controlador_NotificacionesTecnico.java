@@ -5,10 +5,14 @@
 package proyect_loansys.controller;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
@@ -18,6 +22,7 @@ import proyect_loansys.model.NotificacionesDAO;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.model.Sesion;
 import proyect_loansys.model.TipoNotificacion;
+import proyect_loansys.view.Ventana_DetalleNotificacion;
 import proyect_loansys.view.Vista_NotificacionesTecnico;
 
 /**
@@ -37,8 +42,18 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
         this.vista = vista;
         this.modelo = new NotificacionesDAO();
         this.loginDao = new PersonaDao_Login();
-        // Escuchadores de eventos
         this.vista.btnEnviarNotificacion.addActionListener(this);
+
+        // Escuchador para detectar el doble clic en la tabla
+        this.vista.tablaNotificaciones.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    abrirModalDetalleNotificacion();
+                }
+            }
+        });
+
         // Inicialización de la vista
         listarNotificacionesTabla();
         cargarComboTipos();
@@ -75,6 +90,22 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
         }
     }
 
+    private void abrirModalDetalleNotificacion() {
+        int filaSeleccionada = vista.tablaNotificaciones.getSelectedRow();
+
+        if (filaSeleccionada != -1 && listaNotificaciones != null && !listaNotificaciones.isEmpty()) {
+            Notificaciones notifSeleccionada = listaNotificaciones.get(filaSeleccionada);
+
+            // Obtener el Frame contenedor padre para centrar la ventana modal
+            Frame marcoPadre = (Frame) SwingUtilities.getWindowAncestor(vista);
+
+            Ventana_DetalleNotificacion vistaDetalle = new Ventana_DetalleNotificacion(marcoPadre);
+            Controlador_DetalleNotificacion controlDetalle = new Controlador_DetalleNotificacion(vistaDetalle, notifSeleccionada, this);
+
+            vistaDetalle.setVisible(true);
+        }
+    }
+
     private void registrarNuevaNotificacion() {
         String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();
         String mensaje = vista.txtAreaMensaje.getText().trim();
@@ -87,14 +118,16 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
                     "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
+        // Validaciones de minimo de caracteres
         if (mensaje.length() < 10) {
             JOptionPane.showMessageDialog(vista,
                     "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
                     "Mínimo De Caracteres", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
+        //Validacion de maximo de caracteres
         if (mensaje.length() > 60) {
             JOptionPane.showMessageDialog(vista,
                     "El mensaje excede el límite permitido de 60 caracteres. \n(Llevas: " + mensaje.length() + ")",

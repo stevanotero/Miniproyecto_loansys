@@ -5,11 +5,14 @@
 package proyect_loansys.controller;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
@@ -19,14 +22,13 @@ import proyect_loansys.model.NotificacionesDAO;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.model.Sesion;
 import proyect_loansys.model.TipoNotificacion;
-import proyect_loansys.view.Administrador_Cambio_de_rol;
-import proyect_loansys.view.Administrador_Inicio_Loansys_Administrador;
-import proyect_loansys.view.Administrador_ModificarUsuario;
+import proyect_loansys.view.Ventana_DetalleNotificacion;
 import proyect_loansys.view.Vista_NotificacionesAdmin;
-import proyect_loansys.view.Administrador_Registro_de_usuario;
-import proyect_loansys.view.Administrador_Usuarios_activos;
-import proyect_loansys.view.Vista_Login;
 
+/**
+ *
+ * @author Alexis
+ */
 public class Administrador_ControladorNotificaciones implements ActionListener {
 
     private Vista_NotificacionesAdmin vista;
@@ -41,7 +43,14 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         this.modelo = new NotificacionesDAO();
         this.loginDao = new PersonaDao_Login();
         this.vista.btnEnviarNotificacion.addActionListener(this);
-
+        this.vista.tablaNotificaciones.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    abrirModalDetalleNotificacion();
+                }
+            }
+        });
         listarNotificacionesTabla();
         cargarComboTipos();
     }
@@ -63,7 +72,7 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         modeloTabla = (DefaultTableModel) vista.tablaNotificaciones.getModel();
         modeloTabla.setRowCount(0);
 
-        // Claridad: id_login del administrador en sesión
+        // id_login del administrador en sesión
         int idLoginActual = Sesion.getIdLogin();
         listaNotificaciones = modelo.listarPorUsuario(idLoginActual);
 
@@ -74,6 +83,19 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
                 fila[1] = notif.getMensaje();
                 modeloTabla.addRow(fila);
             }
+        }
+    }
+
+    private void abrirModalDetalleNotificacion() {
+        int filaSeleccionada = vista.tablaNotificaciones.getSelectedRow();
+
+        if (filaSeleccionada != -1 && listaNotificaciones != null && !listaNotificaciones.isEmpty()) {
+            Notificaciones notifSeleccionada = listaNotificaciones.get(filaSeleccionada);
+            Frame marcoPadre = (Frame) SwingUtilities.getWindowAncestor(vista);
+            Ventana_DetalleNotificacion vistaDetalle = new Ventana_DetalleNotificacion(marcoPadre);
+            Controlador_DetalleNotificacion controlDetalle = new Controlador_DetalleNotificacion(vistaDetalle, notifSeleccionada, this);
+
+            vistaDetalle.setVisible(true);
         }
     }
 
@@ -137,7 +159,7 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
             int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
             int idRemitente = Sesion.getIdLogin();
             Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idRemitente, idLoginDestino);
-            
+
             int resultado = modelo.setAgregar(nuevaNotif);
 
             if (resultado > 0) {

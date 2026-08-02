@@ -5,19 +5,23 @@
 package proyect_loansys.controller;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.Administrador_Auditoria;
 import proyect_loansys.model.Administrador_AuditoriaDao;
-import proyect_loansys.model.Administrador_Sesion;
 import proyect_loansys.model.Notificaciones;
 import proyect_loansys.model.NotificacionesDAO;
 import proyect_loansys.model.PersonaDao_Login;
 import proyect_loansys.model.Sesion;
 import proyect_loansys.model.TipoNotificacion;
+import proyect_loansys.view.Ventana_DetalleNotificacion;
 import proyect_loansys.view.Vista_NotificacionesUsuario;
 
 /**
@@ -39,6 +43,15 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
         this.loginDao = new PersonaDao_Login();
         // Escuchadores de eventos
         this.vista.btnEnviarNotificacion.addActionListener(this);
+        this.vista.tablaNotificaciones.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    abrirModalDetalleNotificacion();
+                }
+            }
+        });
+
         // Inicialización de la vista
         listarNotificacionesTabla();
         cargarComboTipos();
@@ -50,8 +63,10 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
         int idRolActual = Sesion.getIdRol();
         listaTiposCombo = modelo.listarTiposPorRol(idRolActual);
 
-        for (TipoNotificacion t : listaTiposCombo) {
-            vista.comboTipoNotificacion.addItem(t.getNombreTipoNotificacion());
+        if (listaTiposCombo != null) {
+            for (TipoNotificacion t : listaTiposCombo) {
+                vista.comboTipoNotificacion.addItem(t.getNombreTipoNotificacion());
+            }
         }
     }
 
@@ -62,12 +77,26 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
         // Notificaciones destinadas al usuario en sesión
         int idUsuarioActual = Sesion.getIdLogin();
         listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
-        Object[] fila = new Object[2];
 
-        for (Notificaciones notif : listaNotificaciones) {
-            fila[0] = notif.getNombreTipoNotificacion();
-            fila[1] = notif.getMensaje();
-            modeloTabla.addRow(fila);
+        if (listaNotificaciones != null) {
+            Object[] fila = new Object[2];
+            for (Notificaciones notif : listaNotificaciones) {
+                fila[0] = notif.getNombreTipoNotificacion();
+                fila[1] = notif.getMensaje();
+                modeloTabla.addRow(fila);
+            }
+        }
+    }
+
+    private void abrirModalDetalleNotificacion() {
+        int filaSeleccionada = vista.tablaNotificaciones.getSelectedRow();
+
+        if (filaSeleccionada != -1 && listaNotificaciones != null && !listaNotificaciones.isEmpty()) {
+            Notificaciones notifSeleccionada = listaNotificaciones.get(filaSeleccionada);
+            Frame marcoPadre = (Frame) SwingUtilities.getWindowAncestor(vista);
+            Ventana_DetalleNotificacion vistaDetalle = new Ventana_DetalleNotificacion(marcoPadre);
+            Controlador_DetalleNotificacion controlDetalle = new Controlador_DetalleNotificacion(vistaDetalle, notifSeleccionada, this);
+            vistaDetalle.setVisible(true);
         }
     }
 
@@ -86,7 +115,7 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
 
         if (mensaje.length() < 10) {
             JOptionPane.showMessageDialog(vista,
-                    "El mensaje debe tener minimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
+                    "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
                     "Longitud Corta", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -113,7 +142,7 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
                 return;
             }
 
-            //Evitar que el usuario se envíe una notificación a sí mismo
+            // Evitar que el usuario se envíe una notificación a sí mismo
             if (idLoginDestino == Sesion.getIdLogin()) {
                 JOptionPane.showMessageDialog(vista,
                         "No puedes enviarte una notificación a ti mismo.",
@@ -131,9 +160,10 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
             int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
             int idRemitente = Sesion.getIdLogin();
 
-            // Guardar notificación (
+            // Guardar notificación
             Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idRemitente, idLoginDestino);
             int resultado = modelo.setAgregar(nuevaNotif);
+
             if (resultado > 0) {
                 try {
                     Administrador_Auditoria auditoria = new Administrador_Auditoria();

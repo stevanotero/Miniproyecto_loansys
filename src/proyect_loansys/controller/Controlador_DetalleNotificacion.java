@@ -23,16 +23,19 @@ public class Controlador_DetalleNotificacion implements ActionListener {
     private Ventana_DetalleNotificacion vistaDetalle;
     private Notificaciones notificacion;
     private NotificacionesDAO notificacionesDao;
-    private Controlador_Notificaciones controladorPadre;
+    private Object controladorPadre;
 
-    public Controlador_DetalleNotificacion(Ventana_DetalleNotificacion vistaDetalle, Notificaciones notificacion, Controlador_Notificaciones controladorPadre) {
+    // Se cambia el tercer parámetro a Object
+    public Controlador_DetalleNotificacion(Ventana_DetalleNotificacion vistaDetalle, Notificaciones notificacion, Object controladorPadre) {
         this.vistaDetalle = vistaDetalle;
         this.notificacion = notificacion;
         this.controladorPadre = controladorPadre;
-        this.notificacionesDao = new NotificacionesDAO();        
+        this.notificacionesDao = new NotificacionesDAO();
+
+        cargarCampos();
+
         this.vistaDetalle.botonMarcarLeido.addActionListener(this);
         this.vistaDetalle.botonCerrar.addActionListener(this);
-        cargarCampos();
     }
 
     private void cargarCampos() {
@@ -45,6 +48,20 @@ public class Controlador_DetalleNotificacion implements ActionListener {
         }
     }
 
+    private void refrescarTablaPadre() {
+        if (controladorPadre != null) {
+            if (controladorPadre instanceof Controlador_Notificaciones) {
+                ((Controlador_Notificaciones) controladorPadre).listarNotificacionesTabla();
+            } else if (controladorPadre instanceof Controlador_NotificacionesTecnico) {
+                ((Controlador_NotificacionesTecnico) controladorPadre).listarNotificacionesTabla();
+            } else if (controladorPadre instanceof Controlador_NotificacionesUsuario) {
+                ((Controlador_NotificacionesUsuario) controladorPadre).listarNotificacionesTabla();
+            } else if (controladorPadre instanceof Administrador_ControladorNotificaciones) {
+                ((Administrador_ControladorNotificaciones) controladorPadre).listarNotificacionesTabla();
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vistaDetalle.botonCerrar) {
@@ -52,11 +69,9 @@ public class Controlador_DetalleNotificacion implements ActionListener {
         }
 
         if (e.getSource() == vistaDetalle.botonMarcarLeido) {
-            // Elimina la notificación de la base de datos
             boolean exito = notificacionesDao.eliminarNotificacion(notificacion.getIdNotificacion());
 
             if (exito) {
-                // Auditoría
                 try {
                     Administrador_Auditoria auditoria = new Administrador_Auditoria();
                     auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
@@ -67,13 +82,11 @@ public class Controlador_DetalleNotificacion implements ActionListener {
                 }
 
                 JOptionPane.showMessageDialog(null, "Notificación leída y eliminada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
                 vistaDetalle.dispose();
-                // Refresca la tabla principal de notificaciones para que desaparezca
-                if (controladorPadre != null) {
-                    controladorPadre.listarNotificacionesTabla();
-                }
+                refrescarTablaPadre();
             } else {
-                  JOptionPane.showMessageDialog(null, "Hubo un problema al actualizar el estado de la notificación.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Hubo un problema al eliminar la notificación.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
