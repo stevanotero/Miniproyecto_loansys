@@ -30,8 +30,10 @@ public class Ventana_DetalleNotificacion extends JDialog {
     public JTextField textoTipoNotificacion;
     public JTextField textoEstadoLectura;
     public JTextArea areaMensaje;
+
     public JButton botonMarcarLeido;
     public JButton botonCerrar;
+
     private JLabel lblTitulo;
     private JLabel lblRemitente;
     private JLabel lblRol;
@@ -69,6 +71,8 @@ public class Ventana_DetalleNotificacion extends JDialog {
         textoEstadoLectura = crearCampoRedondo();
 
         lblMensaje = new JLabel("Mensaje:");
+        
+        // Área de texto estilizada
         areaMensaje = new JTextArea();
         areaMensaje.setEditable(false);
         areaMensaje.setLineWrap(true);
@@ -76,61 +80,85 @@ public class Ventana_DetalleNotificacion extends JDialog {
         areaMensaje.setFont(new Font("Arial", Font.PLAIN, 12));
         areaMensaje.setForeground(new Color(60, 60, 60));
         areaMensaje.setBackground(new Color(245, 246, 248));
+        areaMensaje.setBorder(BorderFactory.createEmptyBorder(6, 8, 6, 8)); // Margen interno
 
-        scrollMensaje = new JScrollPane(areaMensaje);
-        scrollMensaje.setBorder(BorderFactory.createLineBorder(new Color(215, 215, 215), 1, true));
+        // JScrollPane con bordes redondeados idénticos a los JTextField
+        scrollMensaje = new JScrollPane(areaMensaje) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(245, 246, 248));
+                g2.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
+                g2.dispose();
+                super.paintComponent(g);
+            }
 
-        // Botones estilizados
+            // Botones estilizados
+            @Override
+            protected void paintBorder(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(215, 215, 215));
+                g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
+                g2.dispose();
+            }
+        };
+        scrollMensaje.setOpaque(false);
+        scrollMensaje.getViewport().setOpaque(false);
+        scrollMensaje.setBorder(BorderFactory.createEmptyBorder());
+
+        // Botones
         botonMarcarLeido = crearBotonRedondo("Marcar como Leído", new Color(46, 204, 113), Color.WHITE);
         botonCerrar = crearBotonRedondo("Cerrar", new Color(230, 235, 240), Color.BLACK);
 
         panelPrincipal.setLayout(null);
 
-        // Título de la ventana
+        // Ubicaciones
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTitulo.setBounds(95, 15, 280, 25);
         panelPrincipal.add(lblTitulo);
-
+        
         // Remitente
         lblRemitente.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblRemitente.setBounds(40, 55, 130, 25);
         textoRemitente.setBounds(180, 55, 220, 25);
         panelPrincipal.add(lblRemitente);
         panelPrincipal.add(textoRemitente);
-
-        // Rol del Remitente
+        
+         // Rol del Remitente
         lblRol.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblRol.setBounds(40, 90, 130, 25);
         textoRolRemitente.setBounds(180, 90, 220, 25);
         panelPrincipal.add(lblRol);
         panelPrincipal.add(textoRolRemitente);
-
+        
         // Tipo de Notificación
         lblTipo.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblTipo.setBounds(40, 125, 130, 25);
         textoTipoNotificacion.setBounds(180, 125, 220, 25);
         panelPrincipal.add(lblTipo);
         panelPrincipal.add(textoTipoNotificacion);
-
+        
         // Estado de Lectura
         lblEstado.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblEstado.setBounds(40, 160, 130, 25);
         textoEstadoLectura.setBounds(180, 160, 220, 25);
         panelPrincipal.add(lblEstado);
         panelPrincipal.add(textoEstadoLectura);
-
-        // Mensaje
+        
+         // Mensaje
         lblMensaje.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblMensaje.setBounds(40, 195, 130, 25);
-        scrollMensaje.setBounds(180, 195, 220, 85);
+        scrollMensaje.setBounds(180, 195, 220, 90);
         panelPrincipal.add(lblMensaje);
         panelPrincipal.add(scrollMensaje);
 
-        // Posicionamiento de Botones
-        botonMarcarLeido.setBounds(40, 310, 190, 35);
+        //// Posicionamiento de Botones
+        botonMarcarLeido.setBounds(40, 315, 190, 35);
         panelPrincipal.add(botonMarcarLeido);
 
-        botonCerrar.setBounds(250, 310, 150, 35);
+        botonCerrar.setBounds(250, 315, 150, 35);
         panelPrincipal.add(botonCerrar);
 
         getContentPane().add(panelPrincipal);

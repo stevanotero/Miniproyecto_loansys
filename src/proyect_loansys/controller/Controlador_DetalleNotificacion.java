@@ -29,10 +29,10 @@ public class Controlador_DetalleNotificacion implements ActionListener {
         this.vistaDetalle = vistaDetalle;
         this.notificacion = notificacion;
         this.controladorPadre = controladorPadre;
-        this.notificacionesDao = new NotificacionesDAO();
-        cargarCampos();
+        this.notificacionesDao = new NotificacionesDAO();        
         this.vistaDetalle.botonMarcarLeido.addActionListener(this);
         this.vistaDetalle.botonCerrar.addActionListener(this);
+        cargarCampos();
     }
 
     private void cargarCampos() {
@@ -42,12 +42,6 @@ public class Controlador_DetalleNotificacion implements ActionListener {
             vistaDetalle.textoTipoNotificacion.setText(notificacion.getNombreTipoNotificacion());
             vistaDetalle.textoEstadoLectura.setText(notificacion.getNombreEstadoLectura());
             vistaDetalle.areaMensaje.setText(notificacion.getMensaje());
-
-            // Si el estado ya es 1 (Leído) o el texto indica "Leído", deshabilitamos el botón
-            if (notificacion.getIdEstadoLectura() == 1 || "Leído".equalsIgnoreCase(notificacion.getNombreEstadoLectura())) {
-                vistaDetalle.botonMarcarLeido.setEnabled(false);
-                vistaDetalle.botonMarcarLeido.setText("Ya Leído");
-            }
         }
     }
 
@@ -58,26 +52,28 @@ public class Controlador_DetalleNotificacion implements ActionListener {
         }
 
         if (e.getSource() == vistaDetalle.botonMarcarLeido) {
-            boolean exito = notificacionesDao.marcarComoLeido(notificacion.getIdNotificacion());
+            // Elimina la notificación de la base de datos
+            boolean exito = notificacionesDao.eliminarNotificacion(notificacion.getIdNotificacion());
 
             if (exito) {
-                // Registrar acción en Auditoría
-                Administrador_Auditoria auditoria = new Administrador_Auditoria();
-                auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
-                auditoria.setAccion("Lectura de notificación ID: " + notificacion.getIdNotificacion());
-                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                // Auditoría
+                try {
+                    Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                    auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
+                    auditoria.setAccion("Lectura y eliminación de notificación ID: " + notificacion.getIdNotificacion());
+                    new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                } catch (Exception exAud) {
+                    System.err.println("Error en auditoría: " + exAud.getMessage());
+                }
 
-                JOptionPane.showMessageDialog(null, "La notificación se ha marcado como leída.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-                // Actualizar componentes visuales de la ventana modal
-                vistaDetalle.textoEstadoLectura.setText("Leído");
-                vistaDetalle.botonMarcarLeido.setEnabled(false);
-                vistaDetalle.botonMarcarLeido.setText("Ya Leído");
+                JOptionPane.showMessageDialog(null, "Notificación leída y eliminada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                vistaDetalle.dispose();
+                // Refresca la tabla principal de notificaciones para que desaparezca
                 if (controladorPadre != null) {
                     controladorPadre.listarNotificacionesTabla();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Hubo un problema al actualizar el estado de la notificación.", "Error", JOptionPane.ERROR_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Hubo un problema al actualizar el estado de la notificación.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
