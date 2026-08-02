@@ -80,7 +80,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             ps.setString(3, sr.getApellido());
             ps.setInt(4, sr.getDocumento());
             ps.setInt(5, sr.getId_elemento());
-            ps.setTimestamp(6, sr.getFecha_envio()); 
+            ps.setTimestamp(6, sr.getFecha_envio());
             r = ps.executeUpdate();
             return r;
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
                 u.setNombre(rs.getString("nombre"));
                 u.setApellido(rs.getString("apellido"));
                 u.setDocumento(rs.getInt("documento"));
-                
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString(), "Error de consulta", JOptionPane.ERROR_MESSAGE);
@@ -144,7 +144,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             return rs.next();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString(), "Error de consulta", JOptionPane.ERROR_MESSAGE);
-            return true; 
+            return true;
         } finally {
             try {
                 if (ps != null) {
@@ -197,11 +197,11 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         } catch (Exception a) {
             a.printStackTrace();
         }
-        return e; 
+        return e;
     }
 
     public Usuario_Model validarLogin2(int documento, String contraseña) {
-        String sql = "SELECT u.id_usuario, u.nombre, u.id_rol, r.nombre_rol "
+        String sql = "SELECT l.id_login, u.id_usuario, u.nombre, u.id_rol, r.nombre_rol "
                 + "FROM login_de_usuarios l "
                 + "INNER JOIN usuarios_sena u ON l.id_usuario = u.id_usuario "
                 + "INNER JOIN roles r ON u.id_rol = r.id_rol "
@@ -215,13 +215,14 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
 
             if (rs.next()) {
                 Usuario_Model u = new Usuario_Model();
-                u.setId_usuario(rs.getInt("id_usuario"));
+                u.setId_login(rs.getInt("id_login")); 
+                u.setId_usuario(rs.getInt("id_usuario")); 
                 u.setNombre(rs.getString("nombre"));
                 u.setId_rol(rs.getInt("id_rol"));
                 u.setNombre_rol(rs.getString("nombre_rol"));
-                return u; // login correcto, con todos los datos
+                return u;
             }
-            return null; 
+            return null;
 
         } catch (Exception e) {
             System.out.println("Error en validarLogin: " + e.getMessage());
@@ -248,7 +249,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
                 + "  h.id_historial_prestamo, "
                 + "  h.id_usuario, "
                 + "  h.id_elemento, "
-                + "  e.codigo_elemento, " 
+                + "  e.codigo_elemento, "
                 + "  e.nombre_elemento, "
                 + "  h.fecha_prestamo, "
                 + "  h.fecha_limite, "
@@ -287,7 +288,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al listar historial: " + e.toString(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();  
+            e.printStackTrace();
         }
         return lista;
     }
@@ -324,7 +325,7 @@ public class Usuario_Dao implements Usuario_Crud_Buscar<Usuario_Elemento>,
             } catch (Exception e) {
             }
         }
-        return estado; 
+        return estado;
     }
 
     public List<Usuario_Elemento> listarPorEstado(String estado) {

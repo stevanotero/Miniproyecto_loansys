@@ -74,24 +74,20 @@ public class Controlador_Notificaciones implements ActionListener {
     }
 
     public void listarNotificacionesTabla() {
-    modeloTabla = (DefaultTableModel) vista.tablaNotificaciones.getModel();
-    modeloTabla.setRowCount(0);
+        modeloTabla = (DefaultTableModel) vista.tablaNotificaciones.getModel();
+        modeloTabla.setRowCount(0);
 
-    // 1. OBTENER ID
-    int idUsuarioActual = Sesion.getIdLogin();
-    
-    // ➔ LINEA DE PRUEBA: Mira la consola de NetBeans/Eclipse al iniciar sesión con Harold
-    System.out.println(">>> DEBUG NOTIFICACIONES: El id_login cargado es: " + idUsuarioActual);
+        // Notificaciones destinadas al usuario en sesión
+        int idUsuarioActual = Sesion.getIdLogin();
+        listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
+        Object[] fila = new Object[2];
 
-    listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
-    Object[] fila = new Object[2];
-
-    for (Notificaciones notif : listaNotificaciones) {
-        fila[0] = notif.getNombreTipoNotificacion();
-        fila[1] = notif.getMensaje();
-        modeloTabla.addRow(fila);
+        for (Notificaciones notif : listaNotificaciones) {
+            fila[0] = notif.getNombreTipoNotificacion();
+            fila[1] = notif.getMensaje();
+            modeloTabla.addRow(fila);
+        }
     }
-}
 
     private void registrarNuevaNotificacion() {
         String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();

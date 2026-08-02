@@ -71,7 +71,7 @@ public class Controlador_Login implements ActionListener {
                 JOptionPane.showMessageDialog(vista, "Faltan datos por llenar", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
             }
         }
-        
+
         //Apartado de registro
         if (e.getSource() == vista.botonRegistrar) {
             vista.dispose();
@@ -81,7 +81,7 @@ public class Controlador_Login implements ActionListener {
             Controlador_Registro controladorReg = new Controlador_Registro(vistaRegistro);
             vistaRegistro.setVisible(true);
         }
-        
+
         //Apartado para restablecer la contraseña
         if (e.getSource() == vista.botonOlvidar) {
             vista.dispose();
@@ -93,7 +93,7 @@ public class Controlador_Login implements ActionListener {
         }
 
     }
-    
+
     //Metodo para validar el login
     public boolean procesarLogin(String documentoTexto, String contraseña) {
         try {
@@ -104,7 +104,7 @@ public class Controlador_Login implements ActionListener {
                 return false;
             }
 
-            // Trae el objeto completo: nombre, rol, id_usuario
+            // Trae el objeto completo: nombre, rol, id_usuario, id_login
             Usuario_Model usuarioLogueado = pdaos.validarLogin2(documento, contraseña);
 
             if (usuarioLogueado != null) {
@@ -113,9 +113,9 @@ public class Controlador_Login implements ActionListener {
                 int idRol = usuarioLogueado.getId_rol();
                 int idUsuario = usuarioLogueado.getId_usuario();
 
-                Administrador_Sesion.setIdUsuario(idUsuario);
+                Sesion.setIdLogin(usuarioLogueado.getId_login()); 
                 Sesion.setIdRol(idRol);
-                Sesion.setIdLogin(idUsuario); 
+                Administrador_Sesion.setIdUsuario(idUsuario);
 
                 Administrador_Auditoria auditoria = new Administrador_Auditoria();
                 auditoria.setIdUsuario(idUsuario);
