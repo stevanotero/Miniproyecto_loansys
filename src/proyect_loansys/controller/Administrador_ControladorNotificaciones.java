@@ -36,7 +36,6 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
     private List<Notificaciones> listaNotificaciones;
     private List<TipoNotificacion> listaTiposCombo;
 
-
     public Administrador_ControladorNotificaciones(Vista_NotificacionesAdmin vista) {
         this.vista = vista;
         this.modelo = new NotificacionesDAO();
@@ -64,8 +63,9 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         modeloTabla = (DefaultTableModel) vista.tablaNotificaciones.getModel();
         modeloTabla.setRowCount(0);
 
-        int idUsuarioActual = Sesion.getIdLogin();
-        listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
+        // Claridad: id_login del administrador en sesión
+        int idLoginActual = Sesion.getIdLogin();
+        listaNotificaciones = modelo.listarPorUsuario(idLoginActual);
 
         if (listaNotificaciones != null) {
             Object[] fila = new Object[2];
@@ -77,11 +77,12 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         }
     }
 
-    private  void registrarNuevaNotificacion() {
+    private void registrarNuevaNotificacion() {
         String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();
         String mensaje = vista.txtAreaMensaje.getText().trim();
         String placeholder = "Escriba el mensaje que desea enviar...";
 
+        // Validaciones de campos
         if (correoDestinatario.isEmpty() || mensaje.isEmpty() || mensaje.equals(placeholder)) {
             JOptionPane.showMessageDialog(vista,
                     "Todos los campos son obligatorios (Correo del destinatario y Mensaje).",
@@ -104,6 +105,7 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         }
 
         try {
+            // Validar existencia del correo
             if (!loginDao.existeCorreo(correoDestinatario)) {
                 JOptionPane.showMessageDialog(vista,
                         "El correo electrónico ingresado no se encuentra registrado en el sistema.",
@@ -117,6 +119,14 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
                 return;
             }
 
+            // Evitar enviarse notificaciones a sí mismo
+            if (idLoginDestino == Sesion.getIdLogin()) {
+                JOptionPane.showMessageDialog(vista,
+                        "No puedes enviarte una notificación a ti mismo.",
+                        "Destinatario Inválido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             int indexSeleccionado = vista.comboTipoNotificacion.getSelectedIndex();
 
             if (indexSeleccionado < 0 || listaTiposCombo == null || listaTiposCombo.isEmpty()) {
@@ -125,18 +135,24 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
             }
 
             int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
-
-            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idLoginDestino);
+            int idRemitente = Sesion.getIdLogin();
+            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idRemitente, idLoginDestino);
+            
             int resultado = modelo.setAgregar(nuevaNotif);
 
             if (resultado > 0) {
+                try {
                     Administrador_Auditoria auditoria = new Administrador_Auditoria();
                     auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
-                    auditoria.setAccion("Envio de notificacion");
+                    auditoria.setAccion("Envío de notificación a: " + correoDestinatario);
                     new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                } catch (Exception eAuditoria) {
+                    System.err.println("Error al registrar auditoría: " + eAuditoria.getMessage());
+                }
+
                 JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-                    vista.txtDocumentoDestinatario.setText("");
+
+                vista.txtDocumentoDestinatario.setText("");
                 vista.txtAreaMensaje.setText(placeholder);
                 vista.txtAreaMensaje.setForeground(new Color(110, 110, 110));
 
@@ -155,9 +171,5 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
         if (e.getSource() == vista.btnEnviarNotificacion) {
             registrarNuevaNotificacion();
         }
-
-       
     }
-
-  
 }

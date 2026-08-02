@@ -4,6 +4,7 @@
  */
 package proyect_loansys.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -49,8 +50,10 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
         int idRolActual = Sesion.getIdRol();
         listaTiposCombo = modelo.listarTiposPorRol(idRolActual);
 
-        for (TipoNotificacion t : listaTiposCombo) {
-            vista.comboTipoNotificacion.addItem(t.getNombreTipoNotificacion());
+        if (listaTiposCombo != null) {
+            for (TipoNotificacion t : listaTiposCombo) {
+                vista.comboTipoNotificacion.addItem(t.getNombreTipoNotificacion());
+            }
         }
     }
 
@@ -61,12 +64,14 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
         // Notificaciones destinadas al usuario en sesión
         int idUsuarioActual = Sesion.getIdLogin();
         listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
-        Object[] fila = new Object[2];
 
-        for (Notificaciones notif : listaNotificaciones) {
-            fila[0] = notif.getNombreTipoNotificacion();
-            fila[1] = notif.getMensaje();
-            modeloTabla.addRow(fila);
+        if (listaNotificaciones != null) {
+            Object[] fila = new Object[2];
+            for (Notificaciones notif : listaNotificaciones) {
+                fila[0] = notif.getNombreTipoNotificacion();
+                fila[1] = notif.getMensaje();
+                modeloTabla.addRow(fila);
+            }
         }
     }
 
@@ -112,6 +117,14 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
                 return;
             }
 
+            // Evitar enviarse notificaciones a sí mismo
+            if (idLoginDestino == Sesion.getIdLogin()) {
+                JOptionPane.showMessageDialog(vista,
+                        "No puedes enviarte una notificación a ti mismo.",
+                        "Destinatario Inválido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             // Obtener el id_tipo_notificacion real según la posición seleccionada en el ComboBox
             int indexSeleccionado = vista.comboTipoNotificacion.getSelectedIndex();
 
@@ -121,21 +134,26 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
             }
 
             int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
+            int idRemitente = Sesion.getIdLogin();
+            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idRemitente, idLoginDestino);
 
-            // Guardar notificación
-            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idLoginDestino);
             int resultado = modelo.setAgregar(nuevaNotif);
 
             if (resultado > 0) {
-                            Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                try {
+                    Administrador_Auditoria auditoria = new Administrador_Auditoria();
                     auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
-                    auditoria.setAccion("Envio de notificacion");
+                    auditoria.setAccion("Envío de notificación a: " + correoDestinatario);
                     new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                } catch (Exception eAuditoria) {
+                    System.err.println("Error al registrar auditoría: " + eAuditoria.getMessage());
+                }
+
                 JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-         
+
                 vista.txtDocumentoDestinatario.setText("");
                 vista.txtAreaMensaje.setText(placeholder);
-                vista.txtAreaMensaje.setForeground(new java.awt.Color(110, 110, 110));
+                vista.txtAreaMensaje.setForeground(new Color(110, 110, 110));
 
                 listarNotificacionesTabla();
             } else {

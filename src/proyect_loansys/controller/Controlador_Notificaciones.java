@@ -77,9 +77,9 @@ public class Controlador_Notificaciones implements ActionListener {
         modeloTabla = (DefaultTableModel) vista.tablaNotificaciones.getModel();
         modeloTabla.setRowCount(0);
 
-        // Notificaciones destinadas al usuario en sesión
-        int idUsuarioActual = Sesion.getIdLogin();
-        listaNotificaciones = modelo.listarPorUsuario(idUsuarioActual);
+        // Notificaciones destinadas al id_login en sesión
+        int idLoginActual = Sesion.getIdLogin(); 
+        listaNotificaciones = modelo.listarPorUsuario(idLoginActual);
         Object[] fila = new Object[2];
 
         for (Notificaciones notif : listaNotificaciones) {
@@ -90,152 +90,170 @@ public class Controlador_Notificaciones implements ActionListener {
     }
 
     private void registrarNuevaNotificacion() {
-        String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();
-        String mensaje = vista.txtAreaMensaje.getText().trim();
-        String placeholder = "Escriba el mensaje que desea enviar...";
+    String correoDestinatario = vista.txtDocumentoDestinatario.getText().trim();
+    String mensaje = vista.txtAreaMensaje.getText().trim();
+    String placeholder = "Escriba el mensaje que desea enviar...";
 
-        // Validaciones de formulario
-        if (correoDestinatario.isEmpty() || mensaje.isEmpty() || mensaje.equals(placeholder)) {
-            JOptionPane.showMessageDialog(vista,
-                    "Todos los campos son obligatorios (Correo del destinatario y Mensaje).",
-                    "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (mensaje.length() < 10) {
-            JOptionPane.showMessageDialog(vista,
-                    "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
-                    "Mínimo De Caracteres", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (mensaje.length() > 60) {
-            JOptionPane.showMessageDialog(vista,
-                    "El mensaje excede el límite permitido de 60 caracteres. \n(Llevas: " + mensaje.length() + ")",
-                    "Límite Excedido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Validar correo existente
-            if (!loginDao.existeCorreo(correoDestinatario)) {
-                JOptionPane.showMessageDialog(vista,
-                        "El correo electrónico ingresado no se encuentra registrado en el sistema.",
-                        "Correo No Existe", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            int idLoginDestino = loginDao.obtenerIdLoginPorCorreo(correoDestinatario);
-            if (idLoginDestino == -1) {
-                JOptionPane.showMessageDialog(vista, "Error al procesar la cuenta de destino.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Obtener el id_tipo_notificacion real según la posición seleccionada en el ComboBox
-            int indexSeleccionado = vista.comboTipoNotificacion.getSelectedIndex();
-
-            if (indexSeleccionado < 0 || listaTiposCombo == null || listaTiposCombo.isEmpty()) {
-                JOptionPane.showMessageDialog(vista, "Seleccione un tipo de notificación válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
-
-            // Guardar notificación
-            Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idLoginDestino);
-            int resultado = modelo.setAgregar(nuevaNotif);
-
-            if (resultado > 0) {
-                         Administrador_Auditoria auditoria = new Administrador_Auditoria();
-                    auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
-                    auditoria.setAccion("Envio de notificacion");
-                    new Administrador_AuditoriaDao().registrarAccion(auditoria);
-                JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-          
-                vista.txtDocumentoDestinatario.setText("");
-                vista.txtAreaMensaje.setText(placeholder);
-                vista.txtAreaMensaje.setForeground(new java.awt.Color(110, 110, 110));
-
-                listarNotificacionesTabla();
-            } else {
-                JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vista, "Ocurrió un error al procesar la solicitud: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    // Validaciones de formulario
+    if (correoDestinatario.isEmpty() || mensaje.isEmpty() || mensaje.equals(placeholder)) {
+        JOptionPane.showMessageDialog(vista,
+                "Todos los campos son obligatorios (Correo del destinatario y Mensaje).",
+                "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
+        return;
     }
 
+    //Validación minimo de caracteres
+    if (mensaje.length() < 10) {
+        JOptionPane.showMessageDialog(vista,
+                "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
+                "Mínimo De Caracteres", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    //Validación de maximo de caracteres
+    if (mensaje.length() > 60) {
+        JOptionPane.showMessageDialog(vista,
+                "El mensaje excede el límite permitido de 60 caracteres. \n(Llevas: " + mensaje.length() + ")",
+                "Límite Excedido", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        // Validar correo existente
+        if (!loginDao.existeCorreo(correoDestinatario)) {
+            JOptionPane.showMessageDialog(vista,
+                    "El correo electrónico ingresado no se encuentra registrado en el sistema.",
+                    "Correo No Existe", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int idLoginDestino = loginDao.obtenerIdLoginPorCorreo(correoDestinatario);
+        if (idLoginDestino == -1) {
+            JOptionPane.showMessageDialog(vista, "Error al procesar la cuenta de destino.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Evitar auto-notificaciones
+        if (idLoginDestino == Sesion.getIdLogin()) {
+            JOptionPane.showMessageDialog(vista,
+                    "No puedes enviarte una notificación a ti mismo.",
+                    "Destinatario Inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtener el id_tipo_notificacion real según la posición seleccionada en el ComboBox
+        int indexSeleccionado = vista.comboTipoNotificacion.getSelectedIndex();
+
+        if (indexSeleccionado < 0 || listaTiposCombo == null || listaTiposCombo.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Seleccione un tipo de notificación válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idTipoNotificacion = listaTiposCombo.get(indexSeleccionado).getIdTipoNotificacion();
+        int idRemitente = Sesion.getIdLogin();
+        Notificaciones nuevaNotif = new Notificaciones(idTipoNotificacion, mensaje, idRemitente, idLoginDestino);
+        int resultado = modelo.setAgregar(nuevaNotif);
+
+        if (resultado > 0) {
+            try {
+                Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
+                auditoria.setAccion("Envío de notificación a: " + correoDestinatario);
+                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+            } catch (Exception eAuditoria) {
+                System.err.println("Error al registrar auditoría: " + eAuditoria.getMessage());
+            }
+
+            JOptionPane.showMessageDialog(vista, "Notificación enviada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            vista.txtDocumentoDestinatario.setText("");
+            vista.txtAreaMensaje.setText(placeholder);
+            vista.txtAreaMensaje.setForeground(new java.awt.Color(110, 110, 110));
+
+            listarNotificacionesTabla();
+        } else {
+            JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(vista, "Ocurrió un error al procesar la solicitud: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        //Clic al boton de enviar
+
+        // Clic al boton de enviar
         if (e.getSource() == vista.btnEnviarNotificacion) {
             registrarNuevaNotificacion();
         }
-        
-        //Modulo del inicio del sistema
+
+        // Modulo del inicio del sistema
         if (e.getSource() == vista.botonInicio) {
             vista.dispose();
             Vista_Inicio vistaIni = new Vista_Inicio();
             Controlador_inicio controlador = new Controlador_inicio(vistaIni);
             vistaIni.setVisible(true);
         }
-        
-        // Cerrar sesión en el sistema y ir al login
+
+        // Cerrar sesión en el sistema e ir al login
         if (e.getSource() == vista.botonCerrarSesion) {
+           //Limpieza de datos en sesión
+            Sesion.setIdLogin(0);
+            Sesion.setIdRol(0);
+            Administrador_Sesion.setIdUsuario(0);
+
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
             vistaLogin.setVisible(true);
         }
-        
-        //Modulo del inventario
+
+        // Modulo del inventario
         if (e.getSource() == vista.botonInventario) {
             vista.dispose();
             Vista_Inventario vistaInventario = new Vista_Inventario();
             Controlador_inventario controladorIn = new Controlador_inventario(vistaInventario);
             vistaInventario.setVisible(true);
         }
-        
-        //Modulo de gestión de solicitudes
+
+        // Modulo de gestión de solicitudes
         if (e.getSource() == vista.botonSolicitudes) {
             vista.dispose();
             Vista_Solicitudes vistaSolicitud = new Vista_Solicitudes();
             Controlador_Solicitudes controladorSol = new Controlador_Solicitudes(vistaSolicitud);
             vistaSolicitud.setVisible(true);
         }
-        
-        //Modulo de prestamos
+
+        // Modulo de prestamos
         if (e.getSource() == vista.botonPrestamos) {
             vista.dispose();
             Vista_Prestamo vistap = new Vista_Prestamo();
             Controlador_Prestamos controlPrestamo = new Controlador_Prestamos(vistap);
             vistap.setVisible(true);
         }
-        
-        //Modulo de devoluciones
+
+        // Modulo de devoluciones
         if (e.getSource() == vista.botonDevoluciones) {
             vista.dispose();
             Vista_Devoluciones vistaDev = new Vista_Devoluciones();
             Controlador_Devoluciones controlDev = new Controlador_Devoluciones(vistaDev);
             vistaDev.setVisible(true);
         }
-        
-        //Modulo de gestion de usuarios
+
+        // Modulo de gestión de usuarios
         if (e.getSource() == vista.botonUsuarios) {
             vista.dispose();
             Vista_GestionUsuarios vistaUsers = new Vista_GestionUsuarios();
             Controlador_GestionUsuarios controlUsers = new Controlador_GestionUsuarios(vistaUsers);
             vistaUsers.setVisible(true);
         }
-        
-        //Modulo de reportes
-        if (e.getSource()== vista.botonReportes){
-        vista.dispose();
-        Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();
-        Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor(vistaRep);
-        vistaRep.setVisible(true);
+
+        // Modulo de reportes
+        if (e.getSource() == vista.botonReportes) {
+            vista.dispose();
+            Vista_Reportes_Asesor vistaRep = new Vista_Reportes_Asesor();
+            Controlador_Reportes_Asesor controlRep = new Controlador_Reportes_Asesor(vistaRep);
+            vistaRep.setVisible(true);
         }
     }
 }

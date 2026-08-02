@@ -38,8 +38,6 @@ public class Controlador_GestionUsuarios implements ActionListener {
         this.vista = vista;
         this.dao = new UsuarioLoginDao();
         this.listaUsuarios = new ArrayList<>();
-
-        // Escuchadores de la barra lateral (Estructura estándar de navegación)
         this.vista.botonInicio.addActionListener(this);
         this.vista.botonInventario.addActionListener(this);
         this.vista.botonPrestamos.addActionListener(this);

@@ -151,7 +151,6 @@ public class Controlador_NotificacionesUsuario implements ActionListener {
                 vista.txtAreaMensaje.setText(placeholder);
                 vista.txtAreaMensaje.setForeground(new Color(110, 110, 110));
 
-                // Refrescar tabla local (seguirá mostrando solo las notificaciones DIRIGIDAS a este usuario)
                 listarNotificacionesTabla();
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
