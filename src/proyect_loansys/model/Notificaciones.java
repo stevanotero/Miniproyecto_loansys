@@ -11,24 +11,32 @@ public class Notificaciones {
     private int idNotificacion;
     private int idTipoNotificacion;
     private String mensaje;
-    private int idRemitente;
-    private int idLogin;     
-    private String nombreTipoNotificacion; 
+    private int idRemitente;         
+    private String nombreRemitente;  
+    private String rolRemitente;    
+    private int idLogin;             
+    private String nombreTipoNotificacion;
+    private int idEstadoLectura = 2; 
+    private String nombreEstadoLectura; 
 
     public Notificaciones() {
     }
-    
+
+  
     public Notificaciones(int idTipoNotificacion, String mensaje, int idRemitente, int idLogin) {
         this.idTipoNotificacion = idTipoNotificacion;
         this.mensaje = mensaje;
         this.idRemitente = idRemitente;
         this.idLogin = idLogin;
+        this.idEstadoLectura = 2; 
     }
 
+  
     public Notificaciones(int idTipoNotificacion, String mensaje, int idLogin) {
         this.idTipoNotificacion = idTipoNotificacion;
         this.mensaje = mensaje;
         this.idLogin = idLogin;
+        this.idEstadoLectura = 2;
     }
 
     public int getIdNotificacion() {
@@ -63,6 +71,22 @@ public class Notificaciones {
         this.idRemitente = idRemitente;
     }
 
+    public String getNombreRemitente() {
+        return nombreRemitente;
+    }
+
+    public void setNombreRemitente(String nombreRemitente) {
+        this.nombreRemitente = nombreRemitente;
+    }
+
+    public String getRolRemitente() {
+        return rolRemitente;
+    }
+
+    public void setRolRemitente(String rolRemitente) {
+        this.rolRemitente = rolRemitente;
+    }
+
     public int getIdLogin() {
         return idLogin;
     }
@@ -77,5 +101,21 @@ public class Notificaciones {
 
     public void setNombreTipoNotificacion(String nombreTipoNotificacion) {
         this.nombreTipoNotificacion = nombreTipoNotificacion;
+    }
+
+    public int getIdEstadoLectura() {
+        return idEstadoLectura;
+    }
+
+    public void setIdEstadoLectura(int idEstadoLectura) {
+        this.idEstadoLectura = idEstadoLectura;
+    }
+
+    public String getNombreEstadoLectura() {
+        return nombreEstadoLectura;
+    }
+
+    public void setNombreEstadoLectura(String nombreEstadoLectura) {
+        this.nombreEstadoLectura = nombreEstadoLectura;
     }
 }

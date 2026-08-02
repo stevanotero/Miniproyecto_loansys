@@ -38,7 +38,7 @@ public class NotificacionesDAO {
             case 4: // Asesor
                 sql = "SELECT id_tipo_notificacion, nombre_tipo_notificacion FROM tipo_notificacion WHERE id_tipo_notificacion IN (1, 2, 3, 4, 5, 6)";
                 break;
-                
+
             case 5: // Administrador
                 sql = "SELECT id_tipo_notificacion, nombre_tipo_notificacion FROM tipo_notificacion WHERE id_tipo_notificacion IN (11, 12)";
                 break;
@@ -70,27 +70,39 @@ public class NotificacionesDAO {
 
     public List<Notificaciones> listarPorUsuario(int idLogin) {
         List<Notificaciones> listarp = new ArrayList<>();
-        String sql = "SELECT n.id_notificacion, n.id_tipo_notificacion, "
-                + "t.nombre_tipo_notificacion, n.mensaje, n.id_remitente, n.id_login "
-                + "FROM notificaciones n "
-                + "INNER JOIN tipo_notificacion t ON n.id_tipo_notificacion = t.id_tipo_notificacion "
-                + "WHERE n.id_login = ? ORDER BY n.id_notificacion DESC";
+        
+        String sql = "SELECT n.id_notificacion, n.id_tipo_notificacion, t.nombre_tipo_notificacion, "
+                   + "n.mensaje, n.id_remitente, "
+                   + "CONCAT(p.primer_nombre, ' ', p.primer_apellido) AS remitente_nombre, "
+                   + "r.nombre_rol AS remitente_rol, "
+                   + "n.id_login, n.id_estado_lectura, el.nombre_estado AS estado_lectura "
+                   + "FROM notificaciones n "
+                   + "INNER JOIN tipo_notificacion t ON n.id_tipo_notificacion = t.id_tipo_notificacion "
+                   + "INNER JOIN login_de_usuarios l ON n.id_remitente = l.id_login "
+                   + "INNER JOIN persona p ON l.id_persona = p.id_persona "
+                   + "INNER JOIN rol r ON l.id_rol = r.id_rol "
+                   + "INNER JOIN estado_lectura el ON n.id_estado_lectura = el.id_estado_lectura "
+                   + "WHERE n.id_login = ? "
+                   + "ORDER BY n.id_notificacion DESC";
 
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idLogin); // Solo requiere 1 parámetro
+            ps.setInt(1, idLogin);
             rs = ps.executeQuery();
 
             while (rs.next()) {
                 Notificaciones n = new Notificaciones();
-                n.setIdNotificacion(rs.getInt(1));
-                n.setIdTipoNotificacion(rs.getInt(2));
-                n.setNombreTipoNotificacion(rs.getString(3));
-                n.setMensaje(rs.getString(4));
-                n.setIdRemitente(rs.getInt(5));
-                n.setIdLogin(rs.getInt(6)); // id_login (destinatario)
-
+                n.setIdNotificacion(rs.getInt("id_notificacion"));
+                n.setIdTipoNotificacion(rs.getInt("id_tipo_notificacion"));
+                n.setNombreTipoNotificacion(rs.getString("nombre_tipo_notificacion"));
+                n.setMensaje(rs.getString("mensaje"));
+                n.setIdRemitente(rs.getInt("id_remitente"));
+                n.setNombreRemitente(rs.getString("remitente_nombre"));
+                n.setRolRemitente(rs.getString("remitente_rol"));
+                n.setIdLogin(rs.getInt("id_login"));
+                n.setIdEstadoLectura(rs.getInt("id_estado_lectura"));
+                n.setNombreEstadoLectura(rs.getString("estado_lectura"));
                 listarp.add(n);
             }
         } catch (Exception e) {
@@ -104,7 +116,7 @@ public class NotificacionesDAO {
 
     public int setAgregar(Notificaciones n) {
         int r;
-        String sql = "INSERT INTO notificaciones (id_tipo_notificacion, mensaje, id_remitente, id_login) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO notificaciones (id_tipo_notificacion, mensaje, id_remitente, id_login, id_estado_lectura) VALUES(?,?,?,?,?)";
         try {
             con = conectar.getConection();
             ps = con.prepareStatement(sql);
@@ -113,6 +125,7 @@ public class NotificacionesDAO {
             ps.setString(2, n.getMensaje());
             ps.setInt(3, n.getIdRemitente());
             ps.setInt(4, n.getIdLogin());
+            ps.setInt(5, n.getIdEstadoLectura()); 
 
             r = ps.executeUpdate();
             return r;
@@ -120,6 +133,23 @@ public class NotificacionesDAO {
             JOptionPane.showMessageDialog(null, "Error de Inserción: " + e.getMessage(),
                     "Error SQL", JOptionPane.ERROR_MESSAGE);
             return 0;
+        } finally {
+            cerrarConexiones();
+        }
+    }
+
+    public boolean marcarComoLeido(int idNotificacion) {
+        String sql = "UPDATE notificaciones SET id_estado_lectura = 1 WHERE id_notificacion = ?";
+        try {
+            con = conectar.getConection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idNotificacion);
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar estado a leído: " + e.getMessage(),
+                    "Error SQL", JOptionPane.ERROR_MESSAGE);
+            return false;
         } finally {
             cerrarConexiones();
         }
