@@ -4,6 +4,7 @@ import proyect_loansys.view.Inicio_Tecnico;
 import proyect_loansys.view.Historial_Tecnico;
 import proyect_loansys.view.Mantenimiento;
 import proyect_loansys.view.Reportes_Tecnico;
+import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_NotificacionesTecnico;
 
 
@@ -13,6 +14,12 @@ public class Inicio_Tecnico_Controller {
 
     public Inicio_Tecnico_Controller(Inicio_Tecnico vista) {
         this.vista = vista;
+        
+        vista.inicio.addActionListener(e -> {
+            Inicio_Tecnico ini = new Inicio_Tecnico();
+            new Inicio_Tecnico_Controller(ini);
+            vista.dispose();
+        });
 
         vista.historial.addActionListener(e -> {
             Historial_Tecnico vistaHistorial = new Historial_Tecnico();
@@ -24,6 +31,11 @@ public class Inicio_Tecnico_Controller {
             Reportes_Tecnico vistaReportes = new Reportes_Tecnico();
             new Reportes_Tecnico_Controller(vistaReportes);
             vista.dispose();
+        });
+        
+        vista.cerrar_sesion.addActionListener(e->{
+            Vista_Login vistalog = new Vista_Login();
+            new Controlador_Login(vistalog);
         });
 
         vista.Mantenimiento.addActionListener(e -> {

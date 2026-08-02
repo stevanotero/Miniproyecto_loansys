@@ -8,7 +8,10 @@ import proyect_loansys.model.ReporteTecnicoDao;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import proyect_loansys.view.Inicio_Tecnico;
 import proyect_loansys.view.Mantenimiento;
+import proyect_loansys.view.Vista_Login;
+import proyect_loansys.view.Vista_NotificacionesTecnico;
 public class GenerarReporte_Tecnico_Controller {
 
     private GenerarReporte_Tecnico vista;
@@ -36,6 +39,24 @@ public class GenerarReporte_Tecnico_Controller {
             new Reportes_Tecnico_Controller(vistaReportes);
             vista.dispose();
         });
+        
+           vista.inicio.addActionListener(e -> {
+            Inicio_Tecnico ini = new Inicio_Tecnico();
+            new Inicio_Tecnico_Controller(ini);
+            vista.dispose();
+        });
+           
+            vista.Notificaciones.addActionListener(e -> {
+            Vista_NotificacionesTecnico vistaNo = new Vista_NotificacionesTecnico();
+            new Controlador_NotificacionesTecnico(vistaNo);
+            vista.setVisible(false);
+            vistaNo.setVisible(true);
+        });
+            vista.cerrar_sesion.addActionListener(e->{
+            Vista_Login vistalog = new Vista_Login();
+            new Controlador_Login(vistalog);
+        });
+
 
         vista.btnCancelar.addActionListener(e -> {
             Reportes_Tecnico vistaReportes = new Reportes_Tecnico();

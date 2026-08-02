@@ -8,8 +8,11 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import proyect_loansys.model.HistorialMantenimientoDao;
 import proyect_loansys.view.Historial_Tecnico;
+import proyect_loansys.view.Inicio_Tecnico;
 import proyect_loansys.view.Mantenimiento;
 import proyect_loansys.view.Reportes_Tecnico;
+import proyect_loansys.view.Vista_Login;
+import proyect_loansys.view.Vista_NotificacionesTecnico;
         
         
 public class Historial_Tecnico_Controller {
@@ -32,6 +35,25 @@ public class Historial_Tecnico_Controller {
             new ControllerMantenimiento(vistaMantenimiento);
             vista.dispose();
         });
+        
+           vista.inicio.addActionListener(e -> {
+            Inicio_Tecnico ini = new Inicio_Tecnico();
+            new Inicio_Tecnico_Controller(ini);
+            vista.dispose();
+        });
+           
+            vista.Notificaciones.addActionListener(e -> {
+            Vista_NotificacionesTecnico vistaNo = new Vista_NotificacionesTecnico();
+            new Controlador_NotificacionesTecnico(vistaNo);
+            vista.setVisible(false);
+            vistaNo.setVisible(true);
+        });
+            
+            vista.cerrar_sesion.addActionListener(e->{
+            Vista_Login vistalog = new Vista_Login();
+            new Controlador_Login(vistalog);
+        });
+
 
         
         

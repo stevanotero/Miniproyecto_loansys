@@ -25,7 +25,7 @@ public abstract class Plantilla extends JFrame {
     private Container contenedor;
     private JPanel panel1, panel2, panel3, panel4, panel5, panelTextos;
     private JLabel logo, lblTitulo, lblSubtitulo;
-    public JButton historial, Mantenimiento, Reportes, Notificaciones, cerrar_sesion;
+    public JButton historial, Mantenimiento, Reportes, Notificaciones, cerrar_sesion, inicio;
     public DefaultTableModel modelo;
     public JTable tabla;
 
@@ -76,12 +76,15 @@ public abstract class Plantilla extends JFrame {
         panel3.setBackground(new Color(220, 220, 225));
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
         panel3.setBorder(new EmptyBorder(10, 10, 10, 10));
-
+        
+        inicio = crearBoton("🏠 Inicio");
         historial = crearBoton("🏠  Historial Técnico");
         Mantenimiento = crearBoton("🔧  Mantenimiento");
         Reportes = crearBoton("📄  Reportes");
         Notificaciones = crearBoton("🔔  Notificaciones");
-
+        
+        panel3.add(inicio);
+        panel3.add(Box.createVerticalStrut(8));
         panel3.add(historial);
         panel3.add(Box.createVerticalStrut(8));
         panel3.add(Mantenimiento);
@@ -95,7 +98,7 @@ public abstract class Plantilla extends JFrame {
         panel4.setBackground(new Color(220, 220, 225));
         panel4.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 
-        cerrar_sesion = new JButton("  »  Cerrar sesión");
+        cerrar_sesion = new JButton(" Cerrar sesión ");
         cerrar_sesion.setPreferredSize(new Dimension(150, 35));
         cerrar_sesion.setBackground(new Color(220, 53, 69));
         cerrar_sesion.setForeground(Color.WHITE);
@@ -105,9 +108,7 @@ public abstract class Plantilla extends JFrame {
 
 
         panel4.add(cerrar_sesion);
-        cerrar_sesion.addActionListener(e -> {
-            System.exit(0);
-        });
+       
 
         panel2.add(panel3, BorderLayout.NORTH);
         panel2.add(panel4, BorderLayout.SOUTH);
