@@ -31,13 +31,14 @@ public class Controlador_DetalleNotificacion implements ActionListener {
         this.notificacion = notificacion;
         this.controladorPadre = controladorPadre;
         this.notificacionesDao = new NotificacionesDAO();
-
         cargarCampos();
-
         this.vistaDetalle.botonMarcarLeido.addActionListener(this);
         this.vistaDetalle.botonCerrar.addActionListener(this);
     }
 
+    
+    
+    //Metodo para cargar campos correctamente de la modal
     private void cargarCampos() {
         if (notificacion != null) {
             vistaDetalle.textoRemitente.setText(notificacion.getNombreRemitente());
@@ -67,10 +68,8 @@ public class Controlador_DetalleNotificacion implements ActionListener {
         if (e.getSource() == vistaDetalle.botonCerrar) {
             vistaDetalle.dispose();
         }
-
         if (e.getSource() == vistaDetalle.botonMarcarLeido) {
             boolean exito = notificacionesDao.eliminarNotificacion(notificacion.getIdNotificacion());
-
             if (exito) {
                 try {
                     Administrador_Auditoria auditoria = new Administrador_Auditoria();
@@ -80,9 +79,7 @@ public class Controlador_DetalleNotificacion implements ActionListener {
                 } catch (Exception exAud) {
                     System.err.println("Error en auditoría: " + exAud.getMessage());
                 }
-
                 JOptionPane.showMessageDialog(null, "Notificación leída y eliminada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
                 vistaDetalle.dispose();
                 refrescarTablaPadre();
             } else {
