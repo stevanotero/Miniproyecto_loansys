@@ -4,20 +4,21 @@
  */
 package proyect_loansys.controller;
 
-/**
- *
- * @author Alexis
- */
-import proyect_loansys.view.Vista_Login;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import proyect_loansys.view.Vista_NuevaContraseña;
 import proyect_loansys.model.PersonaDao_Restablecer;
+import proyect_loansys.util.ServicioEmail; 
+import proyect_loansys.view.Vista_Login;
+import proyect_loansys.view.Vista_NuevaContraseña;
 import proyect_loansys.view.Vista_RestablecerContraseña;
 
+/**
+ *
+ * @author Alexis
+ */
 public class Controlador_Restablecer implements ActionListener {
 
     // Variables para el control de intentos y bloqueo temporal
@@ -30,17 +31,17 @@ public class Controlador_Restablecer implements ActionListener {
 
     public Controlador_Restablecer(Vista_RestablecerContraseña vista) {
         this.vista = vista;
-
-        //se activan los botones que están en la vista
+        // Se activan los botones que están en la vista
         this.vista.botonOlvidar.addActionListener(this);
         this.vista.botonCancelar.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //cuando el usuario le da clic en restablecer Contraseña
+        // Cuando el usuario le da clic en restablecer Contraseña
         if (e.getSource() == vista.botonOlvidar) {
-            //Condicion que verifica si actualmente está bloqueado
+
+            // Condición que verifica si actualmente está bloqueado
             if (System.currentTimeMillis() < tiempoBloqueoHasta) {
                 long segundosRestantes = (tiempoBloqueoHasta - System.currentTimeMillis()) / 1000;
                 JOptionPane.showMessageDialog(vista,
@@ -48,34 +49,70 @@ public class Controlador_Restablecer implements ActionListener {
                         "Módulo Bloqueado", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            //Se guarda el correo en una variable local antes de que el metodo borrador lo borre
-            String correoABuscar = vista.textoDelCorreo.getText().trim();
-            if (!correoABuscar.isBlank()) {
-                if (procesarVerificacionCorreo()) {
-                    intentosFallidos = 0; // Si el correo es real y válido se reinicia el contador                 
-                    //Cerramos la ventana de restablecer contraseña
-                    vista.dispose();
 
-                    //Se instancia la ventana de las nuevas contraseñas
-                    Vista_NuevaContraseña vista_Nueva = new Vista_NuevaContraseña();
-                    Controlador_nuevaContraseña conNueva = new Controlador_nuevaContraseña(vista_Nueva, correoABuscar);                 
-                    vista_Nueva.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-                    vista_Nueva.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-                    vista_Nueva.setVisible(true);
-                } else {
-                    intentosFallidos++; //Sumamos un intento si el correo no existe o tiene mal formato
-                    if (intentosFallidos >= 5) {
-                        tiempoBloqueoHasta = System.currentTimeMillis() + TIEMPO_ESPERA;
-                        JOptionPane.showMessageDialog(vista,
-                                "Has superado los 5 intentos permitidos.\nEl formulario se ha bloqueado por 1 minuto.",
-                                "Límite Superado", JOptionPane.ERROR_MESSAGE);
+            String correoABuscar = vista.textoDelCorreo.getText().trim();
+
+            if (!correoABuscar.isBlank()) {
+
+                //Validar formato de correo y existencia en BD
+                if (validarYVerificarCorreo(correoABuscar)) {
+
+                    //Generar código de verificación aleatorio de 6 dígitos
+                    int numeroAleatorio = (int) (Math.random() * 900000) + 100000;
+                    String codigoGenerado = String.valueOf(numeroAleatorio);
+
+                    //Enviar el correo usando ServicioEmail
+                    String asunto = "Código de Recuperación - LoanSys";
+                    String mensaje = "Hola,\n\nTu código de verificación para restablecer la contraseña en LoanSys es:\n\n"
+                            + codigoGenerado + "\n\nSi no solicitaste este cambio, por favor ignora este correo.";
+
+                    boolean enviado = ServicioEmail.enviarCorreo(correoABuscar, asunto, mensaje);
+
+                    if (enviado) {
+                        //Pedir el código al usuario en una ventana emergente
+                        String codigoIngresado = JOptionPane.showInputDialog(
+                                vista,
+                                "Hemos enviado un código de 6 dígitos a " + correoABuscar + ".\nIngrésalo a continuación:",
+                                "Verificación de Código",
+                                JOptionPane.QUESTION_MESSAGE
+                        );
+
+                        //Validar que el código coincida
+                        if (codigoIngresado != null && codigoIngresado.trim().equals(codigoGenerado)) {
+                            JOptionPane.showMessageDialog(vista, "¡Código verificado correctamente! Procede a ingresar la nueva contraseña.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                            intentosFallidos = 0; // Se reinicia el contador de intentos
+                            borrador();
+
+                            // Cerramos la ventana de restablecer contraseña
+                            vista.dispose();
+
+                            // Se instancia la ventana de las nuevas contraseñas
+                            Vista_NuevaContraseña vista_Nueva = new Vista_NuevaContraseña();
+                            Controlador_nuevaContraseña conNueva = new Controlador_nuevaContraseña(vista_Nueva, correoABuscar);                 
+                            vista_Nueva.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+                            vista_Nueva.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                            vista_Nueva.setVisible(true);
+
+                        } else if (codigoIngresado != null) {
+                            JOptionPane.showMessageDialog(vista, "El código ingresado es incorrecto.", "Error de Verificación", JOptionPane.ERROR_MESSAGE);
+                            registrarIntentoFallido();
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(vista, "No se pudo enviar el correo. Revisa tu conexión a internet.", "Error de Envío", JOptionPane.ERROR_MESSAGE);
                     }
+
+                } else {
+                    registrarIntentoFallido();
                 }
+
             } else {
                 JOptionPane.showMessageDialog(vista, "Por favor, ingrese un correo electrónico", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
             }
         }
-        //Se le da clic al boton de cancelar para volver atrás
+
+        // Se le da clic al botón de cancelar para volver atrás
         if (e.getSource() == vista.botonCancelar) {
             vista.dispose();
             Vista_Login vistaLogin = new Vista_Login();
@@ -84,37 +121,43 @@ public class Controlador_Restablecer implements ActionListener {
         }
     }
 
-    //Valida el formato del correo y verifica si existe en la Base de Datos
-    public boolean procesarVerificacionCorreo() {
-        String correo = vista.textoDelCorreo.getText().trim();
+    // Método auxiliar para registrar intentos fallidos y activar el bloqueo de 1 minuto
+    private void registrarIntentoFallido() {
+        intentosFallidos++;
+        if (intentosFallidos >= 5) {
+            tiempoBloqueoHasta = System.currentTimeMillis() + TIEMPO_ESPERA;
+            JOptionPane.showMessageDialog(vista,
+                    "Has superado los 5 intentos permitidos.\nEl formulario se ha bloqueado por 1 minuto.",
+                    "Límite Superado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        //Validar que el correo no tenga espacios internos
+    // Valida el formato del correo y verifica si existe en la Base de Datos
+    public boolean validarYVerificarCorreo(String correo) {
+        // Validar que el correo no tenga espacios internos
         if (correo.contains(" ")) {
             JOptionPane.showMessageDialog(vista, "El correo electrónico no puede contener espacios en blanco", "Formato de Correo", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        // Se valida que el correo tenga el formato
+        //Se valida que el correo tenga el formato correcto
         if (!validarCorreo(correo)) {
-            JOptionPane.showMessageDialog(vista, "El correo debe tener el formato: usuario@gmail.com", "Correo Invalido", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(vista, "El correo debe tener el formato: usuario@gmail.com", "Correo Inválido", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        //Llamamos al metodo correcto del DAO para veririficar que exista el correo y sea valido
+        // Llamamos al método del DAO para verificar que exista en la BD
         boolean existeCorreo = pdao.verificarCorreo(correo);
 
-        if (existeCorreo) {
-            JOptionPane.showMessageDialog(vista, "Correo verificado correctamente. Ya puede cambiar su contraseña", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            borrador();
-            return true;
-        } else {
-            // Verificar que el correo este registrado en el sistema
+        if (!existeCorreo) {
             JOptionPane.showMessageDialog(vista, "El correo ingresado no se encuentra registrado en el sistema", "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+
+        return true;
     }
 
-    // Metodo para validar que el correo este con el formato establecido
+    // Método para validar la sintaxis con Regex
     private boolean validarCorreo(String correo) {
         String regex = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
         Pattern pattern = Pattern.compile(regex);
