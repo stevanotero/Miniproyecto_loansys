@@ -18,6 +18,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
@@ -53,21 +54,13 @@ public class Vista_Login extends JFrame {
     // Creacion del constructor de la vista
     public Vista_Login() {
         super("Sistema de prestamos SENA");
-        //GridBagLayout permite organizar los componentes en una cuadrícula dinámica de filas y columnas
         fondo = new JPanel(new GridBagLayout());
-        // Paneles y el fondo color blanco
         fondo.setBackground(Color.WHITE);
 
         card = new JPanel();
-        //se define el tamaño en pixeles de los que seria la tarjeta
         card.setPreferredSize(new Dimension(700, 650));
-        //se pinta igualmente que el color del fondo
         card.setBackground(Color.WHITE);
-
-        //Configura la tarjeta para que todo se organice en fila vertical de arriba pa abajo
         card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
-
-        // deja un espacio en los bordes
         card.setBorder(new EmptyBorder(30, 60, 30, 60));
 
         // Texto del titulo
@@ -81,19 +74,25 @@ public class Vista_Login extends JFrame {
         System.out.println(System.getProperty("user.dir"));
         System.out.println(getClass().getResource(""));
         System.out.println(getClass().getResource("/proyect_loansys/img/sena.png"));
-        Image imgSena = new ImageIcon(getClass().getResource("/proyect_loansys/img/sena.png")).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        Image imgSena = new ImageIcon(getClass().getResource("/proyect_loansys/img/sena.png")).getImage().
+                getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new JLabel(new ImageIcon(imgSena));
-        //AlignmentX permite que este en el centro horizontalmente en el fondo
         logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        
 
         //EL subtitulo para sugerirle al usuario
         subtitulo = new JLabel("Iniciar sesión al sistema");
         subtitulo.setFont(new Font("Arial", Font.BOLD, 24));
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        
 
         //Campos para sugerir lo que se ingresa
         lDocumento = crearLabel("Ingrese el número de documento");
         lContraseña = crearLabel("Ingrese la contraseña");
+        
+        
 
         // Campos de texto con placeholder texto de sugerencia en espacio vacío
         textoDelDocumento = crearCampo("Ej: 10001234567");
@@ -104,19 +103,17 @@ public class Vista_Login extends JFrame {
         botonOlvidar = crearBoton("¿Olvidaste tu contraseña?", new Color(169, 173, 177), Color.BLACK);
         botonRegistrar = crearBoton("Regístrate aquí", new Color(112, 117, 113), Color.WHITE);
 
-        botonLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botonOlvidar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botonRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonOlvidar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Limitar a solo números Y a un máximo de 11 caracteres
         textoDelDocumento.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char tecla = e.getKeyChar(); // Averigua qué tecla presiono el usuario
-
-                // Si no es un número O si ya alcanzó el máximo de 11 dígitos, bloquea la tecla
+                char tecla = e.getKeyChar(); 
                 if (!Character.isDigit(tecla) || textoDelDocumento.getText().length() >= 11) {
-                    e.consume(); // Cancela la acción del teclado
+                    e.consume(); 
                 }
             }
         });
@@ -131,16 +128,16 @@ public class Vista_Login extends JFrame {
         card.add(Box.createVerticalStrut(30));
 
         // El documento
-        card.add(lDocumento);                 // El subtitulo del documento
-        card.add(Box.createVerticalStrut(6));  // El separador invisible
-        card.add(textoDelDocumento);          // Ponemos el campo redondo
-        card.add(Box.createVerticalStrut(20)); // Espacio grande para separar del siguiente bloque
+        card.add(lDocumento);                
+        card.add(Box.createVerticalStrut(6));  
+        card.add(textoDelDocumento);          
+        card.add(Box.createVerticalStrut(20)); 
 
         // La contraseña
-        card.add(lContraseña);                // El subtitulo en la contraseña
-        card.add(Box.createVerticalStrut(6));  // el separador invisible
-        card.add(textoDeLaContraseña);        // Se pone el campo redondo
-        card.add(Box.createVerticalStrut(35)); // Espacio grande para separar del siguiente bloque
+        card.add(lContraseña);                
+        card.add(Box.createVerticalStrut(6));  
+        card.add(textoDeLaContraseña);        
+        card.add(Box.createVerticalStrut(35)); 
 
         card.add(botonLogin);
         card.add(Box.createVerticalStrut(20));
@@ -158,8 +155,7 @@ public class Vista_Login extends JFrame {
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         return label;
     }
-
-    // Metodo para redondear y agregar texto guía (Placeholder) al campo
+    
     private JTextField crearCampo(String placeholder) {
         JTextField campo = new JTextField() {
             @Override
@@ -194,13 +190,11 @@ public class Vista_Login extends JFrame {
             }
         };
 
-        // Repintar al ganar/perder el foco para ocultar/mostrar el placeholder correctamente
         campo.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 campo.repaint();
             }
-
             @Override
             public void focusLost(FocusEvent e) {
                 campo.repaint();
