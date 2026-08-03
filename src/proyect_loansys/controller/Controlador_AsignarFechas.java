@@ -111,10 +111,10 @@ public class Controlador_AsignarFechas implements ActionListener {
                     if (controladorPadre != null) {
                         controladorPadre.listarSolicitudesTabla();
 
-            Administrador_Auditoria auditoria = new Administrador_Auditoria();
-         auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario()); 
-         auditoria.setAccion("Prestamo aprobado");
-new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                        Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                        auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario());
+                        auditoria.setAccion("Prestamo aprobado");
+                        new Administrador_AuditoriaDao().registrarAccion(auditoria);
                     }
 
                     vistaModal.dispose();
