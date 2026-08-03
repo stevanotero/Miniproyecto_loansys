@@ -6,13 +6,13 @@ package proyect_loansys;
 
 import javax.swing.JFrame;
 import proyect_loansys.controller.Controlador_Login;
-import proyect_loansys.model.Conexion_Registro;
+import proyect_loansys.model.Conexion;
 import proyect_loansys.view.Vista_Login;
 
 public class Index {
 
     public static void main(String[] args) {
-        Conexion_Registro con = new Conexion_Registro();
+        Conexion con = new Conexion();
         con.getConection();
         Vista_Login view = new Vista_Login();
         Controlador_Login controller = new Controlador_Login(view);
