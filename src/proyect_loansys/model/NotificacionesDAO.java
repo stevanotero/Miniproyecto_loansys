@@ -15,7 +15,7 @@ import proyect_loansys.model.TipoNotificacion;
  */
 public class NotificacionesDAO {
 
-    Conexion_Registro conectar = new Conexion_Registro();
+    Conexion conectar = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;

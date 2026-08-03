@@ -4,7 +4,7 @@
  */
 package proyect_loansys.model;
 
-import proyect_loansys.model.Conexion_Registro;
+import proyect_loansys.model.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
@@ -16,7 +16,7 @@ import proyect_loansys.model.Crud;
  */
 public class PersonaDao_nuevaContraseña implements Crud<Persona_nuevaContraseña> {
 
-    private Conexion_Registro conectar = new Conexion_Registro();
+    private Conexion conectar = new Conexion();
     private Connection con;
     private PreparedStatement ps;
 

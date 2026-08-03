@@ -21,7 +21,7 @@ import proyect_loansys.model.Crud;
 
 public class PersonaDao_Inventario implements Crud<Elemento> {
 
-    Conexion_Registro conectar = new Conexion_Registro();
+    Conexion conectar = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;

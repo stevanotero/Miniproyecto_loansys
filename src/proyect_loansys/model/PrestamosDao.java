@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class PrestamosDao {
 
-    Conexion_Registro conectar = new Conexion_Registro();
+    Conexion conectar = new Conexion();
     Connection con;
     PreparedStatement ps;
 

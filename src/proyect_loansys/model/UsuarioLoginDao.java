@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class UsuarioLoginDao {
 
-    Conexion_Registro conectar = new Conexion_Registro();
+    Conexion conectar = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;

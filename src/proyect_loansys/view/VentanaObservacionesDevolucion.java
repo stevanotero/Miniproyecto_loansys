@@ -8,11 +8,15 @@ import javax.swing.JDialog;
 import javax.swing.BorderFactory;
 import java.awt.Frame;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,8 +31,9 @@ public class VentanaObservacionesDevolucion extends JDialog {
     public JTextArea textoObservaciones;
     public JButton botonConfirmar;
     public JButton botonCancelar;
-
+    public JComboBox estadoElemento;
     private JLabel lblInstruccion;
+    private JLabel textoEstado;
     private JPanel panelPrincipal;
 
     public VentanaObservacionesDevolucion(Frame padre) {
@@ -44,6 +49,26 @@ public class VentanaObservacionesDevolucion extends JDialog {
         panelPrincipal = new JPanel();
         panelPrincipal.setBackground(Color.WHITE);
         panelPrincipal.setLayout(null); // Activamos diseño libre/absoluto
+        
+        
+        
+        
+        
+         estadoElemento = new JComboBox<>(new String[]{
+            "Disponible",
+            "En Mantenimiento",
+            "Dañado",
+            "Dado de Baja"
+        });
+         
+        estadoElemento.setMaximumSize(new Dimension(340, 35));
+        estadoElemento.setPreferredSize(new Dimension(340, 35));
+        estadoElemento.setBackground(Color.WHITE);
+        estadoElemento.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        estadoElemento.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelPrincipal.add(estadoElemento);
+        panelPrincipal.add(Box.createVerticalStrut(15));
+         
 
         lblInstruccion = new JLabel("Ingrese las observaciones del estado del elemento:");
         lblInstruccion.setFont(new Font("Segoe UI", 1, 13));

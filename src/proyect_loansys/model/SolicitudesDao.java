@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class SolicitudesDao {
 
-    Conexion_Registro conectar = new Conexion_Registro();
+    Conexion conectar = new Conexion();
 
     // listar solicitudes
     public List<Solicitudes> listarSolicitudes() {
