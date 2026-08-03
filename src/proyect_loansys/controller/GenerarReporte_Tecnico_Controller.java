@@ -55,6 +55,7 @@ public class GenerarReporte_Tecnico_Controller {
             vista.cerrar_sesion.addActionListener(e->{
             Vista_Login vistalog = new Vista_Login();
             new Controlador_Login(vistalog);
+            vista.dispose();
         });
 
 

@@ -60,9 +60,11 @@ public class ControllerMantenimiento implements ActionListener {
             vista.setVisible(false);
             vistaNo.setVisible(true);
         });
-            vista.cerrar_sesion.addActionListener(e->{
+            vista.cerrar_sesion.addActionListener(e -> {
             Vista_Login vistalog = new Vista_Login();
             new Controlador_Login(vistalog);
+            vistalog.setVisible(true);
+            vista.dispose();
         });
 
 

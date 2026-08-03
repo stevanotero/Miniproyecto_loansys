@@ -7,14 +7,13 @@ import proyect_loansys.view.Reportes_Tecnico;
 import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_NotificacionesTecnico;
 
-
 public class Inicio_Tecnico_Controller {
 
     private Inicio_Tecnico vista;
 
     public Inicio_Tecnico_Controller(Inicio_Tecnico vista) {
         this.vista = vista;
-        
+
         vista.inicio.addActionListener(e -> {
             Inicio_Tecnico ini = new Inicio_Tecnico();
             new Inicio_Tecnico_Controller(ini);
@@ -32,10 +31,12 @@ public class Inicio_Tecnico_Controller {
             new Reportes_Tecnico_Controller(vistaReportes);
             vista.dispose();
         });
-        
-        vista.cerrar_sesion.addActionListener(e->{
+
+        vista.cerrar_sesion.addActionListener(e -> {
             Vista_Login vistalog = new Vista_Login();
             new Controlador_Login(vistalog);
+            vistalog.setVisible(true);
+            vista.dispose();
         });
 
         vista.Mantenimiento.addActionListener(e -> {
@@ -43,7 +44,7 @@ public class Inicio_Tecnico_Controller {
             new ControllerMantenimiento(vistaMantenimiento);
             vista.dispose();
         });
-        
+
         vista.Notificaciones.addActionListener(e -> {
             Vista_NotificacionesTecnico vistaNo = new Vista_NotificacionesTecnico();
             new Controlador_NotificacionesTecnico(vistaNo);
