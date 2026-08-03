@@ -112,9 +112,9 @@ public class Administrador_ControladorNotificaciones implements ActionListener {
             return;
         }
 
-        if (mensaje.length() < 10) {
+        if (mensaje.length() < 20) {
             JOptionPane.showMessageDialog(vista,
-                    "El mensaje debe tener como mínimo 10 caracteres. \n(Llevas: " + mensaje.length() + ")",
+                    "El mensaje debe tener como mínimo 20 caracteres. \n(Llevas: " + mensaje.length() + ")",
                     "Mínimo De Caracteres", JOptionPane.WARNING_MESSAGE);
             return;
         }
