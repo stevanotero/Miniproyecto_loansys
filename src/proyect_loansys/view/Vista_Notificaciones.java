@@ -106,6 +106,12 @@ public class Vista_Notificaciones extends Vista_Principal {
         scrollTabla.getViewport().setBackground(Color.WHITE);
         panelIzquierdo.add(scrollTabla, BorderLayout.CENTER);
 
+        JLabel textoDeConsejo = new JLabel("Consejo: Haz doble clic sobre cualquier notificación para leerla completa o eliminarla.");
+        textoDeConsejo.setFont(new Font("Arial", Font.ITALIC, 12));
+        textoDeConsejo.setForeground(new Color(90, 90, 90));
+        textoDeConsejo.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
+        panelIzquierdo.add(textoDeConsejo, BorderLayout.SOUTH);
+        
         JPanel panelDerecho = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -310,15 +316,12 @@ public class Vista_Notificaciones extends Vista_Principal {
         scroll.setBorder(BorderFactory.createEmptyBorder());
         scroll.setMaximumSize(new Dimension(350, 130));
         scroll.setPreferredSize(new Dimension(350, 130));
-
         scroll.getVerticalScrollBar().setPreferredSize(new Dimension(8, 0));
         scroll.getVerticalScrollBar().setOpaque(false);
         scroll.getVerticalScrollBar().setBackground(new Color(0, 0, 0, 0));
-
         return scroll;
     }
 
-    
     //Metodo para redondear botones
     private JButton crearBoton(String texto, Color fondo, Color textoColor) {
         JButton boton = new JButton(texto) {

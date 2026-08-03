@@ -113,6 +113,12 @@ public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administr
         scrollTabla.setBorder(BorderFactory.createLineBorder(new Color(210, 210, 210), 1));
         scrollTabla.getViewport().setBackground(Color.WHITE);
         panelIzquierdo.add(scrollTabla, BorderLayout.CENTER);
+        
+        JLabel textoDeConsejo = new JLabel("Consejo: Haz doble clic sobre cualquier notificación para leerla completa o eliminarla.");
+        textoDeConsejo.setFont(new Font("Arial", Font.ITALIC, 12));
+        textoDeConsejo.setForeground(new Color(90, 90, 90));
+        textoDeConsejo.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
+        panelIzquierdo.add(textoDeConsejo, BorderLayout.SOUTH);
 
         JPanel panelDerecho = new JPanel() {
             @Override

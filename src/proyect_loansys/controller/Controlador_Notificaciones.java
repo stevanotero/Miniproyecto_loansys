@@ -144,9 +144,9 @@ public class Controlador_Notificaciones implements ActionListener {
         }
         
         // Validación de máximo de caracteres
-        if (mensaje.length() > 60) {
+        if (mensaje.length() > 100) {
             JOptionPane.showMessageDialog(vista,
-                    "El mensaje excede el límite permitido de 60 caracteres. \n(Llevas: " + mensaje.length() + ")",
+                    "El mensaje excede el límite permitido de 100 caracteres. \n(Llevas: " + mensaje.length() + ")",
                     "Límite Excedido", JOptionPane.WARNING_MESSAGE);
             return;
         }
