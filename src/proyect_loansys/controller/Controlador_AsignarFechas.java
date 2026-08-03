@@ -105,7 +105,7 @@ public class Controlador_AsignarFechas implements ActionListener {
                 int idCategoriaProvicional = 1;
                 boolean exito = prestamosDao.registrarPrestamoAprobado(solicitud, fechaHoraFinal, idCategoriaProvicional);
                 
-                //Mensaje de exito 
+                //Mensaje de exito  del prestamo
                 if (exito) {
                     JOptionPane.showMessageDialog(null, "¡Préstamo aprobado y registrado correctamente!");
                     if (controladorPadre != null) {
