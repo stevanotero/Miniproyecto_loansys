@@ -23,6 +23,8 @@ import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 
 /**
@@ -92,8 +94,8 @@ public class Vista_Login extends JFrame {
         lDocumento = crearLabel("Ingrese el número de documento");
         lContraseña = crearLabel("Ingrese la contraseña");
 
-        // Campos de texto 
-        textoDelDocumento = crearCampo();
+        // Campos de texto con placeholder texto de sugerencia en espacio vacío
+        textoDelDocumento = crearCampo("Ej: 10001234567");
         textoDeLaContraseña = crearPassword();
 
         // Botones 
@@ -105,21 +107,20 @@ public class Vista_Login extends JFrame {
         botonOlvidar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botonRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        //Limitar solo numeros  en el campo de contraseña mediante un metodo
+        // Limitar a solo números Y a un máximo de 11 caracteres
         textoDelDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char tecla = e.getKeyChar(); // Averigua qué tecla presiono el usuario
 
-                // Si la tecla no es un numero del 0 al 9 se cancela la accion
-                if (!Character.isDigit(tecla)) {
-                    e.consume(); // No permite que se ingrese la letra
+                // Si no es un número O si ya alcanzó el máximo de 11 dígitos, bloquea la tecla
+                if (!Character.isDigit(tecla) || textoDelDocumento.getText().length() >= 11) {
+                    e.consume(); // Cancela la acción del teclado
                 }
             }
         });
 
         // Todo el orden final que se va agregar al campo de la tarjeta
-        // El createVerticalStrut permite poner el espacio entre lo que esta dentro del panel de la tarjeta
         card.add(Box.createVerticalStrut(20));
         card.add(titulo);
         card.add(Box.createVerticalStrut(20));
@@ -134,7 +135,7 @@ public class Vista_Login extends JFrame {
         card.add(textoDelDocumento);          // Ponemos el campo redondo
         card.add(Box.createVerticalStrut(20)); // Espacio grande para separar del siguiente bloque
 
-        // La contrasñea
+        // La contraseña
         card.add(lContraseña);                // El subtitulo en la contraseña
         card.add(Box.createVerticalStrut(6));  // el separador invisible
         card.add(textoDeLaContraseña);        // Se pone el campo redondo
@@ -157,49 +158,62 @@ public class Vista_Login extends JFrame {
         return label;
     }
 
-    //Metodo para redonder el los campos a ingresar
-    private JTextField crearCampo() {
+    // Metodo para redondear y agregar texto guía (Placeholder) al campo
+    private JTextField crearCampo(String placeholder) {
         JTextField campo = new JTextField() {
-            //Se establece que el que pintado lo hacel mismo usuario con
             @Override
             protected void paintComponent(Graphics g) {
-                //Clonamos la brocha y se convierte en un herramientra avanzada ya que al convertirlo a 2d permite realizar mas cosas
                 Graphics2D g2 = (Graphics2D) g.create();
-                //Se activa el Anti-Aliasing. Esto suaviza los bordes para que las curvas no se vean pixeladas
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(Color.WHITE);
-                //se define como de rendondo van a estar las esquinas de los campos
                 g2.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
                 g2.dispose();
                 super.paintComponent(g);
+
+                
+                if (getText().isEmpty() && !hasFocus()) {
+                    Graphics2D gPlaceholder = (Graphics2D) g.create();
+                    gPlaceholder.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                    gPlaceholder.setColor(new Color(170, 170, 170)); 
+                    gPlaceholder.setFont(getFont().deriveFont(Font.ITALIC));
+                    int paddingLeft = 14;
+                    int baseline = (getHeight() - gPlaceholder.getFontMetrics().getHeight()) / 2 + gPlaceholder.getFontMetrics().getAscent();
+                    gPlaceholder.drawString(placeholder, paddingLeft, baseline);
+                    gPlaceholder.dispose();
+                }
             }
 
             @Override
             protected void paintBorder(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
-                //Se suaviza el color de los bordes
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                //se le pone al g2 el color gris 
                 g2.setColor(new Color(215, 215, 215));
-                //Los ultimos dos números (10, 10) dicen qué tan redondas son las esquinas.
                 g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
                 g2.dispose();
             }
         };
 
-        //Se pone la caja original en java invisible
+        // Repintar al ganar/perder el foco para ocultar/mostrar el placeholder correctamente
+        campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                campo.repaint();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                campo.repaint();
+            }
+        });
+
         campo.setOpaque(false);
-        //se limita el tamaño de los campos
         campo.setMaximumSize(new Dimension(350, 45));
-        //se le establece el tipo de letra
         campo.setFont(new Font("Arial", Font.PLAIN, 15));
-        //Para que no este pegada la informacion ingresada a los bordes de los campos
         campo.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 12));
-        //se entra el campo de texto ya terminado
         return campo;
     }
 
-    //lo mismo pero con el campo de la contraseña
+    // Mismo método para el campo de la contraseña
     private JPasswordField crearPassword() {
         JPasswordField pass = new JPasswordField() {
             @Override
@@ -229,7 +243,7 @@ public class Vista_Login extends JFrame {
         return pass;
     }
 
-    //se establece los colores de los botones y el texto del mimso
+    // Configuración de estilo para botones
     private JButton crearBoton(String texto, Color fondo, Color textoColor) {
         JButton boton = new JButton(texto) {
             @Override
@@ -244,7 +258,7 @@ public class Vista_Login extends JFrame {
         };
 
         boton.setBackground(fondo);
-        boton.setForeground(textoColor); //aplica el color asignado a las letras
+        boton.setForeground(textoColor);
         boton.setContentAreaFilled(false);
         boton.setBorderPainted(false);
         boton.setFont(new Font("Arial", Font.BOLD, 15));
