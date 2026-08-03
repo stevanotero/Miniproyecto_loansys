@@ -25,6 +25,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
@@ -108,7 +109,7 @@ public class Vista_Login extends JFrame {
         botonRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         // Limitar a solo números Y a un máximo de 11 caracteres
-        textoDelDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+        textoDelDocumento.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char tecla = e.getKeyChar(); // Averigua qué tecla presiono el usuario
