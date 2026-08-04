@@ -40,18 +40,20 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla {
         ////////////////////////////////////////////////////////////////////////
         
         panel6 = new JPanel();
-        panel6.setPreferredSize(new Dimension(1100, 150));
-        panel6.setBackground(Color.white);
+        panel6.setPreferredSize(new Dimension(600, 150));
+        panel6.setBackground(Color.WHITE);
+        //Color panel6 = new Color(220, 220, 220);
+        //Color colorCampos = new Color(198, 198, 198);
 
         panel8 = new JPanel();
-        panel8.setPreferredSize(new Dimension(400, 130));
+        panel8.setPreferredSize(new Dimension(300, 90));
         texto1 = new JLabel("Historial de prestamo", SwingConstants.CENTER);
         texto1.setFont(new Font("Arial", Font.BOLD, 20));
         texto1.setForeground(new Color(30, 30, 30));
         //texto1.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panel8.setLayout(new BorderLayout());
 
-        panel8.setBackground(Color.white);
+        panel8.setBackground(new Color(198, 198, 198));
         panel8.add(texto1);
         panel6.add(panel8);
 
@@ -59,7 +61,7 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla {
         
         panel7 = new JPanel();
         panel7.setPreferredSize(new Dimension(1100, 600));
-        panel7.setBackground(Color.white);
+        panel7.setBackground(new Color(198, 198, 198));
 
         modelo = new DefaultTableModel() {
             @Override
@@ -84,7 +86,7 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla {
         miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         miscroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         panel9.add(miscroll);
-        panel9.setBackground(Color.white);
+        panel9.setBackground(new Color(198, 198, 198));
 
         panel7.add(panel9);
 
