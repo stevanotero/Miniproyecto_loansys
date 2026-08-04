@@ -39,7 +39,7 @@ public class Administrador_Modal_cambio_de_rol  extends JDialog {
     private TitledBorder titulo;
     
 
-    private String listadoRol[]={"","APRENDIZ","INSTRUCTOR","TECNICO","ASESOR","ADMINISTRADOR"};
+    private String listadoRol[]={"APRENDIZ","INSTRUCTOR","TECNICO","ASESOR","ADMINISTRADOR"};
     
     public Administrador_Modal_cambio_de_rol() {
 

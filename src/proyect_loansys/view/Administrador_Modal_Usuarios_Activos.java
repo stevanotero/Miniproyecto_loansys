@@ -35,7 +35,7 @@ public class Administrador_Modal_Usuarios_Activos extends JDialog {
     private GridLayout grid;
     private TitledBorder titulo;
     
-    private String listaEstado[] = {  "",  "ACTIVO",  "DESACTIVADO"};
+    private String listaEstado[] = {   "ACTIVO",  "DESACTIVADO"};
 
     
     public Administrador_Modal_Usuarios_Activos() {

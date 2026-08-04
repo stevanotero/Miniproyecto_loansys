@@ -222,6 +222,7 @@ public int setActualizarRol(Administrador_Usuario u) {
     } catch (Exception e) {
 
         JOptionPane.showMessageDialog(null, e);
+System.out.println(e);
 
         return 0;
 
