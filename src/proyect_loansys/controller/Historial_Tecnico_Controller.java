@@ -27,32 +27,34 @@ public class Historial_Tecnico_Controller {
     public Historial_Tecnico_Controller(Historial_Tecnico vista) {
         this.vista = vista;
 
-        //abrirhistorial
+        //abrir historial
         vista.Reportes.addActionListener(e -> {
             Reportes_Tecnico vistaReportes = new Reportes_Tecnico();
             new Reportes_Tecnico_Controller(vistaReportes);
             vista.dispose();
         });
         
+        //Modulo de mantenimiento
         vista.Mantenimiento.addActionListener(e -> {
             Mantenimiento vistaMantenimiento = new Mantenimiento();
             new ControllerMantenimiento(vistaMantenimiento);
             vista.dispose();
         });
         
+            //Inicio del técnico
            vista.inicioTecnico.addActionListener(e -> {
             Inicio_Tecnico ini = new Inicio_Tecnico();
             new Inicio_Tecnico_Controller(ini);
             vista.dispose();
         });
-           
+           //Modulo de notificaciones
             vista.Notificaciones.addActionListener(e -> {
             Vista_NotificacionesTecnico vistaNo = new Vista_NotificacionesTecnico();
             new Controlador_NotificacionesTecnico(vistaNo);
             vista.setVisible(false);
             vistaNo.setVisible(true);
         });
-            
+            // Cerrar sesion
             vista.cerrar_sesion.addActionListener(e -> {
             Vista_Login vistalog = new Vista_Login();
             new Controlador_Login(vistalog);
