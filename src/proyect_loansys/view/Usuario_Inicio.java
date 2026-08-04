@@ -21,10 +21,8 @@ public class Usuario_Inicio extends Usuario_Plantilla {
 
     private Container contenedor;
     private JPanel panel4, panel5, panel6;
-    private JLabel bienve4;
+    private JLabel bienve4,espacios2;
     private GridLayout grid4;
-    private JLabel espacios1, espacios2, espacios3, espacios4, espacios5, espacios6,
-            espacios7, espacios8, espacios9, espacios10, espacios11, espacios12;
 
     public Usuario_Inicio(String titulo, String rol, String nombre) {
         super(titulo, rol, nombre);

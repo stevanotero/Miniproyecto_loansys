@@ -8,7 +8,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.sql.Timestamp;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,7 +34,6 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla {
         panel4 = super.getPanel();
 
         panel5 = new JPanel();
-        //panel5.setLayout(null);
         panel5.setPreferredSize(new Dimension(1100, 600));
         panel5.setBackground(Color.white);
 
@@ -45,6 +46,9 @@ public class Usuario_HistorialPrestamo extends Usuario_Plantilla {
         panel8 = new JPanel();
         panel8.setPreferredSize(new Dimension(400, 130));
         texto1 = new JLabel("Historial de prestamo", SwingConstants.CENTER);
+        texto1.setFont(new Font("Arial", Font.BOLD, 20));
+        texto1.setForeground(new Color(30, 30, 30));
+        //texto1.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panel8.setLayout(new BorderLayout());
 
         panel8.setBackground(Color.white);
