@@ -67,7 +67,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         //Panel 2 de la tabla
         
         panel7 = new JPanel();
-        panel7.setPreferredSize(new Dimension(850, 190));
+        panel7.setPreferredSize(new Dimension(1000, 200));
         panel7.setBackground(new Color(198, 198, 198));
         
         
@@ -86,9 +86,28 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
         panel9 = new JPanel();
         panel9.setLayout(new BorderLayout());
-        panel9.setPreferredSize(new Dimension(800, 170));
-        
+        panel9.setPreferredSize(new Dimension(990, 170));
+
         tabla = new JTable(modelo);
+        tabla.setRowHeight(40);
+        tabla.setFont(new Font("Arial", Font.PLAIN, 14));
+        tabla.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        tabla.setGridColor(new Color(235, 235, 235));
+
+// Que las columnas se repartan el espacio sobrante (evita la columna vacía)
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(180);   // Codigo
+        tabla.getColumnModel().getColumn(0).setMaxWidth(180);
+
+        tabla.getColumnModel().getColumn(1).setPreferredWidth(180);  // Nombre Elemento (antes muy angosto)
+        tabla.getColumnModel().getColumn(1).setMaxWidth(250);
+
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(140);  // Categoria
+        tabla.getColumnModel().getColumn(2).setMaxWidth(160);
+
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(250);  // Descripcion
+// sin maxWidth, para que absorba el espacio restante
         miscroll=new JScrollPane(tabla);
         
         miscroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);

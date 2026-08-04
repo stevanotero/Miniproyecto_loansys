@@ -27,6 +27,7 @@ import proyect_loansys.view.Vista_Notificaciones;
 import proyect_loansys.view.Vista_NotificacionesUsuario;
 
 public class Usuario_ControladorNavedagor implements ActionListener {
+
     String textoBuscado;
     Usuario_Solicitud sr = new Usuario_Solicitud();
     public Usuario_Dao elementoDao = new Usuario_Dao();
@@ -43,6 +44,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
     Usuario_SolicitarPrestamo soli;
     Controlador_NotificacionesUsuario notificaciones;
     Vista_Login sesion = new Vista_Login();
+    Vista_NotificacionesUsuario vistaNo;
     private String nombreUsuario;
     private String rolUsuario;
     public Usuario_Model usuario;
@@ -62,6 +64,7 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.pres = new Usuario_HistorialPrestamo(rolUsuario, "", "");
         this.noti = new Usuario_Notificacion(rolUsuario, "", "");
         this.soli = new Usuario_SolicitarPrestamo(rolUsuario, "", "");
+        this.vistaNo = new Vista_NotificacionesUsuario();
 
         //this.inicio = inicio;
         this.inicio.inventario.addActionListener(this);
@@ -129,10 +132,16 @@ public class Usuario_ControladorNavedagor implements ActionListener {
         this.sesion.textoDelDocumento.addActionListener(this);
         //aver
         controladorDatos = new Usuario_ControladorDatos(inven, soli);
-        
-        
+
+        this.vistaNo.iniciod.addActionListener(this);
+        this.vistaNo.inventario.addActionListener(this);
+        this.vistaNo.prestamo.addActionListener(this);
+        //this.vistaNo.notificacion.addActionListener(this);
+        //this.vistaNo.
+        this.vistaNo.cerrarS.addActionListener(this);
+
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -166,9 +175,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
              */
         }
         if (e.getSource() == inicio.notificacion) {
-            CargarNotificacion(noti);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo); // usa this.vistaNo
+            vistaNo.setVisible(true);
             inicio.dispose();
         }
         if (e.getSource() == inicio.cerrarS) {
@@ -191,9 +199,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             inven.dispose();
         }
         if (e.getSource() == inven.notificacion) {
-            CargarNotificacion(noti);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo); // usa this.vistaNo
+            vistaNo.setVisible(true);
             inven.dispose();
         }
         if (e.getSource() == inven.cerrarS) {
@@ -330,7 +337,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             controladorDatos.pruebaMostrar13(soli.tabla);
             inven.dispose();
         }
-        
 
         ////////////////////////////////////////////
         if (e.getSource() == pres.iniciod) {
@@ -358,10 +364,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             pres.dispose();
         }
         if (e.getSource() == pres.notificacion) {
-            limpiarHistorial(pres.tabla);
-            CargarNotificacion(noti);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo); // usa this.vistaNo
+            vistaNo.setVisible(true);
             pres.dispose();
         }
         if (e.getSource() == pres.cerrarS) {
@@ -371,12 +375,20 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             vistaLogin.setVisible(true);
         }
 
+        //if (e.getSource() == pres.notificacion) {
+        //  limpiarHistorial(pres.tabla);
+        //CargarNotificacion(noti);
+        // Vista_NotificacionesUsuario vistaNo = new Vista_NotificacionesUsuario();
+        //Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo);
+        //vistaNo.setVisible(true);
+        //pres.dispose();
+        //}
         ///////////////////////////////////////////
-        if (e.getSource() == noti.iniciod) {
+        if (e.getSource() == vistaNo.iniciod) {
             CargarInicio(inicio);
-            noti.dispose();
+            vistaNo.setVisible(false);
         }
-        if (e.getSource() == noti.inventario) {
+        if (e.getSource() == vistaNo.inventario) {
             CargarInventario(inven);
             controladorDatos.mostrarEstado(inven.estado);
             controladorDatos.mostrarEstado1(inven.estado1);
@@ -392,15 +404,15 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             controladorDatos.mostrarEstado11(inven.estado11);
             controladorDatos.mostrarEstado12(inven.estado12);
             controladorDatos.mostrarEstado13(inven.estado13);
-            noti.dispose();
+            vistaNo.dispose();
         }
-        if (e.getSource() == noti.prestamo) {
+        if (e.getSource() == vistaNo.prestamo) {
             CargarHistorial(pres);
             controladorDatos.mostrarH(pres.tabla);
-            noti.dispose();
+            vistaNo.dispose();
         }
-        if (e.getSource() == noti.cerrarS) {
-            noti.setVisible(false);
+        if (e.getSource() == vistaNo.cerrarS) {
+            vistaNo.setVisible(false);
             Vista_Login vistaLogin = new Vista_Login();
             Controlador_Login controlador = new Controlador_Login(vistaLogin);
             vistaLogin.setVisible(true);
@@ -435,9 +447,8 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             soli.dispose();
         }
         if (e.getSource() == soli.notificacion) {
-            CargarNotificacion(noti);
-            Vista_Notificaciones vistaNo = new Vista_Notificaciones();
-            Controlador_Notificaciones controlNo = new Controlador_Notificaciones(vistaNo);
+            Controlador_NotificacionesUsuario controlNo = new Controlador_NotificacionesUsuario(vistaNo); // usa this.vistaNo
+            vistaNo.setVisible(true);
             soli.dispose();
         }
 
@@ -577,12 +588,10 @@ public class Usuario_ControladorNavedagor implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(soli, "No se pudo registrar la solicitud", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }finally{
-        procesandoSolicitud = false;
+        } finally {
+            procesandoSolicitud = false;
+        }
     }
-}
-
-    
 
     private void limpiarHistorial(JTable tabla) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
@@ -733,7 +742,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
 
     public void filtrarPorCodigo() {
         textoBuscado = inven.lcodigo.getText().trim();
-        
 
         javax.swing.JPanel[] paneles = {
             inven.panel043, inven.panel042, inven.panel041, inven.panel040,
@@ -765,7 +773,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
                     }
                 }
             }
-            
 
             if (!encontrado) {
                 JOptionPane.showMessageDialog(inven,
@@ -773,7 +780,6 @@ public class Usuario_ControladorNavedagor implements ActionListener {
                         "Sin resultados", JOptionPane.WARNING_MESSAGE);
             }
         }
-        
 
         inven.panel029.revalidate();
         inven.panel029.repaint();
