@@ -13,7 +13,11 @@ import proyect_loansys.view.Mantenimiento;
 import proyect_loansys.view.Reportes_Tecnico;
 import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_NotificacionesTecnico;
-        
+
+/**
+ *
+ * @author Sants
+ */
         
 public class Historial_Tecnico_Controller {
 
@@ -36,7 +40,7 @@ public class Historial_Tecnico_Controller {
             vista.dispose();
         });
         
-           vista.inicio.addActionListener(e -> {
+           vista.inicioTecnico.addActionListener(e -> {
             Inicio_Tecnico ini = new Inicio_Tecnico();
             new Inicio_Tecnico_Controller(ini);
             vista.dispose();

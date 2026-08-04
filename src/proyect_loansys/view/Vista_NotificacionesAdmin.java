@@ -163,13 +163,10 @@ public class Vista_NotificacionesAdmin extends Administrador_Plantilla_Administr
         panelFormulario.setOpaque(false);
         panelFormulario.setMaximumSize(new Dimension(350, 420));
         panelFormulario.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         panelFormulario.add(crearGrupoCampo("Tipo de notificación", comboTipoNotificacion, colorFondoTarjetas));
         panelFormulario.add(Box.createVerticalStrut(15));
-
         panelFormulario.add(crearGrupoCampo("Destinatario", txtDocumentoDestinatario, colorFondoTarjetas));
         panelFormulario.add(Box.createVerticalStrut(15));
-
         panelFormulario.add(crearGrupoCampo("Mensaje", scrollAreaMensaje, colorFondoTarjetas));
         panelFormulario.add(Box.createVerticalStrut(20));
 

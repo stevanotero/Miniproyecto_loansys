@@ -16,7 +16,8 @@ public class Inicio_Tecnico extends Plantilla {
 
     public Inicio_Tecnico() {
         super("Inicio Técnico");
-
+        super.inicioTecnico.setBackground(new Color(90, 91, 92));
+        super.inicioTecnico.setForeground(Color.WHITE);
         JPanel panel5 = super.getPanel();
         panel5.setBackground(Color.WHITE);
         panel5.setLayout(null);

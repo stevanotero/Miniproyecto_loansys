@@ -25,7 +25,7 @@ public abstract class Plantilla extends JFrame {
     private Container contenedor;
     private JPanel panel1, panel2, panel3, panel4, panel5, panelTextos;
     private JLabel logo, lblTitulo, lblSubtitulo;
-    public JButton historial, Mantenimiento, Reportes, Notificaciones, cerrar_sesion, inicio;
+    public JButton historial, Mantenimiento, Reportes, Notificaciones, cerrar_sesion, inicioTecnico;
     public DefaultTableModel modelo;
     public JTable tabla;
 
@@ -77,13 +77,13 @@ public abstract class Plantilla extends JFrame {
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
         panel3.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        inicio = crearBoton("🏠 Inicio");
+        inicioTecnico = crearBoton("🏠 Inicio");
         historial = crearBoton("🏠  Historial Técnico");
         Mantenimiento = crearBoton("🔧  Mantenimiento");
         Reportes = crearBoton("📄  Reportes");
         Notificaciones = crearBoton("🔔  Notificaciones");
         
-        panel3.add(inicio);
+        panel3.add(inicioTecnico);
         panel3.add(Box.createVerticalStrut(8));
         panel3.add(historial);
         panel3.add(Box.createVerticalStrut(8));

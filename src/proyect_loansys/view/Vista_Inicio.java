@@ -25,8 +25,6 @@ public class Vista_Inicio extends Vista_Principal{
     
     public Vista_Inicio(){
     super();
-    
-    
     }
     @Override
     protected JPanel crearPanelCentro() {

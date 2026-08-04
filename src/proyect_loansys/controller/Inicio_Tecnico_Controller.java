@@ -14,7 +14,7 @@ public class Inicio_Tecnico_Controller {
     public Inicio_Tecnico_Controller(Inicio_Tecnico vista) {
         this.vista = vista;
 
-        vista.inicio.addActionListener(e -> {
+        vista.inicioTecnico.addActionListener(e -> {
             Inicio_Tecnico ini = new Inicio_Tecnico();
             new Inicio_Tecnico_Controller(ini);
             vista.dispose();

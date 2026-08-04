@@ -27,6 +27,7 @@ import proyect_loansys.view.Inicio_Tecnico;
 import proyect_loansys.view.Mantenimiento;
 import proyect_loansys.view.Reportes_Tecnico;
 import proyect_loansys.view.Ventana_DetalleNotificacion;
+import proyect_loansys.view.Vista_Login;
 import proyect_loansys.view.Vista_NotificacionesTecnico;
 
 /**
@@ -48,7 +49,7 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
         this.loginDao = new PersonaDao_Login();
         this.vista.btnEnviarNotificacion.addActionListener(this);
         
-        vista.inicio.addActionListener(e -> {
+        vista.inicioTecnico.addActionListener(e -> {
             Inicio_Tecnico ini = new Inicio_Tecnico();
             new Inicio_Tecnico_Controller(ini);
             vista.dispose();
@@ -69,6 +70,12 @@ public class Controlador_NotificacionesTecnico implements ActionListener {
         vista.Mantenimiento.addActionListener(e -> {
             Mantenimiento vistaMantenimiento = new Mantenimiento();
             new ControllerMantenimiento(vistaMantenimiento);
+            vista.dispose();
+        });
+        
+        vista.cerrar_sesion.addActionListener(e->{
+            Vista_Login vistalog = new Vista_Login();
+            new Controlador_Login(vistalog);
             vista.dispose();
         });
         

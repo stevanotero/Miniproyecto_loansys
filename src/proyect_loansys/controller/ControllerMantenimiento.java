@@ -48,7 +48,7 @@ public class ControllerMantenimiento implements ActionListener {
             vista.dispose();
         });
         
-           vista.inicio.addActionListener(e -> {
+           vista.inicioTecnico.addActionListener(e -> {
             Inicio_Tecnico ini = new Inicio_Tecnico();
             new Inicio_Tecnico_Controller(ini);
             vista.dispose();
