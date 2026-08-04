@@ -85,7 +85,7 @@ public class PrestamosActivosDao {
         return listarp;
     }
 
-    public boolean registrarDevolucionCompleta(Prestamos prestamo, String observaciones) {
+    public boolean registrarDevolucionCompleta(Prestamos prestamo, String observaciones, int idEstadoEntrega) {
         PreparedStatement psDev = null;
         PreparedStatement psMora = null;
         PreparedStatement psHist = null;
@@ -138,7 +138,7 @@ public class PrestamosActivosDao {
             psHist.setString(3, prestamo.getNombreElemento());
             psHist.setTimestamp(4, prestamo.getFechaInicioPrestamo());
             psHist.setTimestamp(5, prestamo.getFechaFinDevolucion());
-            psHist.setInt(6, prestamo.getIdEstadoElemento());
+            psHist.setInt(6, idEstadoEntrega);
             psHist.setInt(7, prestamo.getIdUsuario());
             psHist.executeUpdate();
 

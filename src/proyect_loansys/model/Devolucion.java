@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package proyect_loansys.model;
 
 import java.sql.Timestamp;
@@ -14,6 +15,7 @@ public class Devolucion {
     private int idDevolucion;
     private int idPrestamo;
     private String nombreElemento;
+    private String estadoEntrega;
     private Timestamp fechaInicioPrestamo;
     private Timestamp fechaDevolucion;
     private String observaciones;
@@ -43,6 +45,14 @@ public class Devolucion {
 
     public void setNombreElemento(String nombreElemento) {
         this.nombreElemento = nombreElemento;
+    }
+
+    public String getEstadoEntrega() {
+        return estadoEntrega;
+    }
+
+    public void setEstadoEntrega(String estadoEntrega) {
+        this.estadoEntrega = estadoEntrega;
     }
 
     public Timestamp getFechaInicioPrestamo() {

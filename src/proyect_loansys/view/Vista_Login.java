@@ -166,7 +166,7 @@ public class Vista_Login extends JFrame {
                 g2.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10);
                 g2.dispose();
                 super.paintComponent(g);
-
+                
                 
                 if (getText().isEmpty() && !hasFocus()) {
                     Graphics2D gPlaceholder = (Graphics2D) g.create();

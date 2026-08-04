@@ -21,45 +21,48 @@ public class DevolucionDao {
     PreparedStatement ps;
     ResultSet rs;
 
-    public List<Devolucion> listarDevoluciones() {
-        List<Devolucion> lista = new ArrayList<>();
-        String sql = "SELECT "
-                + "  d.id_devolucion, "
-                + "  d.id_prestamo, "
-                + "  e.nombre_elemento, "
-                + "  d.fecha_inicio_prestamo, "
-                + "  d.fecha_devolucion, "
-                + "  d.observaciones "
-                + "FROM devolucion d "
-                + "LEFT JOIN elemento e ON d.id_elemento = e.id_elemento "
-                + "ORDER BY d.fecha_devolucion DESC";
+   public List<Devolucion> listarDevoluciones() {
+    List<Devolucion> lista = new ArrayList<>();
+    String sql = "SELECT "
+            + "  d.id_devolucion, "
+            + "  d.id_prestamo, "
+            + "  e.nombre_elemento, "
+            + "  ee.nombre_estado_entrega, " 
+            + "  d.fecha_inicio_prestamo, "
+            + "  d.fecha_devolucion, "
+            + "  d.observaciones "
+            + "FROM devolucion d "
+            + "LEFT JOIN elemento e ON d.id_elemento = e.id_elemento "
+            + "LEFT JOIN estado_entrega ee ON d.id_estado_elemento = ee.id_estado_entrega " // <--- JOIN
+            + "ORDER BY d.fecha_devolucion DESC";
 
-        try {
-            con = conectar.getConection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
+    try {
+        con = conectar.getConection();
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
 
-            while (rs.next()) {
-                Devolucion dev = new Devolucion();
-                dev.setIdDevolucion(rs.getInt("id_devolucion"));
-                dev.setIdPrestamo(rs.getInt("id_prestamo"));
-                dev.setNombreElemento(rs.getString("nombre_elemento"));
-                dev.setFechaInicioPrestamo(rs.getTimestamp("fecha_inicio_prestamo"));
-                dev.setFechaDevolucion(rs.getTimestamp("fecha_devolucion"));
-                dev.setObservaciones(rs.getString("observaciones"));
+        while (rs.next()) {
+            Devolucion dev = new Devolucion();
+            dev.setIdDevolucion(rs.getInt("id_devolucion"));
+            dev.setIdPrestamo(rs.getInt("id_prestamo"));
+            dev.setNombreElemento(rs.getString("nombre_elemento"));
+            dev.setEstadoEntrega(rs.getString("nombre_estado_entrega")); // <--- MAPEO DEL ESTADO
+            dev.setFechaInicioPrestamo(rs.getTimestamp("fecha_inicio_prestamo"));
+            dev.setFechaDevolucion(rs.getTimestamp("fecha_devolucion"));
+            dev.setObservaciones(rs.getString("observaciones"));
 
-                lista.add(dev);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al listar devoluciones: " + e.getMessage(),
-                    "Error SQL", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (con != null) con.close();
-            } catch (Exception e) {}
+            lista.add(dev);
         }
-        return lista;
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al listar devoluciones: " + e.getMessage(),
+                "Error SQL", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+        } catch (Exception e) {}
     }
+    return lista;
+  }
 }
