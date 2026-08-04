@@ -49,17 +49,17 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         //Primer Panel de mensaje disponible
         panel6 = new JPanel();
         panel6.setLayout(new BorderLayout());
-        panel6.setPreferredSize(new Dimension(1100, 30));
+        panel6.setPreferredSize(new Dimension(1000, 30));
         panel6.setBackground(Color.white);
         
         
         
         panel8 = new JPanel();
-        panel8.setPreferredSize(new Dimension(300, 30));
+        panel8.setPreferredSize(new Dimension(300, 50));
         texto1 = new JLabel("",SwingConstants.CENTER);
         panel8.setLayout(new BorderLayout());
-        texto1.setFont(texto1.getFont().deriveFont(Font.BOLD,14f));
-        panel8.setBackground(Color.white);
+        texto1.setFont(texto1.getFont().deriveFont(Font.BOLD,22f));
+        panel8.setBackground(new Color(198, 198, 198));
         panel8.add(texto1);
         panel6.add(panel8);
         
@@ -67,8 +67,8 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         //Panel 2 de la tabla
         
         panel7 = new JPanel();
-        panel7.setPreferredSize(new Dimension(1100, 250));
-        panel7.setBackground(Color.white);
+        panel7.setPreferredSize(new Dimension(900, 100));
+        panel7.setBackground(new Color(198, 198, 198));
         
         
         modelo = new DefaultTableModel(){
@@ -86,7 +86,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
         panel9 = new JPanel();
         panel9.setLayout(new BorderLayout());
-        panel9.setPreferredSize(new Dimension(1070, 200));
+        panel9.setPreferredSize(new Dimension(800, 170));
         
         tabla = new JTable(modelo);
         miscroll=new JScrollPane(tabla);
@@ -102,28 +102,30 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         ////////////////////////////////////////////////////////////////////////
         // Panel 3 sobre los botones        
         panel011 = new JPanel();
+        panel011.setLayout(new BorderLayout());
         solicitar = crearBoton("Solicitar", new Color(34, 139, 34),Color.WHITE);
-        panel011.setPreferredSize(new Dimension(80, 30));
-        panel011.setBackground(Color.white);
+        panel011.setPreferredSize(new Dimension(200, 50));
+        panel011.setBackground(new Color(198, 198, 198));
         panel011.add(solicitar);
         
         panel012 = new JPanel();
+        panel012.setLayout(new BorderLayout());
         volver = crearBoton("Volver", new Color(220, 53, 69),Color.WHITE);
         panel012.add(volver);
-        panel012.setPreferredSize(new Dimension(80, 30));
+        panel012.setPreferredSize(new Dimension(200, 50));
         panel012.setBackground(Color.white);
         
         
         panel010 = new JPanel();
-        panel010.setBackground(Color.white);
+        panel010.setBackground(new Color(198, 198, 198));
         panel010.setPreferredSize(new Dimension(800, 60));
         
         ////////////////////////////////////////////////////////////////////////
         
         //Panel de imagen//
         panel013 = new JPanel();
-        panel013.setPreferredSize(new Dimension(400, 200));
-        panel013.setBackground(Color.WHITE);
+        panel013.setPreferredSize(new Dimension(400, 150));
+        panel013.setBackground(new Color(198, 198, 198));
         
         
         
