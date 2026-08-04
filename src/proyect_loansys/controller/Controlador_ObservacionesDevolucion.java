@@ -41,7 +41,7 @@ public class Controlador_ObservacionesDevolucion implements ActionListener {
         if (e.getSource() == vistaModal.botonConfirmar) {
             String observaciones = vistaModal.textoObservaciones.getText().trim();
 
-            // Validacion si no vacío o lleno de puros espacios en blanco
+            // Validación si está vacío o lleno de puros espacios en blanco
             if (observaciones.isEmpty()) {
                 JOptionPane.showMessageDialog(vistaModal, 
                         "Por favor, ingrese una observación del estado de entrega. No se permiten espacios en blanco.", 
@@ -57,7 +57,7 @@ public class Controlador_ObservacionesDevolucion implements ActionListener {
                 return;
             }
 
-            // Validacion Máximo de 200 caracteres
+            // Validación máximo de 100 caracteres
             if (observaciones.length() > 100) {
                 JOptionPane.showMessageDialog(vistaModal, 
                         "La observación no puede exceder los 200 caracteres para evitar errores.\nCaracteres actuales: " + observaciones.length(), 
@@ -65,22 +65,26 @@ public class Controlador_ObservacionesDevolucion implements ActionListener {
                 return;
             }
 
-            // Si pasa todas las validaciones, procede con la Base de Datos
-            boolean exito = prestamosDao.registrarDevolucionCompleta(prestamo, observaciones);
+            // Obtenemos el ID del estado seleccionado (Índice + 1 para coincidir con la BD: 1, 2, 3, 4)
+            int idEstadoEntrega = vistaModal.estadoElemento.getSelectedIndex() + 1;
+            
+
+            boolean exito = prestamosDao.registrarDevolucionCompleta(prestamo, observaciones, idEstadoEntrega);
 
             if (exito) {
-            Administrador_Auditoria auditoria = new Administrador_Auditoria();
-          auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario()); 
-          auditoria.setAccion("Devolucion registrado");
-          new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                Administrador_Auditoria auditoria = new Administrador_Auditoria();
+                auditoria.setIdUsuario(Administrador_Sesion.getIdUsuario()); 
+                auditoria.setAccion("Devolucion registrada");
+                new Administrador_AuditoriaDao().registrarAccion(auditoria);
+                
                 JOptionPane.showMessageDialog(null, "¡Devolución registrada e historial actualizado con éxito!");
                 
                 if (controladorPadre != null) {
                     controladorPadre.listarPrestamosTabla(); // Recarga la tabla principal
                 }
-                vistaModal.dispose(); // Cierra la ventana final
+                vistaModal.dispose(); // Cierra la ventana modal
             } else {
-                JOptionPane.showMessageDialog(vistaModal, "Error al procesar los inserts de la devolución en la Base de Datos.");
+                  JOptionPane.showMessageDialog(vistaModal, "Error al procesar los inserts de la devolución en la Base de Datos.");
             }
         }
 
