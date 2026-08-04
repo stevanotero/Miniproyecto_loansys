@@ -67,7 +67,7 @@ public class Administrador_ControladorModificarUsuario implements ActionListener
         if (e.getSource() == modal.guardar) {
             String correo = modal.txtCorreo.getText().trim();
 
-            if (!correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            if (!correo.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
                 JOptionPane.showMessageDialog(
                         modal,
                         "Ingrese un correo válido. Ejemplo: usuario@gmail.com",

@@ -52,6 +52,11 @@ public class Administrador_Controlador_registro_usuario implements ActionListene
         if (e.getSource() == modal.cancelar) {
             modal.dispose();
             JOptionPane.showMessageDialog(null, "No se registro ningun usuario", "", JOptionPane.WARNING_MESSAGE);
+            modal.txtNombre.setText("");
+            modal.txtApellido.setText("");
+            modal.txtContraseña.setText("");
+            modal.txtCorreo.setText("");
+          modal.txtDocumento.setText("");
         }
         if (e.getSource() == modal.guardar) {
 
@@ -114,7 +119,7 @@ public class Administrador_Controlador_registro_usuario implements ActionListene
                         "Documento inválido", JOptionPane.WARNING_MESSAGE);
 
                 // ---- CORREO ----
-            } else if (!correo.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            } else if (!correo.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$")) {
 
                 JOptionPane.showMessageDialog(modal,
                         "Ingrese un correo válido. Ejemplo: usuario@gmail.com",
