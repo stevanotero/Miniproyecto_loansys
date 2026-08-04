@@ -26,14 +26,14 @@ import javax.swing.Icon;
 
 public abstract class Usuario_Plantilla extends JFrame {
 
-    // Se conservan los mismos campos públicos que ya usan otras clases
+    
     public JButton iniciod, prestamo, notificacion, cerrarS, inventario;
 
-    // Campos internos (privados, no afectan a quien ya usa esta clase)
+    
     private Container contenedor;
     private JPanel barralateral;
     private JPanel panelContenido;
-    private JPanel panel4; // se conserva el nombre para no romper getPanel()
+    private JPanel panel4; 
     private JLabel logo;
     private JLabel nombreDelSistema;
     public JLabel textoDeBienvenida;
@@ -66,7 +66,7 @@ public abstract class Usuario_Plantilla extends JFrame {
     private void crearBarraLateral() {
         barralateral = new JPanel();
         barralateral.setPreferredSize(new Dimension(260, getHeight()));
-        barralateral.setBackground(new Color(228, 230, 233));
+        barralateral.setBackground(new Color(198, 198, 198));
         barralateral.setLayout(new BoxLayout(barralateral, BoxLayout.Y_AXIS));
         barralateral.setBorder(new EmptyBorder(20, 0, 30, 0));
 
@@ -102,7 +102,7 @@ public abstract class Usuario_Plantilla extends JFrame {
         barralateral.add(Box.createVerticalStrut(40));
 
         // Botones del menú (mismos campos públicos, mismo orden que en la plantilla original)
-        JLabel ldescu = new JLabel("Descubrir",SwingConstants.CENTER);
+        JLabel ldescu = new JLabel("",SwingConstants.CENTER);
         ldescu.setFont(ldescu.getFont().deriveFont(Font.BOLD, 13f));
         ldescu.setAlignmentX(Component.CENTER_ALIGNMENT);
         ldescu.setBorder(new EmptyBorder(0, 20, 10, 0));
@@ -156,7 +156,7 @@ public abstract class Usuario_Plantilla extends JFrame {
         panelContenido.setBackground(Color.WHITE);
 
         JPanel barraDeArriba = new JPanel();
-        barraDeArriba.setBackground(new Color(218, 220, 224));
+        barraDeArriba.setBackground(new Color(198, 198, 198));
         barraDeArriba.setPreferredSize(new Dimension(getWidth(), 80));
         barraDeArriba.setLayout(new BoxLayout(barraDeArriba, BoxLayout.Y_AXIS));
         barraDeArriba.setBorder(new EmptyBorder(15, 30, 15, 30));

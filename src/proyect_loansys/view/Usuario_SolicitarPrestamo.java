@@ -59,7 +59,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         texto1 = new JLabel("",SwingConstants.CENTER);
         panel8.setLayout(new BorderLayout());
         texto1.setFont(texto1.getFont().deriveFont(Font.BOLD,22f));
-        panel8.setBackground(new Color(198, 198, 198));
+        panel8.setBackground(Color.WHITE);
         panel8.add(texto1);
         panel6.add(panel8);
         
@@ -67,7 +67,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         //Panel 2 de la tabla
         
         panel7 = new JPanel();
-        panel7.setPreferredSize(new Dimension(900, 100));
+        panel7.setPreferredSize(new Dimension(850, 190));
         panel7.setBackground(new Color(198, 198, 198));
         
         
@@ -117,15 +117,15 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         
         
         panel010 = new JPanel();
-        panel010.setBackground(new Color(198, 198, 198));
+        panel010.setBackground(Color.WHITE);
         panel010.setPreferredSize(new Dimension(800, 60));
         
         ////////////////////////////////////////////////////////////////////////
         
         //Panel de imagen//
         panel013 = new JPanel();
-        panel013.setPreferredSize(new Dimension(400, 150));
-        panel013.setBackground(new Color(198, 198, 198));
+        panel013.setPreferredSize(new Dimension(400, 200));
+        panel013.setBackground(Color.WHITE);
         
         
         
@@ -133,7 +133,7 @@ public class Usuario_SolicitarPrestamo extends Usuario_Plantilla{
         texto2 = new JLabel("");
         panel014.setPreferredSize(new Dimension(200, 190));
         texto2.setForeground(Color.black);
-        panel014.setBackground(Color.white);
+        panel014.setBackground(new Color(198,198,198));
         panel014.add(texto2);
         
         panel013.add(panel014);
